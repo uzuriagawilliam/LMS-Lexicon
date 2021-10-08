@@ -18,11 +18,14 @@ namespace LMS_Lexicon.Models.Entities
         [Required]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime EndDate { get; set; }
-        public int CourseId { get; set; }
-        
+       
         [MaxLength(300)]
         public string Description { get; set; }
-        public int DocumentId { get; set; }
-        public int ActivityId { get; set; }
+        //Forign Key
+        public int CourseId { get; set; }
+        //NAV Properties
+        public ICollection<Document> Documents { get; set; }
+        public ICollection<Activity> Activities { get; set; }
+        public Course Course { get; set; }
     }
 }

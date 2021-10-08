@@ -11,10 +11,7 @@ namespace LMS_Lexicon.Models.Entities
         public int Id { get; set; }
         [Required]
         [MaxLength(25), MinLength(2)]
-        
         public string Name { get; set; }
-        public int DocumentId { get; set; }
-        public int ActivityId { get; set; }
-
+        public ICollection<Activity> Activities { get; set; }
     }
 }
