@@ -28,11 +28,10 @@ namespace LMS_Lexicon
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<LmsDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
-
             services.AddDefaultIdentity<ApplicationUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
@@ -41,9 +40,19 @@ namespace LMS_Lexicon
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
+                options.SignIn.RequireConfirmedAccount = false;
              })
-             .AddEntityFrameworkStores<ApplicationDbContext>();
+             .AddRoles<IdentityRole>()
+             .AddEntityFrameworkStores<LmsDbContext>();
 
+            //services.AddControllersWithViews(opt =>
+            //{
+            //    var policy = new AuthorizationPolicyBuilder()
+            //                        .RequireAuthenticatedUser()
+            //                        .RequireRole("Student")
+            //                        .Build();
+            //    opt.Filters.Add(new AuthorizeFilter(policy));
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

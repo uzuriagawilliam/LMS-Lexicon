@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LMS_Lexicon.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(LmsDbContext))]
     [Migration("20211008131931_Init")]
     partial class Init
     {

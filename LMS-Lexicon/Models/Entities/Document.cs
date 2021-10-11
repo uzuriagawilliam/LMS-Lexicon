@@ -19,12 +19,11 @@ namespace LMS_Lexicon.Models.Entities
         //Forignkeys
         public int? ModuleId { get; set; }
         public int? ActivityId { get; set; }
-        public int CourseId { get; set; }
+        public int? CourseId { get; set; }
 
-        [ForeignKey("UserId")]
         public string ApplicationUserId { get; set; }
+
         //Navigation property
-        
         public ApplicationUser ApplicationUser { get; set; }
         public Module Module { get; set; }
         public Course Course { get; set; }
