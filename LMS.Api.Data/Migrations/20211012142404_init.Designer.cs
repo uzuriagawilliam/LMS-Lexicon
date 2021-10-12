@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LMS.Api.Data.Migrations
 {
     [DbContext(typeof(LMS_LexiconApiContext))]
-    [Migration("20211012100512_init")]
+    [Migration("20211012142404_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,9 +70,6 @@ namespace LMS.Api.Data.Migrations
                     b.Property<int>("Level")
                         .HasColumnType("int");
 
-                    b.Property<int>("MyProperty")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("PublicationDate")
                         .HasColumnType("datetime2");
 
@@ -84,7 +81,24 @@ namespace LMS.Api.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("SubjectId");
+
                     b.ToTable("Literature");
+                });
+
+            modelBuilder.Entity("LMS.Api.Core.Entities.Subject", b =>
+                {
+                    b.Property<int>("SubjectId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SubjectId");
+
+                    b.ToTable("Subject");
                 });
 
             modelBuilder.Entity("AuthorLiterature", b =>
@@ -100,6 +114,20 @@ namespace LMS.Api.Data.Migrations
                         .HasForeignKey("LiteraturesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("LMS.Api.Core.Entities.Literature", b =>
+                {
+                    b.HasOne("LMS.Api.Core.Entities.Subject", null)
+                        .WithMany("Literatures")
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("LMS.Api.Core.Entities.Subject", b =>
+                {
+                    b.Navigation("Literatures");
                 });
 #pragma warning restore 612, 618
         }

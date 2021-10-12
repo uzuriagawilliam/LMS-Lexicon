@@ -23,13 +23,25 @@ namespace LMS.Api.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Subject",
+                columns: table => new
+                {
+                    SubjectId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Subject", x => x.SubjectId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Literature",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MyProperty = table.Column<int>(type: "int", nullable: false),
                     PublicationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SubjectId = table.Column<int>(type: "int", nullable: false),
@@ -38,6 +50,12 @@ namespace LMS.Api.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Literature", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Literature_Subject_SubjectId",
+                        column: x => x.SubjectId,
+                        principalTable: "Subject",
+                        principalColumn: "SubjectId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -68,6 +86,11 @@ namespace LMS.Api.Data.Migrations
                 name: "IX_AuthorLiterature_LiteraturesId",
                 table: "AuthorLiterature",
                 column: "LiteraturesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Literature_SubjectId",
+                table: "Literature",
+                column: "SubjectId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -80,6 +103,9 @@ namespace LMS.Api.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Literature");
+
+            migrationBuilder.DropTable(
+                name: "Subject");
         }
     }
 }
