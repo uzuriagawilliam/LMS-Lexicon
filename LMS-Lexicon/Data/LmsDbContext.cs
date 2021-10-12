@@ -8,13 +8,13 @@ using System.Text;
 
 namespace LMS_Lexicon.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
+    public class LmsDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
     {
         public DbSet<Course> CourseClass { get; set; }
         public DbSet<Document> DocumentClass { get; set; }
         public DbSet<Module> ModuleClass { get; set; }
         public DbSet<Activity> ActivityClass { get; set; }
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public LmsDbContext(DbContextOptions<LmsDbContext> options)
             : base(options)
         {
         }
