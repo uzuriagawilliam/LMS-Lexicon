@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LMS_Lexicon.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211008135152_Identity")]
-    partial class Identity
+    [Migration("20211011123600_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -87,7 +87,7 @@ namespace LMS_Lexicon.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CourseId")
+                    b.Property<int?>("CourseId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -408,9 +408,7 @@ namespace LMS_Lexicon.Migrations
                 {
                     b.HasOne("LMS_Lexicon.Models.Entities.Course", "Course")
                         .WithMany("ApplicationUsers")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CourseId");
 
                     b.Navigation("Course");
                 });
