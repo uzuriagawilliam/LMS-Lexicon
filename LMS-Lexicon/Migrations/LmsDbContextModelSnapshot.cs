@@ -26,7 +26,7 @@ namespace LMS_Lexicon.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ActivityTypeId")
+                    b.Property<int>("ActivityTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -191,7 +191,7 @@ namespace LMS_Lexicon.Migrations
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("CourseId")
+                    b.Property<int?>("CourseId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ModuleId")
@@ -389,7 +389,9 @@ namespace LMS_Lexicon.Migrations
                 {
                     b.HasOne("LMS_Lexicon.Models.Entities.ActivityType", "ActivityType")
                         .WithMany("Activities")
-                        .HasForeignKey("ActivityTypeId");
+                        .HasForeignKey("ActivityTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("LMS_Lexicon.Models.Entities.Module", "Module")
                         .WithMany("Activities")
@@ -423,9 +425,7 @@ namespace LMS_Lexicon.Migrations
 
                     b.HasOne("LMS_Lexicon.Models.Entities.Course", "Course")
                         .WithMany("Documents")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CourseId");
 
                     b.HasOne("LMS_Lexicon.Models.Entities.Module", "Module")
                         .WithMany("Documents")

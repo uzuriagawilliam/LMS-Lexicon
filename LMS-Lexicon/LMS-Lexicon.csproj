@@ -30,4 +30,8 @@
     <ProjectReference Include="..\LMS-Lexicon.Api\LMS-Lexicon.Api.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

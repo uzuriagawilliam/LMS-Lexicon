@@ -77,8 +77,8 @@ namespace LMS_Lexicon.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
-                    TimeOfRegistrationj = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: false),
+                    TimeOfRegistration = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CourseId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -102,7 +102,7 @@ namespace LMS_Lexicon.Migrations
                         column: x => x.CourseId,
                         principalTable: "CourseClass",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -223,9 +223,8 @@ namespace LMS_Lexicon.Migrations
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: true),
-                    DocumentId = table.Column<int>(type: "int", nullable: true),
-                    ModuleId = table.Column<int>(type: "int", nullable: false),
-                    ActivityTypeId = table.Column<int>(type: "int", nullable: true)
+                    ActivityTypeId = table.Column<int>(type: "int", nullable: false),
+                    ModuleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -235,7 +234,7 @@ namespace LMS_Lexicon.Migrations
                         column: x => x.ActivityTypeId,
                         principalTable: "ActivityType",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ActivityClass_ModuleClass_ModuleId",
                         column: x => x.ModuleId,
@@ -254,7 +253,7 @@ namespace LMS_Lexicon.Migrations
                     TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModuleId = table.Column<int>(type: "int", nullable: true),
                     ActivityId = table.Column<int>(type: "int", nullable: true),
-                    CourseId = table.Column<int>(type: "int", nullable: false),
+                    CourseId = table.Column<int>(type: "int", nullable: true),
                     ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
@@ -277,7 +276,7 @@ namespace LMS_Lexicon.Migrations
                         column: x => x.CourseId,
                         principalTable: "CourseClass",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_DocumentClass_ModuleClass_ModuleId",
                         column: x => x.ModuleId,

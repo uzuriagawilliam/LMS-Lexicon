@@ -30,10 +30,11 @@ namespace LMS_Lexicon
                 //dotnet user-secrets set "AdminPW" "BytMig123!"
                 var config = services.GetRequiredService<IConfiguration>();
                 //var userPW = config["UserPW"];
+                var userPw = "PassWord";
 
                 try
                 {
-                    SeedData.InitAsync(context, services).Wait();
+                    SeedData.InitAsync(context, services, userPw).Wait();
                 }
                 catch (Exception ex)
                 {

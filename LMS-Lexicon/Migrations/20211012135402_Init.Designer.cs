@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LMS_Lexicon.Migrations
 {
     [DbContext(typeof(LmsDbContext))]
-    [Migration("20211008135152_Identity")]
-    partial class Identity
+    [Migration("20211012135402_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,7 +28,7 @@ namespace LMS_Lexicon.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ActivityTypeId")
+                    b.Property<int>("ActivityTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -87,7 +87,7 @@ namespace LMS_Lexicon.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CourseId")
+                    b.Property<int?>("CourseId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -193,7 +193,7 @@ namespace LMS_Lexicon.Migrations
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("CourseId")
+                    b.Property<int?>("CourseId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ModuleId")
@@ -391,7 +391,9 @@ namespace LMS_Lexicon.Migrations
                 {
                     b.HasOne("LMS_Lexicon.Models.Entities.ActivityType", "ActivityType")
                         .WithMany("Activities")
-                        .HasForeignKey("ActivityTypeId");
+                        .HasForeignKey("ActivityTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("LMS_Lexicon.Models.Entities.Module", "Module")
                         .WithMany("Activities")
@@ -408,9 +410,7 @@ namespace LMS_Lexicon.Migrations
                 {
                     b.HasOne("LMS_Lexicon.Models.Entities.Course", "Course")
                         .WithMany("ApplicationUsers")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CourseId");
 
                     b.Navigation("Course");
                 });
@@ -427,9 +427,7 @@ namespace LMS_Lexicon.Migrations
 
                     b.HasOne("LMS_Lexicon.Models.Entities.Course", "Course")
                         .WithMany("Documents")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CourseId");
 
                     b.HasOne("LMS_Lexicon.Models.Entities.Module", "Module")
                         .WithMany("Documents")
