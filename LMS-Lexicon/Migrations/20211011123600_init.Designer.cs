@@ -9,9 +9,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LMS_Lexicon.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211011123600_init")]
-    partial class init
+    [DbContext(typeof(LmsDbContext))]
+    [Migration("20211008140257_QuickFix")]
+    partial class QuickFix
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
