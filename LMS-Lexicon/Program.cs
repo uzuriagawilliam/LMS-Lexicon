@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LMS_Lexicon.Data;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace LMS_Lexicon
 {
@@ -24,8 +24,8 @@ namespace LMS_Lexicon
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<LmsDbContext>();
 
-                //context.Database.EnsureDeleted();
-                //context.Database.Migrate();
+                context.Database.EnsureDeleted();
+                context.Database.Migrate();
 
                 //dotnet user-secrets set "AdminPW" "BytMig123!"
                 var config = services.GetRequiredService<IConfiguration>();

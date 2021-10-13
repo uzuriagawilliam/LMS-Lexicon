@@ -66,8 +66,6 @@ namespace LMS_Lexicon.Areas.Identity.Pages.Account
             public string FirstName { get; set; }
             [MaxLength(25), MinLength(3)]
             public string LastName { get; set; }
-
-            public string RoleId { get; set; }
             public DateTime TimeOfRegistration { get; set; }
         }
 
@@ -85,7 +83,9 @@ namespace LMS_Lexicon.Areas.Identity.Pages.Account
             {
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName, TimeOfRegistration = Input.TimeOfRegistration };
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                if (result.Succeeded)
+                var addtoroleresult = await _userManager.AddToRoleAsync(user, "Techer");
+
+                if (result.Succeeded && addtoroleresult.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
@@ -106,7 +106,7 @@ namespace LMS_Lexicon.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        //await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
                 }

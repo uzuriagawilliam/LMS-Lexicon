@@ -16,7 +16,6 @@ namespace LMS_Lexicon.Models.Entities
         [MinLength(3)]
         public string LastName { get; set; }
         public DateTime TimeOfRegistration { get; set; }
-        public String RoleId { get; set; }
         // ForignKey
         public int? CourseId { get; set; }  //ToDo Fix!!!!!! remove ?
         //Nav Properties
