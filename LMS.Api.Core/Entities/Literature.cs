@@ -23,5 +23,6 @@ namespace LMS.Api.Core.Entities
         //public Author author;
 
         public ICollection<Author> Authors { get; set; }
+        public Subject Subject { get; set; }
     }
 }

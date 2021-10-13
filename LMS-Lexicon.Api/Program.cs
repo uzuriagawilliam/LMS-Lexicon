@@ -24,8 +24,8 @@ namespace LMS_Lexicon.Api
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<LMS_LexiconApiContext>();
 
-  //              context.Database.EnsureDeleted();
-  //              context.Database.Migrate();
+                context.Database.EnsureDeleted();
+                context.Database.Migrate();
 
                 
                 var config = services.GetRequiredService<IConfiguration>();
