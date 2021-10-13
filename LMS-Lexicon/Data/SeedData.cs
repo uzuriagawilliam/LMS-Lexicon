@@ -146,7 +146,8 @@ namespace LMS_Lexicon.Data
                     CourseName = coursename,
                     Description = description, 
                     StartDate = System.DateTime.Now.AddDays(fake.Random.Int(-5,5)),
-                    Modules = GetModules()
+                    Modules = GetModules(),
+                    Documents = GetDocuments()
 
                 };
                 courses.Add(course);
@@ -173,7 +174,8 @@ namespace LMS_Lexicon.Data
                     Description =  description,
                     StartDate = System.DateTime.Now.AddDays(fake.Random.Int(-5, 5)),
                     EndDate = System.DateTime.Now.AddDays(fake.Random.Int(6, 16)),
-                    Activities = GetActivities()
+                    Activities = GetActivities(),
+                    Documents = GetDocuments()
                 };
                 modules.Add(module);
             }
