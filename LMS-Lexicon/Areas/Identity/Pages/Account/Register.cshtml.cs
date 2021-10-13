@@ -66,6 +66,8 @@ namespace LMS_Lexicon.Areas.Identity.Pages.Account
             public string FirstName { get; set; }
             [MaxLength(25), MinLength(3)]
             public string LastName { get; set; }
+
+            public string RoleId { get; set; }
             public DateTime TimeOfRegistration { get; set; }
         }
 

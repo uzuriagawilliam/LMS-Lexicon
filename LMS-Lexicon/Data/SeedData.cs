@@ -17,8 +17,6 @@ namespace LMS_Lexicon.Data
         private static RoleManager<IdentityRole> roleManager;
         private static UserManager<ApplicationUser> userManager;
 
-
-
         internal static async Task InitAsync(LmsDbContext context, IServiceProvider services,string userPw) 
         {
             if (string.IsNullOrWhiteSpace(userPw)) throw new Exception("Cant get password from config");
@@ -32,6 +30,8 @@ namespace LMS_Lexicon.Data
 
             var roleNames = new[] { "Student", "Teacher" };
             var userEmail = "test2@lms.se";
+
+            db = context;
 
             using (var db = services.GetRequiredService<LmsDbContext>())
             {
