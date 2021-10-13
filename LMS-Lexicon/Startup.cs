@@ -51,7 +51,6 @@ namespace LMS_Lexicon
             {
                 var policy = new AuthorizationPolicyBuilder()
                                     .RequireAuthenticatedUser()
-                                    .RequireRole("Student")
                                     .Build();
 
                 opt.Filters.Add(new AuthorizeFilter(policy));
