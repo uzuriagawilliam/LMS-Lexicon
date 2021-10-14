@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using LMS_Lexicon.Models.Entities;
+using LMS_Lexicon.Core.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Bogus;
 
-namespace LMS_Lexicon.Data
+namespace LMS_Lexicon.Data.Data
 {
     public class SeedData
     {
@@ -17,7 +17,7 @@ namespace LMS_Lexicon.Data
         private static RoleManager<IdentityRole> roleManager;
         private static UserManager<ApplicationUser> userManager;
 
-        internal static async Task InitAsync(LmsDbContext context, IServiceProvider services,string userPw) 
+        public static async Task InitAsync(LmsDbContext context, IServiceProvider services,string userPw) 
         {
             if (string.IsNullOrWhiteSpace(userPw)) throw new Exception("Cant get password from config");
             if (context is null) throw new NullReferenceException(nameof(LmsDbContext));

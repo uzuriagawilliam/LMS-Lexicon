@@ -1,4 +1,4 @@
-﻿using LMS_Lexicon.Models;
+﻿using LMS_Lexicon.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;

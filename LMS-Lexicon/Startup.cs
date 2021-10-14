@@ -1,5 +1,6 @@
+using LMS_Lexicon.Core.Models.Entities;
 using LMS_Lexicon.Data;
-using LMS_Lexicon.Models.Entities;
+using LMS_Lexicon.Data.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

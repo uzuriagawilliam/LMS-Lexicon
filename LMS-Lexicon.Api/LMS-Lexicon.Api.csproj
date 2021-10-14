@@ -3,10 +3,15 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>LMS_Lexicon.Api</RootNamespace>
+    <UserSecretsId>fc918878-f6c4-4262-98f2-b31fff1b56ad</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LMS_Lexicon.Data\LMS_Lexicon.Data.csproj" />
   </ItemGroup>
 
 </Project>
