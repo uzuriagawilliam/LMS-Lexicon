@@ -24,22 +24,22 @@ namespace LMS_Lexicon
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<LmsDbContext>();
 
-                context.Database.EnsureDeleted();
-                context.Database.Migrate();
+                //context.Database.EnsureDeleted();
+                //context.Database.Migrate();
 
-                //dotnet user-secrets set "AdminPW" "BytMig123!"
-                var config = services.GetRequiredService<IConfiguration>();
-                //var userPW = config["UserPW"];
-                var userPw = "PassWord";
+                ////dotnet user-secrets set "AdminPW" "BytMig123!"
+                //var config = services.GetRequiredService<IConfiguration>();
+                ////var userPW = config["UserPW"];
+                //var userPw = "PassWord";
 
-                try
-                {
-                    SeedData.InitAsync(context, services, userPw).Wait();
-                }
-                catch (Exception ex)
-                {
-                    throw;
-                }
+                //try
+                //{
+                //    SeedData.InitAsync(context, services, userPw).Wait();
+                //}
+                //catch (Exception ex)
+                //{
+                //    throw;
+                //}
 
             }
             host.Run();

@@ -35,8 +35,8 @@ namespace LMS_Lexicon.Data
 
             using (var db = services.GetRequiredService<LmsDbContext>())
             {
-                db.Database.EnsureDeleted();
-                db.Database.Migrate();
+                //db.Database.EnsureDeleted();
+                //db.Database.Migrate();
 
                 if (await db.Users.AnyAsync()) return;
 

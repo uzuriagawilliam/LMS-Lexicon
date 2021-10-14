@@ -1,4 +1,4 @@
-using LMS_Lexicon.Data;
+﻿using LMS_Lexicon.Data;
 using LMS_Lexicon.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -56,6 +56,9 @@ namespace LMS_Lexicon
                 opt.Filters.Add(new AuthorizeFilter(policy));
 
             });
+
+            services.AddDbContext<LMS_LexiconContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("LMS_LexiconContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
