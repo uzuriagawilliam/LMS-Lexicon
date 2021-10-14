@@ -9,11 +9,13 @@ using LMS.Api.Data.Data;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using LMS.Api.Core.Entities;
-
+//
 namespace LMS.Api.Data.Data
 {
     public class SeedData
     {
+        private static Faker faker;
+
         public static async Task InitializeAcync(IServiceProvider services)
         {
 
@@ -21,68 +23,58 @@ namespace LMS.Api.Data.Data
 
             if (await db.Author.AnyAsync()) return;
 
-            var faker = new Faker("sv");
-            
-            var Authors = new List<Author>();
-            var Literatures = new List<Literature>();
-            var Subjects = new List<Subject>();
+            faker = new Faker("sv");
 
-            for (int i = 0; i < 20; i++)
-            {
-                Authors.Add(new Author
+            //Create Subjects
+            var subjects = new List<Subject>();
+            for (int i = 0; i < 5; i++)
+            {               
+                subjects.Add(new Subject
                 {
+                    Name = faker.Name.JobTitle(),
 
-                    FirstName = faker.Person.FirstName,
-                    LastName = faker.Person.LastName,
-                    BirthDate = DateTime.Now.AddDays(faker.Random.Int(-60, 0)),
                 });
             }
-            db.AddRange(Authors);
+
+
+            var authors = new List<Author>();
+            for (int i = 0; i < 20; i++)
+            {
+                var faker1 = new Faker("sv");
+                int sub = faker.Random.Int(0,4);
+                authors.Add(new Author
+                {
+                    FirstName = faker1.Person.FirstName,
+                    LastName = faker1.Person.LastName,
+                    BirthDate = DateTime.Now.AddYears(faker1.Random.Int(-90, -20)),
+                    Literatures = GetLiteratures(subjects, sub)
+
+                });
+            }
+            db.AddRange(authors);
             await db.SaveChangesAsync();
 
-            for (int i = 0; i < 20; i++)
+        }
+        
+// To do: on to many literature => author
+        private static ICollection<Literature> GetLiteratures(List<Subject> subjects, int sub)
+        {
+            var Literatures = new List<Literature>();
+
+            for (int i = 0; i < sub; i++)
             {
                 Literatures.Add(new Literature
                 {
                     Title = faker.Commerce.ProductName(),
-                    PublicationDate = DateTime.Now.AddDays(faker.Random.Int(-60, 0)),
+                    PublicationDate = DateTime.Now.AddYears(faker.Random.Int(-100, 0)),
                     Description = faker.Commerce.ProductDescription(),
-                    Level = faker.Random.Int(1,5),
- //                   Id = Authors[i].AuthorId,
-//                    CourseId = courses[i].Id Testa att inte går sönder, lägg till id i kopplingstabellen
+                    Level = faker.Random.Int(1, 5),
+                    Subject = subjects[faker.Random.Int(0, 4)]
+
                 });
             }
+            return Literatures;
 
-
-            db.AddRange(Literatures);
-            await db.SaveChangesAsync();
-
-
-
-
-            for (int i = 0; i < 20; i++)
-            {
-                int j = faker.Random.Int(0, 19);
-                Subjects.Add(new Subject
-                {
-                    Name = faker.Name.JobTitle(),
-
-                    Literatures = (ICollection<Literature>)Literatures[j]
-                    //                    CourseId = courses[i].Id
-                });
-            }
-
-
-            db.AddRange(Subjects);
-            await db.SaveChangesAsync();
-
-
-
-            for (int i = 0; i < 20; i++)
-            {
-                // skapa nya rader i AuthorLiterature-tabellen
-                // använd author och litarature id
-            }
         }
     }
 }
