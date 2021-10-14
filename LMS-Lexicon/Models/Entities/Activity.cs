@@ -21,7 +21,7 @@ namespace LMS_Lexicon.Models.Entities
         
         [MaxLength(300)]
         public string Description { get; set; }
-        public int? ActivityTypeId { get; set; }
+        public int ActivityTypeId { get; set; }
         public int ModuleId { get; set; }
 
         //Navigation property

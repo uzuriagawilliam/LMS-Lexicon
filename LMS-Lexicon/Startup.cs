@@ -1,10 +1,12 @@
 using LMS_Lexicon.Data;
 using LMS_Lexicon.Models.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +34,7 @@ namespace LMS_Lexicon
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
+
             services.AddDefaultIdentity<ApplicationUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
@@ -40,19 +43,19 @@ namespace LMS_Lexicon
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
-                options.SignIn.RequireConfirmedAccount = false;
-             })
+            })
              .AddRoles<IdentityRole>()
              .AddEntityFrameworkStores<LmsDbContext>();
 
-            //services.AddControllersWithViews(opt =>
-            //{
-            //    var policy = new AuthorizationPolicyBuilder()
-            //                        .RequireAuthenticatedUser()
-            //                        .RequireRole("Student")
-            //                        .Build();
-            //    opt.Filters.Add(new AuthorizeFilter(policy));
-            //});
+            services.AddControllersWithViews(opt =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                                    .RequireAuthenticatedUser()
+                                    .Build();
+
+                opt.Filters.Add(new AuthorizeFilter(policy));
+
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -20,7 +20,6 @@ namespace LMS_Lexicon.Models.Entities
         public int? ModuleId { get; set; }
         public int? ActivityId { get; set; }
         public int? CourseId { get; set; }
-
         public string ApplicationUserId { get; set; }
 
         //Navigation property
