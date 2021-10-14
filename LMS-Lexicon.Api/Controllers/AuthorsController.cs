@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LMS.Api.Core.Entities;
 using LMS_Lexicon.Api.Data.Data;
+using LMS.Api.Core.Repositories;
 
 namespace LMS_Lexicon.Api.Controllers
 {
@@ -15,24 +16,28 @@ namespace LMS_Lexicon.Api.Controllers
     public class AuthorsController : ControllerBase
     {
         private readonly LMS_LexiconApiContext _context;
+        private readonly IUoW uow;
 
-        public AuthorsController(LMS_LexiconApiContext context)
+        public AuthorsController(IUoW uow)
         {
-            _context = context;
+            // _context = context;
+            this.uow = uow;
         }
 
         // GET: api/Authors
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Author>>> GetAuthor()
+        public async Task<ActionResult<IEnumerable<Author>>> GetAllAuthors()
         {
-            return await _context.Author.ToListAsync();
+            var author = await uow.AuthorRepository.GetAllAuthors();            
+
+            return Ok(author);
         }
 
         // GET: api/Authors/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Author>> GetAuthor(int id)
         {
-            var author = await _context.Author.FindAsync(id);
+            var author = await uow.AuthorRepository.FindAsync(id);
 
             if (author == null)
             {

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LMS.Api.Data.Migrations
 {
     [DbContext(typeof(LMS_LexiconApiContext))]
-    [Migration("20211012142404_init")]
+    [Migration("20211014115709_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -118,11 +118,13 @@ namespace LMS.Api.Data.Migrations
 
             modelBuilder.Entity("LMS.Api.Core.Entities.Literature", b =>
                 {
-                    b.HasOne("LMS.Api.Core.Entities.Subject", null)
+                    b.HasOne("LMS.Api.Core.Entities.Subject", "Subject")
                         .WithMany("Literatures")
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("LMS.Api.Core.Entities.Subject", b =>

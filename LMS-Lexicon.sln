@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LMS_Lexicon.Data", "LMS_Lex
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LMS.Api", "LMS-Lexicon.Api\LMS.Api.csproj", "{FCBF2863-D3A9-4F74-A28B-D2F454DA59FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS.Api.Core", "LMS.Api.Core\LMS.Api.Core.csproj", "{2F567A00-9EEA-4CA0-9D17-AFF6630DDDCA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LMS.Api.Core", "LMS.Api.Core\LMS.Api.Core.csproj", "{2F567A00-9EEA-4CA0-9D17-AFF6630DDDCA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS.Api.Data", "LMS.Api.Data\LMS.Api.Data.csproj", "{186B546A-13C7-4578-9EE0-CB3735332819}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LMS.Api.Data", "LMS.Api.Data\LMS.Api.Data.csproj", "{186B546A-13C7-4578-9EE0-CB3735332819}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

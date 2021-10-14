@@ -116,11 +116,13 @@ namespace LMS.Api.Data.Migrations
 
             modelBuilder.Entity("LMS.Api.Core.Entities.Literature", b =>
                 {
-                    b.HasOne("LMS.Api.Core.Entities.Subject", null)
+                    b.HasOne("LMS.Api.Core.Entities.Subject", "Subject")
                         .WithMany("Literatures")
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("LMS.Api.Core.Entities.Subject", b =>
