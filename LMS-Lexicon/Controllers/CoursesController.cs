@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LMS_Lexicon.Data;
 using LMS_Lexicon.Models.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LMS_Lexicon.Controllers
 {
@@ -44,6 +45,7 @@ namespace LMS_Lexicon.Controllers
         }
 
         // GET: Courses/Create
+
         public IActionResult Create()
         {
             return View();
@@ -54,6 +56,7 @@ namespace LMS_Lexicon.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Create([Bind("Id,CourseName,Description,StartDate")] Course course)
         {
             if (ModelState.IsValid)
@@ -66,6 +69,7 @@ namespace LMS_Lexicon.Controllers
         }
 
         // GET: Courses/Edit/5
+        [Authorize(Roles ="Teacher")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,6 +90,7 @@ namespace LMS_Lexicon.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles ="Teacher")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CourseName,Description,StartDate")] Course course)
         {
             if (id != course.Id)
@@ -117,6 +122,7 @@ namespace LMS_Lexicon.Controllers
         }
 
         // GET: Courses/Delete/5
+        [Authorize(Roles ="Teacher")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,6 +143,7 @@ namespace LMS_Lexicon.Controllers
         // POST: Courses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize( Roles = "Teacher")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var course = await _context.Course.FindAsync(id);
