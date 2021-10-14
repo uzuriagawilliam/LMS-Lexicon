@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace LMS_Lexicon.Data
+namespace LMS_Lexicon.Data.Data
 {
     public class LmsDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
     {
