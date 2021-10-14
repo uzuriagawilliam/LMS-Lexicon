@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using LMS.Api.Core.Entities;
 using LMS_Lexicon.Api.Data.Data;
 using LMS.Api.Core.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace LMS_Lexicon.Api.Controllers
 {
