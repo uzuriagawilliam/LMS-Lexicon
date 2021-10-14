@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LMS.Api.Core.Entities;
 using LMS_Lexicon.Api.Data.Data;
+using LMS.Api.Core.Repositories;
 
 namespace LMS_Lexicon.Api.Controllers
 {
@@ -15,24 +16,27 @@ namespace LMS_Lexicon.Api.Controllers
     public class LiteraturesController : ControllerBase
     {
         private readonly LMS_LexiconApiContext _context;
+        private readonly IUoW uow;
 
-        public LiteraturesController(LMS_LexiconApiContext context)
+        public LiteraturesController(LMS_LexiconApiContext context, IUoW uow)
         {
             _context = context;
+            this.uow = uow;
         }
 
         // GET: api/Literatures
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Literature>>> GetLiterature()
+        public async Task<ActionResult<IEnumerable<Literature>>> GetLiteratures()
         {
-            return await _context.Literature.ToListAsync();
+            var literature = await uow.LiteratureRepository.GetAllLiteratures();
+            return Ok(literature);
         }
 
         // GET: api/Literatures/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Literature>> GetLiterature(int id)
         {
-            var literature = await _context.Literature.FindAsync(id);
+            var literature = await uow.LiteratureRepository.FindAsync(id);
 
             if (literature == null)
             {
@@ -56,7 +60,7 @@ namespace LMS_Lexicon.Api.Controllers
 
             try
             {
-                await _context.SaveChangesAsync();
+                await uow.CompleteAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -78,7 +82,7 @@ namespace LMS_Lexicon.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Literature>> PostLiterature(Literature literature)
         {
-            _context.Literature.Add(literature);
+            uow.LiteratureRepository.Add(literature);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetLiterature", new { id = literature.Id }, literature);
@@ -88,13 +92,13 @@ namespace LMS_Lexicon.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLiterature(int id)
         {
-            var literature = await _context.Literature.FindAsync(id);
+            var literature = await uow.LiteratureRepository.FindAsync(id);
             if (literature == null)
             {
                 return NotFound();
             }
 
-            _context.Literature.Remove(literature);
+            uow.LiteratureRepository.Remove(literature);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -102,7 +106,7 @@ namespace LMS_Lexicon.Api.Controllers
 
         private bool LiteratureExists(int id)
         {
-            return _context.Literature.Any(e => e.Id == id);
+            return uow.LiteratureRepository.Any(id);
         }
     }
 }

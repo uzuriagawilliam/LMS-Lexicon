@@ -18,10 +18,10 @@ namespace LMS_Lexicon.Api.Controllers
         private readonly LMS_LexiconApiContext _context;
         private readonly IUoW uow;
 
-        public AuthorsController(IUoW uow)
+        public AuthorsController(IUoW uow, LMS_LexiconApiContext context)
         {
-            // _context = context;
-            this.uow = uow;
+             this._context = context;
+             this.uow = uow;
         }
 
         // GET: api/Authors
@@ -56,12 +56,12 @@ namespace LMS_Lexicon.Api.Controllers
             {
                 return BadRequest();
             }
-
-            _context.Entry(author).State = EntityState.Modified;
+                        
+            _context.Entry(author).State = EntityState.Modified;//???
 
             try
             {
-                await _context.SaveChangesAsync();
+                await uow.CompleteAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -83,8 +83,8 @@ namespace LMS_Lexicon.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<Author>> PostAuthor(Author author)
         {
-            _context.Author.Add(author);
-            await _context.SaveChangesAsync();
+            uow.AuthorRepository.Add(author);
+            await uow.CompleteAsync();
 
             return CreatedAtAction("GetAuthor", new { id = author.AuthorId }, author);
         }
@@ -93,21 +93,21 @@ namespace LMS_Lexicon.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAuthor(int id)
         {
-            var author = await _context.Author.FindAsync(id);
+            var author = await uow.AuthorRepository.FindAsync(id);
             if (author == null)
             {
                 return NotFound();
             }
 
-            _context.Author.Remove(author);
-            await _context.SaveChangesAsync();
+            uow.AuthorRepository.Remove(author);
+            await uow.CompleteAsync();
 
             return NoContent();
         }
 
         private bool AuthorExists(int id)
         {
-            return _context.Author.Any(e => e.AuthorId == id);
+            return uow.AuthorRepository.Any(id);
         }
     }
 }
