@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using LMS_Lexicon.Models.Entities;
+using Microsoft.EntityFrameworkCore;
+using LMS_Lexicon.Core.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Bogus;
 
-namespace LMS_Lexicon.Data
+namespace LMS_Lexicon.Data.Data
 {
     public class SeedData
     {
@@ -17,9 +18,9 @@ namespace LMS_Lexicon.Data
         private static RoleManager<IdentityRole> roleManager;
         private static UserManager<ApplicationUser> userManager;
 
-        internal static async Task InitAsync(LmsDbContext context, IServiceProvider services,string userPw) 
+        public static async Task InitAsync(LmsDbContext context, IServiceProvider services,string userPW) 
         {
-            if (string.IsNullOrWhiteSpace(userPw)) throw new Exception("Cant get password from config");
+            if (string.IsNullOrWhiteSpace(userPW)) throw new Exception("Cant get password from config");
             if (context is null) throw new NullReferenceException(nameof(LmsDbContext));
 
             roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
@@ -30,8 +31,6 @@ namespace LMS_Lexicon.Data
 
             var roleNames = new[] { "Student", "Teacher" };
             var userEmail = "test2@lms.se";
-
-            db = context;
 
             using (var db = services.GetRequiredService<LmsDbContext>())
             {
@@ -51,7 +50,7 @@ namespace LMS_Lexicon.Data
                 fake = new  Faker("sv");
                 await AddRolesAsync(roleNames);
 
-                var user = await AddUserAsync(userEmail, userPw);
+                var user = await AddUserAsync(userEmail, userPW);
                 await AddToRolesAsync(user, roleNames);
 
                 await CreateActivityType(db);
@@ -69,8 +68,8 @@ namespace LMS_Lexicon.Data
 
             for (int i = 0; i < 5; i++)
             {
-                string name = fake.Commerce.Locale;
-                name = name.Length < 15 ? name : name.Substring(0, 25);
+                string name = fake.Commerce.ProductName();
+                name = name.Length < 25 ? name : name.Substring(0, 25);
 
                 var activityType = new ActivityType
                 {

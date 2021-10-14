@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace LMS_Lexicon.Migrations
+namespace LMS_Lexicon.Data.Migrations
 {
-    public partial class Init : Migration
+    public partial class Data : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

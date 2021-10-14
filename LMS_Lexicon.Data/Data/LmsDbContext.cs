@@ -1,4 +1,4 @@
-﻿using LMS_Lexicon.Models.Entities;
+﻿using LMS_Lexicon.Core.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

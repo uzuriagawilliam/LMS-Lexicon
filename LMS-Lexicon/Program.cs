@@ -1,5 +1,8 @@
+using LMS_Lexicon.Data.Data;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,16 +10,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LMS_Lexicon.Data;
-using Microsoft.EntityFrameworkCore;
-
 namespace LMS_Lexicon
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            //CreateHostBuilder(args).Build().Run();
             var host = CreateHostBuilder(args).Build();
 
             using (var scope = host.Services.CreateScope())
@@ -24,17 +23,17 @@ namespace LMS_Lexicon
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<LmsDbContext>();
 
-                context.Database.EnsureDeleted();
-                context.Database.Migrate();
+                //context.Database.EnsureDeleted();
+                //context.Database.Migrate();
 
                 //dotnet user-secrets set "AdminPW" "BytMig123!"
                 var config = services.GetRequiredService<IConfiguration>();
                 //var userPW = config["UserPW"];
-                var userPw = "PassWord";
+                var userPW = "PassWord";
 
                 try
                 {
-                    SeedData.InitAsync(context, services, userPw).Wait();
+                    //SeedData.InitAsync(context, services, userPW).Wait();
                 }
                 catch (Exception ex)
                 {
@@ -43,6 +42,7 @@ namespace LMS_Lexicon
 
             }
             host.Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
