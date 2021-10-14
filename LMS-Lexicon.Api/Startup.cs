@@ -13,6 +13,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using LMS_Lexicon.Api.Data.Data;
+using LMS.Api.Core.Repositories;
+using LMS.Api.Data.Repositories;
 
 namespace LMS_Lexicon.Api
 {
@@ -36,6 +38,8 @@ namespace LMS_Lexicon.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "LMS_Lexicon.Api", Version = "v1" });
             });
+
+            services.AddScoped<IUoW, UoW>();
 
             services.AddDbContext<LMS_LexiconApiContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("LMS_LexiconApiContext")));
