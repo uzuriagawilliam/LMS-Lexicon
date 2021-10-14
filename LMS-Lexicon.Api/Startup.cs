@@ -11,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using LMS_Lexicon.Api.Data.Data;
 
 namespace LMS_Lexicon.Api
 {
@@ -27,11 +29,16 @@ namespace LMS_Lexicon.Api
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers(opt => opt.ReturnHttpNotAcceptable = true)
+                .AddNewtonsoftJson()
+                .AddXmlDataContractSerializerFormatters();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "LMS_Lexicon.Api", Version = "v1" });
             });
+
+            services.AddDbContext<LMS_LexiconApiContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("LMS_LexiconApiContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
