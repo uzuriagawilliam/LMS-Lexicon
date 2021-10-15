@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using LMS_Lexicon.Core.Models.Entities;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Bogus;
 
 namespace LMS_Lexicon.Data.Data
@@ -18,7 +17,7 @@ namespace LMS_Lexicon.Data.Data
         private static RoleManager<IdentityRole> roleManager;
         private static UserManager<ApplicationUser> userManager;
 
-        public static async Task InitAsync(LmsDbContext context, IServiceProvider services,string userPw) 
+        public static async Task InitAsync(LmsDbContext context, IServiceProvider services,string userPW) 
         {
             if (string.IsNullOrWhiteSpace(userPW)) throw new Exception("Cant get password from config");
             if (context is null) throw new NullReferenceException(nameof(LmsDbContext));

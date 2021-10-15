@@ -3,27 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using LMS_Lexicon.Data;
-using LMS_Lexicon.Models.Entities;
+using LMS_Lexicon.Data.Data;
+using LMS_Lexicon.Core.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
 
 namespace LMS_Lexicon.Controllers
 {
     public class CoursesController : Controller
     {
-        private readonly LMS_LexiconContext _context;
+        private readonly LmsDbContext db;
 
-        public CoursesController(LMS_LexiconContext context)
+        public CoursesController(LmsDbContext context)
         {
-            _context = context;
+           db = context;
         }
 
         // GET: Courses
         public async Task<IActionResult> Index2()
         {
-            return View(await _context.Course.ToListAsync());
+            return View(await db.CourseClass.ToListAsync());
         }
 
         // GET: Courses/Details/5
@@ -34,7 +33,7 @@ namespace LMS_Lexicon.Controllers
                 return NotFound();
             }
 
-            var course = await _context.Course
+            var course = await db.CourseClass
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (course == null)
             {
@@ -61,8 +60,8 @@ namespace LMS_Lexicon.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(course);
-                await _context.SaveChangesAsync();
+                db.Add(course);
+                await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(course);
@@ -77,7 +76,7 @@ namespace LMS_Lexicon.Controllers
                 return NotFound();
             }
 
-            var course = await _context.Course.FindAsync(id);
+            var course = await db.CourseClass.FindAsync(id);
             if (course == null)
             {
                 return NotFound();
@@ -102,8 +101,8 @@ namespace LMS_Lexicon.Controllers
             {
                 try
                 {
-                    _context.Update(course);
-                    await _context.SaveChangesAsync();
+                    db.Update(course);
+                    await db.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -130,7 +129,7 @@ namespace LMS_Lexicon.Controllers
                 return NotFound();
             }
 
-            var course = await _context.Course
+            var course = await db.CourseClass
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (course == null)
             {
@@ -146,15 +145,15 @@ namespace LMS_Lexicon.Controllers
         [Authorize( Roles = "Teacher")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var course = await _context.Course.FindAsync(id);
-            _context.Course.Remove(course);
-            await _context.SaveChangesAsync();
+            var course = await db.CourseClass.FindAsync(id);
+            db.CourseClass.Remove(course);
+            await db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CourseExists(int id)
         {
-            return _context.Course.Any(e => e.Id == id);
+            return db.CourseClass.Any(e => e.Id == id);
         }
     }
 }
