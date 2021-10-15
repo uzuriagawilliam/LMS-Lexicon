@@ -32,6 +32,11 @@ namespace LMS_Lexicon.Controllers
                 var user = await _userManager.GetUserAsync(User);
                 var currentrole = User.IsInRole("Student") ? "Student" : User.IsInRole("Teacher") ? "Teacher" : "-";
 
+            if (User.IsInRole("Teacher"))
+            {
+                return RedirectToAction("Index2", "Courses");
+            }
+
                 var model = new IndexViewModel
                 {
                     FirstName = user.FirstName,
