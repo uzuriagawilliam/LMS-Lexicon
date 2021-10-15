@@ -74,7 +74,7 @@ namespace LMS_Lexicon.Controllers
             db.Add(user);
             await db.SaveChangesAsync();
 
-            return View(model);
+            return View("CreateStudent", model);
         }catch(Exception ex)
         {
                 throw;
