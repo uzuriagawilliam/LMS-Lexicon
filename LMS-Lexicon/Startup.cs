@@ -1,23 +1,14 @@
-using LMS_Lexicon.Core.Models.Entities;
-using LMS_Lexicon.Data;
+﻿using LMS_Lexicon.Core.Models.Entities;
 using LMS_Lexicon.Data.Data;
-using LMS_Lexicon.Data.Data;
-using LMS_Lexicon.Core.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LMS_Lexicon
 {
@@ -58,6 +49,9 @@ namespace LMS_Lexicon
 
                 opt.Filters.Add(new AuthorizeFilter(policy));
             });
+
+            services.AddDbContext<LmsDbContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("LMS_LexiconContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

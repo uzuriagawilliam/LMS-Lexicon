@@ -1,18 +1,9 @@
 using LMS_Lexicon.Data.Data;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using LMS_Lexicon.Data;
-using Microsoft.EntityFrameworkCore;
-using LMS_Lexicon.Data.Data;
 
 namespace LMS_Lexicon
 {
@@ -35,9 +26,10 @@ namespace LMS_Lexicon
                 //var userPW = config["UserPW"];
                 var userPW = "PassWord";
 
+
                 try
                 {
-                    //SeedData.InitAsync(context, services, userPW).Wait();
+                    SeedData.InitAsync(context, services, userPW).Wait();
                 }
                 catch (Exception ex)
                 {
