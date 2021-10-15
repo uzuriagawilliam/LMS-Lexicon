@@ -27,7 +27,7 @@ namespace LMS_Lexicon.Controllers
             db = context;
         }
 
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index()
         {
                 var user = await _userManager.GetUserAsync(User);
                 var currentrole = User.IsInRole("Student") ? "Student" : User.IsInRole("Teacher") ? "Teacher" : "-";
