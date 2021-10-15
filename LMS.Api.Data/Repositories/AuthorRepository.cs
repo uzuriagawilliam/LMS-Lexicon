@@ -44,8 +44,21 @@ namespace LMS.Api.Data.Repositories
 
         public async Task<Author> GetAuthor(int? id)
         {
-            return await db.Author
-                .FirstOrDefaultAsync(m => m.AuthorId == id);
+            var query = db.Author
+                .Include(l => l.Literatures)
+                //.ThenInclude(s => s.SubjectId)
+                .AsQueryable();
+
+            return await query.FirstOrDefaultAsync(m => m.AuthorId == id);
+        }
+        public async Task<Author> GetAuthorByName(string name)
+        {
+            var query = db.Author
+                .Include(l => l.Literatures)
+                //.ThenInclude(s => s.SubjectId)
+                .AsQueryable();
+
+            return await query.FirstOrDefaultAsync(m => m.FirstName == name);
         }
 
         public void Remove(Author author)

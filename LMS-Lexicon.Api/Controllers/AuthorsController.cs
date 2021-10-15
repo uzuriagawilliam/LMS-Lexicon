@@ -37,7 +37,22 @@ namespace LMS_Lexicon.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Author>> GetAuthor(int id)
         {
-            var author = await uow.AuthorRepository.FindAsync(id);
+            //var author = await uow.AuthorRepository.FindAsync(id);
+            var author = await uow.AuthorRepository.GetAuthor(id);
+
+            if (author == null)
+            {
+                return NotFound();
+            }
+
+            return author;
+        }
+       
+        [HttpGet("{name}")]
+        public async Task<ActionResult<Author>> GetAuthor(string name)
+        {
+            //var author = await uow.AuthorRepository.FindAsync(id);
+            var author = await uow.AuthorRepository.GetAuthorByName(name);
 
             if (author == null)
             {
