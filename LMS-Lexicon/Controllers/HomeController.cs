@@ -41,7 +41,7 @@ namespace LMS_Lexicon.Controllers
                 return View(model);
         }
 
-        public IActionResult Create()
+        public IActionResult CreateStudent()
         {
             return View();
         }
@@ -74,7 +74,7 @@ namespace LMS_Lexicon.Controllers
             db.Add(user);
             await db.SaveChangesAsync();
 
-            return View(model);
+            return View("CreateStudent", model);
         }catch(Exception ex)
         {
                 throw;
