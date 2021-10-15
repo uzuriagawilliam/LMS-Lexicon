@@ -21,7 +21,7 @@ namespace LMS_Lexicon.Controllers
         }
 
         // GET: Courses
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index2()
         {
             return View(await _context.Course.ToListAsync());
         }

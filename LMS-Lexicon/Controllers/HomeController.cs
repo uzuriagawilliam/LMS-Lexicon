@@ -23,6 +23,8 @@ namespace LMS_Lexicon.Controllers
             return View();
         }
 
+       
+
         public IActionResult Privacy()
         {
             return View();

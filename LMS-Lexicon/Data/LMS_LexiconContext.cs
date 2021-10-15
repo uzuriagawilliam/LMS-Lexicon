@@ -15,5 +15,7 @@ namespace LMS_Lexicon.Data
         }
 
         public DbSet<LMS_Lexicon.Models.Entities.Course> Course { get; set; }
+
+        public DbSet<LMS_Lexicon.Models.Entities.Module> Module { get; set; }
     }
 }
