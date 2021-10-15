@@ -35,14 +35,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LMS-Lexicon.Api\LMS-Lexicon.Api.csproj" />
     <ProjectReference Include="..\LMS-Lexicon.Core\LMS-Lexicon.Core.csproj" />
     <ProjectReference Include="..\LMS_Lexicon.Data\LMS_Lexicon.Data.csproj" />
     <ProjectReference Include="..\LMS-Lexicon.Api\LMS.Api.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Data\Migrations\" />
   </ItemGroup>
 
 </Project>

@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LMS_Lexicon.Core.Models.ViewModels
 {
@@ -31,7 +29,11 @@ namespace LMS_Lexicon.Core.Models.ViewModels
         [Display(Name = "Password")]
         public string Password { get; set; }
 
+
+
         public int? CourseId { get; set; }  //ToDo Fix!!!!!! remove ?
+
+        public IEnumerable<SelectListItem> Courses { get; set; }
 
 
 
