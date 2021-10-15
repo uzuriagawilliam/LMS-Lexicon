@@ -16,5 +16,6 @@ namespace LMS.Api.Core.Repository
         void Add(Author author);
         void Update(Author author);
         void Remove(Author author);
+        public bool Any(int? id);
     }
 }

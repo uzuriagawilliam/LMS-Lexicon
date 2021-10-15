@@ -13,13 +13,13 @@ namespace LMS.Api.Data.Repositories
     {
         private readonly LMS_LexiconApiContext db;
         public IAuthorRepository AuthorRepository { get; }
-        //public IApplicationUserGymsRepository AppUserGymClassRepository { get; }
+        public ILiteratureRepository LiteratureRepository { get; }
 
         public UoW(LMS_LexiconApiContext db)
         {
             this.db = db;
             AuthorRepository = new AuthorRepository(db);
-            //AppUserGymClassRepository = new ApplicationUserGymsRepository(db);
+            LiteratureRepository = new LiteratureRepository(db);
         }
 
         public async Task CompleteAsync()

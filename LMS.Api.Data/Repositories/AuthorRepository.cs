@@ -27,6 +27,10 @@ namespace LMS.Api.Data.Repositories
         {
             return await db.Author.AnyAsync(g => g.AuthorId == id);
         }
+        public bool Any(int? id)
+        {
+            return  db.Author.Any(g => g.AuthorId == id);
+        }
 
         public async Task<Author> FindAsync(int? id)
         {
@@ -53,5 +57,6 @@ namespace LMS.Api.Data.Repositories
         {
             db.Update(author);
         }
+
     }
 }
