@@ -44,8 +44,4 @@
     <ProjectReference Include="..\LMS-Lexicon.Api\LMS.Api.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\Migrations\" />
-  </ItemGroup>
-
 </Project>

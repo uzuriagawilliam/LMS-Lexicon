@@ -85,7 +85,7 @@ namespace LMS_Lexicon.Areas.Identity.Pages.Account
             {
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName, TimeOfRegistration = Input.TimeOfRegistration };
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                var addtoroleresult = await _userManager.AddToRoleAsync(user, "Techer");
+                var addtoroleresult = await _userManager.AddToRoleAsync(user, "Teacher");
 
                 if (result.Succeeded && addtoroleresult.Succeeded)
                 {
