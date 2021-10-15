@@ -1,5 +1,8 @@
+using LMS_Lexicon.Data.Data;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LMS_Lexicon.Data;
 using Microsoft.EntityFrameworkCore;
+using LMS_Lexicon.Data.Data;
 
 namespace LMS_Lexicon
 {
@@ -16,7 +20,6 @@ namespace LMS_Lexicon
     {
         public static void Main(string[] args)
         {
-            //CreateHostBuilder(args).Build().Run();
             var host = CreateHostBuilder(args).Build();
 
             using (var scope = host.Services.CreateScope())
@@ -27,6 +30,10 @@ namespace LMS_Lexicon
                 //context.Database.EnsureDeleted();
                 //context.Database.Migrate();
 
+                //dotnet user-secrets set "AdminPW" "BytMig123!"
+                var config = services.GetRequiredService<IConfiguration>();
+                //var userPW = config["UserPW"];
+                var userPW = "PassWord";
                 ////dotnet user-secrets set "AdminPW" "BytMig123!"
                 //var config = services.GetRequiredService<IConfiguration>();
                 ////var userPW = config["UserPW"];
@@ -43,6 +50,7 @@ namespace LMS_Lexicon
 
             }
             host.Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

@@ -1,4 +1,4 @@
-﻿using LMS_Lexicon.Models.Entities;
+﻿using LMS_Lexicon.Core.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace LMS_Lexicon.Data
+namespace LMS_Lexicon.Data.Data
 {
     public class LmsDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
     {

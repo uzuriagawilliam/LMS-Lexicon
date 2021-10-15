@@ -1,6 +1,6 @@
 using System;
 
-namespace LMS_Lexicon.Models
+namespace LMS_Lexicon.Core.Models
 {
     public class ErrorViewModel
     {

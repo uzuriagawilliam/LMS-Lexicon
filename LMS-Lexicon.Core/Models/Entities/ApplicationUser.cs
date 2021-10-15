@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using LMS_Lexicon.Core.Models.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LMS_Lexicon.Models.Entities
+namespace LMS_Lexicon.Core.Models.Entities
 {
     public class ApplicationUser: IdentityUser
     {

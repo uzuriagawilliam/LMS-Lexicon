@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LMS_Lexicon.Models.Entities
+namespace LMS_Lexicon.Core.Models.Entities
 {
-    public class Activity
+    public class Module
     {
         public int Id { get; set; }
         [Required]
@@ -18,15 +18,14 @@ namespace LMS_Lexicon.Models.Entities
         [Required]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime EndDate { get; set; }
-        
+       
         [MaxLength(300)]
         public string Description { get; set; }
-        public int ActivityTypeId { get; set; }
-        public int ModuleId { get; set; }
-
-        //Navigation property
+        //Forign Key
+        public int CourseId { get; set; }
+        //NAV Properties
         public ICollection<Document> Documents { get; set; }
-        public ActivityType ActivityType { get; set; }
-        public Module Module { get; set; }
+        public ICollection<Activity> Activities { get; set; }
+        public Course Course { get; set; }
     }
 }
