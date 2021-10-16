@@ -1,5 +1,6 @@
 ﻿using LMS_Lexicon.Core.Models.Entities;
 using LMS_Lexicon.Data.Data;
+using LMS_Lexicon.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -41,6 +42,8 @@ namespace LMS_Lexicon
              .AddRoles<IdentityRole>()
              .AddEntityFrameworkStores<LmsDbContext>();
 
+            services.AddTransient<ICourseSelectService, CourseSelectService>();
+
             services.AddControllersWithViews(opt =>
             {
                 var policy = new AuthorizationPolicyBuilder()
@@ -64,7 +67,7 @@ namespace LMS_Lexicon
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Student/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -80,7 +83,7 @@ namespace LMS_Lexicon
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Student}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }
