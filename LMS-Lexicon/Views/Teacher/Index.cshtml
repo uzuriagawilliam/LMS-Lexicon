@@ -1,0 +1,78 @@
+﻿@model IEnumerable<IndexStudentsViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Studenter</h1>
+
+<p>
+    <a asp-action="CreateStudent">Lägg till Student</a>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#studentModal">Lägg till Student</button>
+</p>
+<div class="alert alert-danger" id="AlertDanger" role="alert">
+    @TempData["StudentExists"]
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CourseName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CourseName)
+                </td>
+                <td>
+                    <a asp-action="EditStudent" asp-route-id="@item.Id">Ändra</a> |
+                    <a asp-action="DetailsStudent" asp-route-id="@item.Id">Detaljer</a> |
+                    <a asp-action="DeleteStudent" asp-route-id="@item.Id">Ta bort</a>
+                </td>
+            </tr>
+        }
+
+
+    </tbody>
+</table>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(window).load(function () {
+        $('#AlertDanger').modal('show');
+    });
+    $(function () {
+        $("#AlertDanger").modal('toggle');
+    });
+    /*   $("#AlertDanger").hide();*/
+    $("#AlertDanger").show();
+   @if (@TempData["StudentExists"] != null)
+   {
+     
+   }
+</script>

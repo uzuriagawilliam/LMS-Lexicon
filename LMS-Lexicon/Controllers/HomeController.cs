@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using LMS_Lexicon.Areas.Identity.Pages.Account;
+using System.Security.Claims;
 
 namespace LMS_Lexicon.Controllers
 {
@@ -19,25 +20,27 @@ namespace LMS_Lexicon.Controllers
         private readonly LmsDbContext db;
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
+        //private readonly ClaimsPrincipal claimsPrincipal;
 
         public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, LmsDbContext context)
         {
             _logger = logger;
             _userManager = userManager;
             db = context;
+            //this.claimsPrincipal = claimsPrincipal;
         }
 
         public async Task<IActionResult> Index()
         {
-                var user = await _userManager.GetUserAsync(User);
-                var currentrole = User.IsInRole("Student") ? "Student" : User.IsInRole("Teacher") ? "Teacher" : "-";
+            var user =await _userManager.GetUserAsync(User);
+            var currentrole = User.IsInRole("Student") ? "Student" : User.IsInRole("Teacher") ? "Teacher" : "-";
 
             if (User.IsInRole("Teacher"))
             {
-                return RedirectToAction("Index2", "Courses");
+                return RedirectToAction("Index", "Courses");
             }
 
-                var model = new IndexViewModel
+            var model = new IndexViewModel
                 {
                     FirstName = user.FirstName,
                     LastName = user.LastName,
@@ -45,49 +48,58 @@ namespace LMS_Lexicon.Controllers
                 };
                 return View(model);
         }
-
+        [HttpGet]
         public IActionResult CreateStudent()
         {
             return View();
         }
-
-        public async Task<IActionResult> CreateStudentAsync(string firstname, string lastname, string email, string password, int courseid)
+        [HttpPost]
+        public async Task<IActionResult> CreateStudent(CreateStudentViewModel vm)
         {
-           var user = new ApplicationUser
-            {     
-                FirstName = firstname,
-                LastName = lastname,
-                Email = email,
-                UserName = email,
-                CourseId = courseid,
-                TimeOfRegistration = DateTime.Now
-            };
-            var result = await _userManager.CreateAsync(user, password);
-            var addtoroleresult = await _userManager.AddToRoleAsync(user, "Student");
-            var model = new CreateStudentViewModel
+            var currentuser = await _userManager.GetUserAsync(User);
+            var username = currentuser.Email;
+            if(vm.Email != username)
             {
-                FirstName = firstname,
-                LastName = lastname,
-                Email = email,
-                Password = password,
-                CourseId = courseid,
-                TimeOfRegistration = DateTime.Now
-            };
+                var user = new ApplicationUser
+                {
+                    FirstName = vm.FirstName,
+                    LastName = vm.LastName,
+                    Email = vm.Email,
+                    UserName = vm.Email,
+                    CourseId = vm.CourseId,
+                    TimeOfRegistration = DateTime.Now
+                };
+                var result = await _userManager.CreateAsync(user, vm.Password);
+                var addtoroleresult = await _userManager.AddToRoleAsync(user, "Student");
 
-        try
-        {
-            db.Add(user);
-            await db.SaveChangesAsync();
+                try
+                {
+                    db.Add(user);
+                    await db.SaveChangesAsync();
 
-            return View("CreateStudent", model);
-        }catch(Exception ex)
-        {
-                throw;
-        }
+                    return View(nameof(StudentDetails), new { id = user.Id });
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
+            else
+            {
+                //new { id = currentuser.Id }
+                TempData["StudentExists"] = "The student already exist!";
+                return RedirectToAction(nameof(Index));
+            }
+
 
     }
 
-    public IActionResult Privacy()
+        private object StudentDetails()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IActionResult Privacy()
     {
         return View();
     }

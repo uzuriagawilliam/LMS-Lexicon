@@ -14,6 +14,7 @@ namespace LMS_Lexicon.Data.Data
         public DbSet<Document> DocumentClass { get; set; }
         public DbSet<Module> ModuleClass { get; set; }
         public DbSet<Activity> ActivityClass { get; set; }
+
         public LmsDbContext(DbContextOptions<LmsDbContext> options)
             : base(options)
         {
