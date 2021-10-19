@@ -37,7 +37,7 @@ namespace LMS_Lexicon.Controllers
 
             if (User.IsInRole("Teacher"))
             {
-                return RedirectToAction("Index", "Courses");
+                return RedirectToAction("Index", "Courses","Modules");
             }
 
             var model = new IndexViewModel
