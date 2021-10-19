@@ -1,4 +1,4 @@
-using LMS_Lexicon.Data;
+﻿using LMS_Lexicon.Data;
 using LMS_Lexicon.Models.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -43,6 +43,9 @@ namespace LMS_Lexicon
                 options.Password.RequireUppercase = false;
              })
              .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddDbContext<LMS_LexiconContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("LMS_LexiconContext")));
 
         }
 

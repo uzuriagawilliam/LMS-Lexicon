@@ -37,9 +37,14 @@ namespace LMS.Api.Data.Repositories
             return await db.Author.FindAsync(id);
         }
 
+        //public async Task<IEnumerable<Author>> GetAllAuthors()
         public async Task<IEnumerable<Author>> GetAllAuthors()
         {
             return await db.Author.ToListAsync();
+        }
+        public async Task<IEnumerable<Author>> GetAllAuthors(bool includeLiterature)
+        {
+            return await db.Author.Include(l => l.Literatures).ToListAsync();
         }
 
         public async Task<Author> GetAuthor(int? id)
@@ -55,7 +60,7 @@ namespace LMS.Api.Data.Repositories
         {
             var query = db.Author
                 .Include(l => l.Literatures)
-                //.ThenInclude(s => s.SubjectId)
+                .ThenInclude(s => s.SubjectId)
                 .AsQueryable();
 
             return await query.FirstOrDefaultAsync(m => m.FirstName == name);

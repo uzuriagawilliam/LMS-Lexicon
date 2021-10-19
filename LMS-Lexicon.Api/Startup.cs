@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using LMS_Lexicon.Api.Data.Data;
 using LMS.Api.Core.Repositories;
 using LMS.Api.Data.Repositories;
+using LMS.Api.Data.Data;
 
 namespace LMS_Lexicon.Api
 {
@@ -41,6 +42,9 @@ namespace LMS_Lexicon.Api
             });
 
             services.AddScoped<IUoW, UoW>();
+
+            //services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(MapperProfile));
 
             services.AddDbContext<LMS_LexiconApiContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("LMS_LexiconApiContext")));

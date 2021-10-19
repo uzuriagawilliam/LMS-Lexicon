@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LMS.Api.Core.Entities;
 using LMS_Lexicon.Api.Data.Data;
 using LMS.Api.Core.Repositories;
+using LMS_Lexicon.Api.Dtos;
 
 namespace LMS_Lexicon.Api.Controllers
 {
@@ -34,7 +35,7 @@ namespace LMS_Lexicon.Api.Controllers
 
         // GET: api/Literatures/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Literature>> GetLiterature(int id)
+        public async Task<ActionResult<LiteratureDto>> GetLiterature(int id)
         {
             var literature = await uow.LiteratureRepository.FindAsync(id);
 
@@ -43,7 +44,7 @@ namespace LMS_Lexicon.Api.Controllers
                 return NotFound();
             }
 
-            return literature;
+            return Ok(literature);
         }
 
         // PUT: api/Literatures/5
