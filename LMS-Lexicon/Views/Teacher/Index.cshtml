@@ -5,16 +5,20 @@
 }
 
 <h1>Studenter</h1>
-
+<br/>
+<br />
 <p>
-    <a asp-action="CreateStudent">Lägg till Student</a>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#studentModal">Lägg till Student</button>
+    @*<a asp-action="CreateStudent">Lägg till Student</a>*@
+    <a class="btn btn-success text-white popup" data-url="Teacher/CreateStudent"  data-toggle="modal" data-target="#modal-create-user" id="UserModel">Lägg till student <i class="fa fa-plus"></i></a>
 </p>
-<div class="alert alert-danger" id="AlertDanger" role="alert">
+<div class="alert alert-danger alert-dismissible fade hide" id="AlertDanger" role="alert">
     @TempData["StudentExists"]
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
+</div>
+<div id="Modal">
+    <partial name="_Modal" />
 </div>
 <table class="table">
     <thead>
@@ -61,18 +65,23 @@
 
     </tbody>
 </table>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script>
-    $(window).load(function () {
-        $('#AlertDanger').modal('show');
-    });
-    $(function () {
-        $("#AlertDanger").modal('toggle');
-    });
-    /*   $("#AlertDanger").hide();*/
-    $("#AlertDanger").show();
-   @if (@TempData["StudentExists"] != null)
-   {
-     
-   }
-</script>
+@section Scripts{
+    <script src="~/js/user.js" asp-append-version="true"></script>
+    <script>
+        $(function () {
+            @if(@TempData["StudentExists"] != null)
+            {
+                @: $('.alert').removeClass('hide');
+                @: $('.alert').addClass('show');
+            }
+        });
+
+            @if(@TempData["StudentExists"] != null)
+            {
+                @: $('.alert').removeClass('hide');
+                @: $('.alert').addClass('show');
+            }
+    </script>
+
+}
+
