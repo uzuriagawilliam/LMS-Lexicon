@@ -7,7 +7,8 @@
 <h1>Details</h1>
 
 <div>
-    <a asp-action="Create" asp-controller="Modules" asp-route-courseId="@Model.Id">Add module</a> 
+    
+    <button type="button" class="btn btn-info text-black-50"> <a asp-action="Create" asp-controller="Modules" asp-route-courseId="@Model.Id">Skapa Modules</a></button>
 </div>
 
 <div class="accordion" id="accordionExample">
@@ -20,7 +21,7 @@
             </h2>
         </div>
 
-        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+        @*<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="card-body">
                Add Model
              
@@ -31,13 +32,13 @@
         <div class="card-header" id="headingTwo">
             <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    Collapsible Group I
+                    @Model.CourseName
                 </button>
             </h2>
         </div>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
             <div class="card-body">
-                Some placeholder content for the second accordion panel. This panel is hidden by default.
+                Front End Modules
             </div>
         </div>
     </div>
@@ -45,16 +46,16 @@
         <div class="card-header" id="headingThree">
             <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    Collapsible Group Item #3
+                    @Model.CourseName
                 </button>
             </h2>
         </div>
         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
             <div class="card-body">
-                And lastly, the placeholder content for the third and final accordion panel. This panel is hidden by default.
+                 .Net Core Moduels
             </div>
         </div>
-    </div>
+    </div>*@
 </div>
 
 
