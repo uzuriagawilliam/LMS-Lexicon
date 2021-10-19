@@ -114,8 +114,8 @@ namespace LMS_Lexicon.Controllers
                     {
                         var result = await _userManager.CreateAsync(user, vm.Password);
                         var addtoroleresult = await _userManager.AddToRoleAsync(user, "Student");
-
-                        return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "Index", db.Users.ToList()) });
+                        return RedirectToAction(nameof(Index));
+                        //return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "Index", db.Users.ToList()) });
                     }
                     catch (Exception ex)
                     {

@@ -5,11 +5,11 @@
 }
 
 <h1>Studenter</h1>
-<br/>
+<br />
 <br />
 <p>
     @*<a asp-action="CreateStudent">Lägg till Student</a>*@
-    <a class="btn btn-success text-white popup" data-url="Teacher/CreateStudent"  data-toggle="modal" data-target="#modal-create-user" id="UserModel">Lägg till student <i class="fa fa-plus"></i></a>
+    <a class="btn btn-success text-white popup" data-url="Teacher/CreateStudent" data-toggle="modal" data-target="#modal-create-user" id="UserModel">Lägg till student <i class="fa fa-plus"></i></a>
 </p>
 <div class="alert alert-danger alert-dismissible fade hide" id="AlertDanger" role="alert">
     @TempData["StudentExists"]
@@ -67,14 +67,24 @@
 </table>
 @section Scripts{
     <script src="~/js/user.js" asp-append-version="true"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
-        $(function () {
-            @if(@TempData["StudentExists"] != null)
-            {
-                @: $('.alert').removeClass('hide');
-                @: $('.alert').addClass('show');
-            }
-        });
+            (function ($) {
+
+                $.fn.updateValidation = function () {
+                    var $this = $("CreateStudent");
+                    var form = $this.closest("form")
+                        .removeData("validator")
+                        .removeData("unobtrusiveValidation");
+
+                    $.validator.unobtrusive.parse(form);
+
+                    return $this;
+                };
+        })(jQuery)
+
+
+
 
             @if(@TempData["StudentExists"] != null)
             {
@@ -82,6 +92,9 @@
                 @: $('.alert').addClass('show');
             }
     </script>
+}
+
+
 
 }
 
