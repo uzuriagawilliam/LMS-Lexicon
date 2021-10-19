@@ -10,63 +10,76 @@
     </div>
     <!--Modal Header End-->
     @Html.AntiForgeryToken()
-    @*<form asp-action="CreateStudent" asp-controller="Teacher" method="post" enctype="multipart/form-data" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">*@
-    <form asp-action="CreateStudent" asp-controller="Teacher" method="post" enctype="multipart/form-data">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        @*<div class="modal-body form-horizontal">*@
-            <div class="form-group row">
-                <label asp-for="FirstName" class="col-sm-2 col-form-label"></label>
-                <div class="col-sm-10">
-                    <input asp-for="FirstName" class="form-control" />
-                    <span asp-validation-for="FirstName" class="text-danger"></span>
+    <div id="CreateStudent">
+        <form asp-action="CreateStudent" asp-controller="Teacher" method="post" enctype="multipart/form-data" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
+        @*<form asp-action="CreateStudent" asp-controller="Teacher" method="post" enctype="multipart/form-data">*@
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="modal-body form-horizontal">
+                <div class="form-group row">
+                    <label asp-for="FirstName" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label asp-for="LastName" class="col-sm-2 col-form-label"></label>
-                <div class="col-sm-10">
-                    <input asp-for="LastName" class="form-control" />
-                    <span asp-validation-for="LastName" class="text-danger"></span>
+                <div class="form-group row">
+                    <label asp-for="LastName" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label asp-for="Email" class="col-sm-2 col-form-label"></label>
-                <div class="col-sm-10">
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
+                <div class="form-group row">
+                    <label asp-for="Email" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label asp-for="Password" class="col-sm-2 col-form-label"></label>
-                <div class="col-sm-10">
-                    <input asp-for="Password" class="form-control" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
+                <div class="form-group row">
+                    <label asp-for="Password" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label asp-for="CourseId" class="col-sm-2 col-form-label"></label>
-                <div class="col-sm-10">
-                    <select asp-for="CourseId" asp-items="@await courseSelect.GetCoursesAsync()" class="form-control">
-                        <option selected="selected" value="">Please select</option>
-                    </select>
-                    <span asp-validation-for="CourseId" class="text-danger"></span>
+                <div class="form-group row">
+                    <label asp-for="CourseId" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <select asp-for="CourseId" asp-items="@await courseSelect.GetCoursesAsync()" class="form-control">
+                            <option selected="selected" value="">Please select</option>
+                        </select>
+                        <span asp-validation-for="CourseId" class="text-danger"></span>
+                    </div>
                 </div>
+                @*<div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>*@
+                <!--Modal Footer Start-->
             </div>
-            @*<div class="form-group">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>*@
-            <!--Modal Footer Start-->
-        @*</div>*@
-        <div class="modal-footer">
-            @*<button data-dismiss="modal" id="cancel" class="btn btn-default" type="button">Cancel</button>*@
-            <button class="btn btn-success relative" id="btnSubmit" type="submit">
-                <i class="loader"></i>
-                Skicka
-            </button>
-        </div> <!--Modal Footer End-->
-
-    </form>
+            <div class="modal-footer">
+                @*<button data-dismiss="modal" id="cancel" class="btn btn-default" type="button">Cancel</button>*@
+                <button class="btn btn-success relative" id="btnSubmit" type="submit">
+                    <i class="loader"></i>
+                    Skicka
+                </button>
+            </div> <!--Modal Footer End-->
+        </form>
+    </div>
 </div>
-
-@section Scripts {
+@section Scripts{
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    (function ($) {
+
+    @*$.fn.updateValidation = function () {*@
+    var $this = $("CreateStudent");
+    var form = $this.closest("form")
+    .removeData("validator")
+    .removeData("unobtrusiveValidation");
+
+    $.validator.unobtrusive.parse(form);
+
+    return $this;
+    @*};*@
+    })(jQuery)
 }
