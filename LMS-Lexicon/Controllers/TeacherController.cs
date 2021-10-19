@@ -87,41 +87,54 @@ namespace LMS_Lexicon.Controllers
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> CreateStudent(CreateStudentViewModel vm)
         {
-            if (!ModelState.IsValid)
-                return PartialView("CreateStudentPartial", vm);
+            bool userIdExist = false;
+            if (ModelState.IsValid)
+            {
+                userIdExist = db.Users.Any(u => u.UserName == vm.Email);
 
-            bool userIdExist = db.Users.Any(u => u.UserName == vm.Email);
-            //if(db.Users.Any(u => u.Email).Where(u => u.UserName == vm.Email))
+                if (userIdExist)
+                {
+                    TempData["StudentExists"] = "The student already exist!";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    var user = new ApplicationUser
+                    {
+                        FirstName = vm.FirstName,
+                        LastName = vm.LastName,
+                        Email = vm.Email,
+                        UserName = vm.Email,
+                        CourseId = vm.CourseId,
+                        TimeOfRegistration = DateTime.Now
+                    };
+
+
+                    try
+                    {
+                        var result = await _userManager.CreateAsync(user, vm.Password);
+                        var addtoroleresult = await _userManager.AddToRoleAsync(user, "Student");
+
+                        return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "Index", db.Users.ToList()) });
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
+                }
+               
+            }
+            userIdExist = db.Users.Any(u => u.UserName == vm.Email);
+
             if (userIdExist)
             {
                 TempData["StudentExists"] = "The student already exist!";
-                return RedirectToAction(nameof(Index));
+               
             }
-            else
-            {
-                var user = new ApplicationUser
-                {
-                    FirstName = vm.FirstName,
-                    LastName = vm.LastName,
-                    Email = vm.Email,
-                    UserName = vm.Email,
-                    CourseId = vm.CourseId,
-                    TimeOfRegistration = DateTime.Now
-                };
-          
-
-                try
-                {
-                    var result = await _userManager.CreateAsync(user, vm.Password);
-                    var addtoroleresult = await _userManager.AddToRoleAsync(user, "Student");
-
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (Exception ex)
-                {
-                    throw;
-                }
-            }
+            //return RedirectToAction(nameof(Index));
+            //return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CreateStudentPartial", vm) });
+            //return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "Index", db.Users.ToList()) });
+            return RedirectToAction(nameof(Index));
         }
 
 

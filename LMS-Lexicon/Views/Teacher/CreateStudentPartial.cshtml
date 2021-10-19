@@ -13,7 +13,7 @@
     @*<form asp-action="CreateStudent" asp-controller="Teacher" method="post" enctype="multipart/form-data" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">*@
     <form asp-action="CreateStudent" asp-controller="Teacher" method="post" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="modal-body form-horizontal">
+        @*<div class="modal-body form-horizontal">*@
             <div class="form-group row">
                 <label asp-for="FirstName" class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-10">
@@ -55,7 +55,7 @@
                     <input type="submit" value="Create" class="btn btn-primary" />
                 </div>*@
             <!--Modal Footer Start-->
-        </div>
+        @*</div>*@
         <div class="modal-footer">
             @*<button data-dismiss="modal" id="cancel" class="btn btn-default" type="button">Cancel</button>*@
             <button class="btn btn-success relative" id="btnSubmit" type="submit">

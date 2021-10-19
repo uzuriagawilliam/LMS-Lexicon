@@ -50,10 +50,12 @@ jQueryAjaxPost = form => {
                 if (res.isValid) {
                     $("#Modal").html(res.html);
                     $("#modal-create-user").modal('hide');
-                    $("#modal-create-user .modal-body").html('');
-                    $("#modal-create-user .modal-title").html('');
+             /*       $('#modal-create-user').find(".modal-dialog").html(res);*/
+                    //$("#modal-create-user .modal-body").html('');
+                    //$("#modal-create-user .modal-title").html('');
                 } else {
                     $("#modal-create-user .modal-body").html(res.html);
+                    $("#modal-create-user").modal('hide');
                 }
             },
             error: function (err) {

@@ -5,10 +5,11 @@
 }
 
 <h1>Studenter</h1>
-
+<br/>
+<br />
 <p>
     @*<a asp-action="CreateStudent">Lägg till Student</a>*@
-    <a class="btn btn-secondary popup" data-url="Teacher/CreateStudent"  data-toggle="modal" data-target="#modal-create-user" id="UserModel">Lägg till student <i class="fa fa-plus"></i></a>
+    <a class="btn btn-success text-white popup" data-url="Teacher/CreateStudent"  data-toggle="modal" data-target="#modal-create-user" id="UserModel">Lägg till student <i class="fa fa-plus"></i></a>
 </p>
 <div class="alert alert-danger alert-dismissible fade hide" id="AlertDanger" role="alert">
     @TempData["StudentExists"]
@@ -16,9 +17,9 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-@*<div id="Modal">*@
+<div id="Modal">
     <partial name="_Modal" />
-@*</div>*@
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -74,6 +75,12 @@
                 @: $('.alert').addClass('show');
             }
         });
+
+            @if(@TempData["StudentExists"] != null)
+            {
+                @: $('.alert').removeClass('hide');
+                @: $('.alert').addClass('show');
+            }
     </script>
 
 }
