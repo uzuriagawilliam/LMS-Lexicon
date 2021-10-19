@@ -8,7 +8,7 @@
 
 <div>
     
-    <button type="button" class="btn btn-info text-black-50"> <a asp-action="Create" asp-controller="Modules" asp-route-courseId="@Model.Id">Skapa Modules</a></button>
+    <button type="button" class="btn btn-info text-danger"> <a asp-action="Create" asp-controller="Modules" asp-route-courseId="@Model.Id">Skapa Modules</a></button>
 </div>
 
 <div class="accordion" id="accordionExample">
@@ -23,11 +23,15 @@
 
         @*<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="card-body">
-               Add Model
-             
+               Add list to show here, vad ska vi sa här?
+                @foreach
+            {
+
+            }
+
             </div>
-        </div>
-    </div>
+        </div>*@
+    @*</div>
     <div class="card">
         <div class="card-header" id="headingTwo">
             <h2 class="mb-0">
@@ -46,7 +50,7 @@
         <div class="card-header" id="headingThree">
             <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    @Model.CourseName
+                    //@Model.CourseName
                 </button>
             </h2>
         </div>
@@ -54,8 +58,8 @@
             <div class="card-body">
                  .Net Core Moduels
             </div>
-        </div>
-    </div>*@
+        </div>*@
+    </div>
 </div>
 
 
