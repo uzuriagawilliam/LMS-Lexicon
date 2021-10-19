@@ -7,12 +7,12 @@
 @{
     ViewData["Title"] = "Index";
     var StudentExists = TempData["StudentExists"];
+    var StudentSuccess = TempData["StudentSuccess"];
 }
 
 <h1>Studenter</h1>
 
 <p>
-    <a asp-action="CreateStudent">Lägg till Student</a>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#studentModal">Lägg till Student</button>
 </p>
 @if (StudentExists != null)
@@ -24,6 +24,17 @@
         </button>
     </div>
 }
+
+@if (StudentSuccess != null)
+{
+    <div class="alert alert-success" id="AlertSuccess" role="alert">
+        @StudentSuccess
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
 
 <table class="table">
     <thead>
@@ -72,16 +83,14 @@
 </table>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
-    $(window).load(function () {
-        $('#AlertDanger').modal('show');
-    });
-    $(function () {
-        $("#AlertDanger").modal('toggle');
-    });
-    /*   $("#AlertDanger").hide();*/
-    $("#AlertDanger").show();
-   @if (@TempData["StudentExists"] != null)
-   {
-
-   }
+   @if(@TempData["StudentSuccess"] != null)
+    {
+    @: $('.alert').removeClass('hide');
+    @: $('.alert').addClass('show');
+    }
+   @if(@TempData["StudentExists"] != null)
+    {
+    @: $('.alert').removeClass('hide');
+    @: $('.alert').addClass('show');
+    }
 </script>
