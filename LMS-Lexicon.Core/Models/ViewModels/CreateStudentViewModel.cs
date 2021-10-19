@@ -31,7 +31,7 @@ namespace LMS_Lexicon.Core.Models.ViewModels
         [Display(Name = "Lösenord")]
         public string Password { get; set; }
 
-
+        [Required(ErrorMessage = "Du måste välja en kurs för studenten")]
         [Display(Name = "Kursnamn")]
         public int? CourseId { get; set; }  //ToDo Fix!!!!!! remove ?
 

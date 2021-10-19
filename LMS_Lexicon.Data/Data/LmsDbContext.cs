@@ -25,5 +25,25 @@ namespace LMS_Lexicon.Data.Data
         //    base.OnModelCreating(builder);
         //    builder.Entity<Course>().HasKey(c => new { c.UserId, c.Id });
         //}
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<Document>()
+            .HasOne(a => a.Activity)
+            .WithMany(m => m.Documents)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
+        }
+
+        //protected override void OnModelCreating(ModelBuilder builder)
+        //{
+        //    base.OnModelCreating(builder);
+        //    builder.Entity<Activity>()
+        //    .HasMany(a => a.Documents)
+        //    .WithOne(m => m.Activity)
+        //    .IsRequired()
+        //    .OnDelete(DeleteBehavior.Cascade);
+        //}
     }
 }

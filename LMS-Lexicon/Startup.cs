@@ -53,8 +53,8 @@ namespace LMS_Lexicon
                 opt.Filters.Add(new AuthorizeFilter(policy));
             });
 
-            services.AddDbContext<LmsDbContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("LMS_LexiconContext")));
+            //services.AddDbContext<LmsDbContext>(options =>
+            //        options.UseSqlServer(Configuration.GetConnectionString("LMS_LexiconContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
