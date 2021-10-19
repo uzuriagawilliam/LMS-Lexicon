@@ -35,7 +35,7 @@ namespace LMS_Lexicon.Controllers
 
             foreach (var student in students)
             {
-          
+
                 var user = await db.Users.Where(x => x.Id == student.Id).FirstOrDefaultAsync();
                 var role = await _userManager.GetRolesAsync(user);
 
@@ -93,7 +93,7 @@ namespace LMS_Lexicon.Controllers
         public async Task<IActionResult> CreateStudent(CreateStudentViewModel vm)
         {
             var userId = await db.Users.Where(u => u.UserName == vm.Email).SingleOrDefaultAsync();
-            if (userId.Email != vm.Email|| userId == null)
+            if (userId.Email != vm.Email || userId == null)
             {
                 var user = new ApplicationUser
                 {
@@ -125,27 +125,93 @@ namespace LMS_Lexicon.Controllers
                 return RedirectToAction(nameof(Index));
             }
         }
-
-        // GET: TeacherController/Edit/5
-        public ActionResult EditStudent(int id)
+        public async Task<IActionResult> EditStudent(string id)
         {
-            return View();
+            if (id == "")
+            {
+                return NotFound();
+            }
+            var student = await _userManager.FindByIdAsync(id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            CreateStudentViewModel vm = new CreateStudentViewModel
+            {
+                //Id = id,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Email = student.Email,
+                CourseId = student.CourseId,
+                TimeOfRegistration = student.TimeOfRegistration
+            };
+
+            return View(vm);
         }
 
-        // POST: TeacherController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditStudent(int id, IFormCollection collection)
+
+        // GET: TeacherController/Edit/5
+        public async Task<IActionResult> EditStudent(string id, CreateStudentViewModel vm)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+
+
+            var std = await _userManager.FindByIdAsync(id);
+
+            //ApplicationUser student = new ApplicationUser();
+
+            //Id = id,
+
+            std.FirstName = vm.FirstName;
+            std.LastName = vm.LastName;
+            std.Email = vm.Email;
+            std.UserName = vm.Email;
+            std.CourseId = vm.CourseId;
+            std.TimeOfRegistration = std.TimeOfRegistration;
+
+            var result = await _userManager.UpdateAsync(std);
+         
+            TempData["StudentExists"] = "User [" + std.FirstName + "] edited";
+
+            return RedirectToAction(nameof(Index));
+    
+
         }
+
+        public async Task<IActionResult> DeleteStudent(string id)
+        {
+
+
+            var std = await _userManager.FindByIdAsync(id);
+
+            var result = await _userManager.DeleteAsync(std);
+            TempData["StudentExists"] = "Delete " + result.ToString();
+            return RedirectToAction(nameof(Index));
+
+
+        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+
+
+        // POST: TeacherController/Edit/5
+
+
+
+
+        //public async Task<IActionResult> EditStudent(String id, [Bind("Id,FirstName,LastName, Email, UserName,CourseId, TimeOfRegistration ")] Index collection)
+        //{
+        //    try
+        //    {
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    catch
+        //    {
+        //        return View(User);
+        //    }
+        //}
 
         // GET: TeacherController/Delete/5
         public async Task<IActionResult> Delete(int id)
@@ -167,5 +233,7 @@ namespace LMS_Lexicon.Controllers
                 return View();
             }
         }
+
+
     }
 }

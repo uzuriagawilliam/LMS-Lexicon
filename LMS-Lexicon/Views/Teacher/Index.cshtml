@@ -1,7 +1,12 @@
 ﻿@model IEnumerable<IndexStudentsViewModel>
+@inject ICourseSelectService courseSelect
+
+
+
 
 @{
     ViewData["Title"] = "Index";
+    var StudentExists = TempData["StudentExists"];
 }
 
 <h1>Studenter</h1>
@@ -10,12 +15,16 @@
     <a asp-action="CreateStudent">Lägg till Student</a>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#studentModal">Lägg till Student</button>
 </p>
-<div class="alert alert-danger" id="AlertDanger" role="alert">
-    @TempData["StudentExists"]
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
+@if (StudentExists != null)
+{
+    <div class="alert alert-danger" id="AlertDanger" role="alert">
+        @StudentExists
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -73,6 +82,6 @@
     $("#AlertDanger").show();
    @if (@TempData["StudentExists"] != null)
    {
-     
+
    }
 </script>

@@ -34,7 +34,7 @@ namespace LMS_Lexicon
                 }
                 catch (Exception ex)
                 {
-                    throw;
+                    //throw;
                 }
 
             }
