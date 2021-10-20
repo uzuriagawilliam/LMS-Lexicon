@@ -36,13 +36,13 @@ namespace LMS_Lexicon.Controllers
 
             return View(res);
         }
-        public async Task<IActionResult> Index(int Id)
-        {
-            var res = await SimpleGetId(Id);
-            //var res2 = await SimpleGetLiterature();
+        //public async Task<IActionResult> Index(int Id)
+        //{
+        //    var res = await SimpleGetId();
+        //    //var res2 = await SimpleGetLiterature();
 
-            return View(res);
-        }
+        //    return View(res);
+        //}
         public async Task<IActionResult> LiteratureIndex()
         {            
             var res = await SimpleGetLiterature();
