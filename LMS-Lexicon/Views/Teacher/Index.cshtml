@@ -11,7 +11,8 @@
 }
 
 <h1>Studenter</h1>
-
+<br />
+<br />
 <p>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#studentModal">Lägg till Student</button>
 </p>
@@ -36,6 +37,15 @@
 }
 
 
+<div class="alert alert-danger alert-dismissible fade hide" id="AlertDanger" role="alert">
+    @TempData["StudentExists"]
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div id="Modal">
+    <partial name="_Modal" />
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -94,3 +104,36 @@
     @: $('.alert').addClass('show');
     }
 </script>
+@section Scripts{
+    <script src="~/js/user.js" asp-append-version="true"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+            (function ($) {
+
+                $.fn.updateValidation = function () {
+                    var $this = $("CreateStudent");
+                    var form = $this.closest("form")
+                        .removeData("validator")
+                        .removeData("unobtrusiveValidation");
+
+                    $.validator.unobtrusive.parse(form);
+
+                    return $this;
+                };
+        })(jQuery)
+
+
+
+
+            @if(@TempData["StudentExists"] != null)
+            {
+                @: $('.alert').removeClass('hide');
+                @: $('.alert').addClass('show');
+            }
+    </script>
+}
+
+
+
+}
+
