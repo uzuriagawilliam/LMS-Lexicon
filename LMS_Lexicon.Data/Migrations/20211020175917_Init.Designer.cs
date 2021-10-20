@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LMS_Lexicon.Data.Migrations
 {
     [DbContext(typeof(LmsDbContext))]
-    [Migration("20211015124619_Init")]
+    [Migration("20211020175917_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -188,6 +188,7 @@ namespace LMS_Lexicon.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("ActivityId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("ApplicationUserId")
@@ -419,7 +420,9 @@ namespace LMS_Lexicon.Data.Migrations
                 {
                     b.HasOne("LMS_Lexicon.Core.Models.Entities.Activity", "Activity")
                         .WithMany("Documents")
-                        .HasForeignKey("ActivityId");
+                        .HasForeignKey("ActivityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("LMS_Lexicon.Core.Models.Entities.ApplicationUser", "ApplicationUser")
                         .WithMany("Documents")

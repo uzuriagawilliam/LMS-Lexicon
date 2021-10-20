@@ -186,6 +186,7 @@ namespace LMS_Lexicon.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("ActivityId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("ApplicationUserId")
@@ -417,7 +418,9 @@ namespace LMS_Lexicon.Data.Migrations
                 {
                     b.HasOne("LMS_Lexicon.Core.Models.Entities.Activity", "Activity")
                         .WithMany("Documents")
-                        .HasForeignKey("ActivityId");
+                        .HasForeignKey("ActivityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("LMS_Lexicon.Core.Models.Entities.ApplicationUser", "ApplicationUser")
                         .WithMany("Documents")

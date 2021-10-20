@@ -26,7 +26,7 @@ namespace LMS_Lexicon.Data.Data
             //db.Database.EnsureDeleted();
             //db.Database.Migrate();
 
-            if (await db.Users.AnyAsync()) return;
+            //if (await db.Users.AnyAsync()) return;
 
                 userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                 if (userManager is null) throw new NullReferenceException(nameof(UserManager<ApplicationUser>));
@@ -43,10 +43,13 @@ namespace LMS_Lexicon.Data.Data
 
             //var role = new IdentityRole { Name = roleName };
             //var addRoleResult = await roleManager.CreateAsync(role);
-
-            var user = await AddUserAsync(userEmail, userPW);
-                await AddToRolesAsync(user, roleName);
-
+            var user= await userManager.FindByEmailAsync(userEmail);
+                if(user == null)
+                {
+                    user = await AddUserAsync(userEmail, userPW);
+                    await AddToRolesAsync(user, roleName);
+                }
+   
                 await CreateActivityType(db);
   
                 var courses = GetCourses();
@@ -144,7 +147,6 @@ namespace LMS_Lexicon.Data.Data
                     StartDate = System.DateTime.Now.AddDays(fake.Random.Int(-5,5)),
                     Modules = GetModules(),
                     Documents = GetDocuments()
-
                 };
                 courses.Add(course);
             }
