@@ -42,11 +42,20 @@ namespace LMS_Lexicon.Data.Data
                 const string roleName = "Teacher";
                 const string roleStudent = "Student";
 
-                var role = new IdentityRole { Name = roleName };
-                var addRoleResult = await roleManager.CreateAsync(role);
-                var user = await AddUserAsync(userEmail, userPW);
-                await AddToRolesAsync(user, roleName);
-            
+                //var role = new IdentityRole { Name = roleName };
+                //var addRoleResult = await roleManager.CreateAsync(role);
+                await CreateActivityType(db);
+                var courses = GetCourses();
+                await db.AddRangeAsync(courses);
+                await db.SaveChangesAsync();
+
+                var user = await userManager.FindByEmailAsync(userEmail);
+                    if (user == null)
+                    {
+                        user = await AddUserAsync(userEmail, userPW);
+                        await AddToRolesAsync(user, roleName);
+                    }
+
                 var students = GetStudents();
 
                 foreach (var student in students)
@@ -55,11 +64,6 @@ namespace LMS_Lexicon.Data.Data
                     if (!result.Succeeded) throw new Exception(String.Join("\n", result.Errors));
                     await userManager.AddToRoleAsync(student, roleStudent);
                 }
-
-                await CreateActivityType(db);
-                var courses = GetCourses();
-                await db.AddRangeAsync(courses);
-                await db.SaveChangesAsync();
         }
 
         private static async Task CreateActivityType(LmsDbContext db)
@@ -115,7 +119,8 @@ namespace LMS_Lexicon.Data.Data
                 LastName = fake.Person.LastName,
                 UserName = userEmail,
                 Email = userEmail,
-                TimeOfRegistration = DateTime.Now
+                TimeOfRegistration = DateTime.Now,
+                CourseId = 1
             };
 
             var result = await userManager.CreateAsync(user, userPW);
@@ -131,11 +136,28 @@ namespace LMS_Lexicon.Data.Data
             for (int i =0; i < 15; i++)
             {
                 int courseId = db.CourseClass.Select(c => c.Id).FirstOrDefault();
-                string coursename = fake.Commerce.ProductName();
-                coursename = coursename.Length < 25 ? coursename : coursename.Substring(0, 25);
+                string coursename = "";
+                if (courseId == 1)
+                {
+                    coursename = "";
+                }
+                else
+                {
+                    coursename = fake.Commerce.ProductName();
+                    coursename = coursename.Length < 25 ? coursename : coursename.Substring(0, 25);
+                }
 
-                string description = fake.Commerce.ProductDescription();
-                description = description.Length < 45 ? description : description.Substring(0, 45);
+                string description = "";
+                if(courseId == 1)
+                {
+                    description = "";
+                }
+                else
+                {
+                    description = fake.Commerce.ProductDescription();
+                    description = description.Length < 45 ? description : description.Substring(0, 45);
+                }
+            
                 var course = new Course
                 {
                     CourseName = coursename,
