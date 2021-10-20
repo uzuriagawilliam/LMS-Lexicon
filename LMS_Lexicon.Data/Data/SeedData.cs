@@ -43,7 +43,7 @@ namespace LMS_Lexicon.Data.Data
 
             //var role = new IdentityRole { Name = roleName };
             //var addRoleResult = await roleManager.CreateAsync(role);
-            var user= await userManager.FindByEmailAsync(userEmail);
+                var user= await userManager.FindByEmailAsync(userEmail);
                 if(user == null)
                 {
                     user = await AddUserAsync(userEmail, userPW);
