@@ -30,7 +30,7 @@ namespace LMS_Lexicon
 
                 try
                 {
-                    //SeedData.InitAsync(context, services, userPW).Wait();
+                    SeedData.InitAsync(context, services, userPW).Wait();
                 }
                 catch (Exception ex)
                 {
