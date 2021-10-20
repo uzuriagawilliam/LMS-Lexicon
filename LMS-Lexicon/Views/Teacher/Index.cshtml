@@ -1,7 +1,13 @@
 ﻿@model IEnumerable<IndexStudentsViewModel>
+@inject ICourseSelectService courseSelect
+
+
+
 
 @{
     ViewData["Title"] = "Index";
+    var StudentExists = TempData["StudentExists"];
+    var StudentSuccess = TempData["StudentSuccess"];
 }
 
 <h1>Studenter</h1>
@@ -19,6 +25,27 @@
        data-target="#modal-create-user"
        data-ajax-success="fixvalidation">Lägg till student<i class="fa fa-plus"></i> </a>
 </p>
+@if (StudentExists != null)
+{
+    <div class="alert alert-danger" id="AlertDanger" role="alert">
+        @StudentExists
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+@if (StudentSuccess != null)
+{
+    <div class="alert alert-success" id="AlertSuccess" role="alert">
+        @StudentSuccess
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+
 <div class="alert alert-success alert-dismissible fade hide" id="AlertDanger" role="alert">
     @TempData["StudentSuccess"]
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -83,6 +110,19 @@
 
     </tbody>
 </table>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+   @if(@TempData["StudentSuccess"] != null)
+    {
+    @: $('.alert').removeClass('hide');
+    @: $('.alert').addClass('show');
+    }
+   @if(@TempData["StudentExists"] != null)
+    {
+    @: $('.alert').removeClass('hide');
+    @: $('.alert').addClass('show');
+    }
+</script>
 @section Scripts{
     <script src="~/js/user.js" asp-append-version="true"></script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
