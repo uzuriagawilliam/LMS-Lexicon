@@ -9,14 +9,32 @@
 <br />
 <p>
     @*<a asp-action="CreateStudent">Lägg till Student</a>*@
-    <a class="btn btn-success text-white popup" data-url="Teacher/CreateStudent" data-toggle="modal" data-target="#modal-create-user" id="UserModel">Lägg till student <i class="fa fa-plus"></i></a>
+    <a class="btn btn-success text-white popup" data-ajax="true" data-ajax-method="GET" data-ajax-success="fixvalidation" data-url="Teacher/CreateStudent" data-toggle="modal" data-target="#modal-create-user" id="UserModel">Lägg till student <i class="fa fa-plus"></i></a>
+    <a asp-action="CreateStudent"
+       asp-controller="Teacher"
+       class="btn btn-dark"
+       data-ajax="true"
+       data-toggle="ajax-modal"
+       data-ajax-method="GET"
+       data-target="#modal-create-user"
+       data-ajax-success="fixvalidation">Lägg till student<i class="fa fa-plus"></i> </a>
 </p>
+<div class="alert alert-success alert-dismissible fade hide" id="AlertDanger" role="alert">
+    @TempData["StudentSuccess"]
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
 <div class="alert alert-danger alert-dismissible fade hide" id="AlertDanger" role="alert">
     @TempData["StudentExists"]
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
+@if (TempData["DisplayModal"] != null)
+{
+    var modal = TempData["DisplayModal"].ToString();
+}
 <div id="Modal">
     <partial name="_Modal" />
 </div>
@@ -68,33 +86,38 @@
 @section Scripts{
     <script src="~/js/user.js" asp-append-version="true"></script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    @if (@TempData["DisplayModel"] != null)
+    {
+        var modal = @TempData["DisplayModel"].ToString();
+
+        <script>
+            (function () {
+                $.ajax({
+                    type: "GET",
+                    url: "Teacher/CreateStudent",
+                    success: function (res) {
+                        $('#modal-create-user').find(".modal-dialog").html(res);
+
+                        $("#modal-create-user").modal('show');
+                    }
+                })
+
+            }(jQuery));
+
+        </script>
+    }
     <script>
-            (function ($) {
-
-                $.fn.updateValidation = function () {
-                    var $this = $("CreateStudent");
-                    var form = $this.closest("form")
-                        .removeData("validator")
-                        .removeData("unobtrusiveValidation");
-
-                    $.validator.unobtrusive.parse(form);
-
-                    return $this;
-                };
-        })(jQuery)
-
-
-
-
-            @if(@TempData["StudentExists"] != null)
-            {
-                @: $('.alert').removeClass('hide');
-                @: $('.alert').addClass('show');
-            }
+        @if (@TempData["StudentSuccess"] != null)
+        {
+            @: $('.alert').removeClass('hide');
+            @: $('.alert').addClass('show');
+        }
+        @if (@TempData["StudentExists"] != null)
+        {
+            @: $('.alert').removeClass('hide');
+            @: $('.alert').addClass('show');
+        }
     </script>
-}
-
-
-
 }
 

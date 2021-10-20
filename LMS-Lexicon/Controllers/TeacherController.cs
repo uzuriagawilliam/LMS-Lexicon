@@ -75,6 +75,7 @@ namespace LMS_Lexicon.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Teacher")]
         public IActionResult CreateStudent()
         {
             return PartialView("CreateStudentPartial");
@@ -94,7 +95,7 @@ namespace LMS_Lexicon.Controllers
 
                 if (userIdExist)
                 {
-                    TempData["StudentExists"] = "The student already exist!";
+                    TempData["StudentExists"] = "Studenten finns redan!";
                     return RedirectToAction(nameof(Index));
                 }
                 else
@@ -114,6 +115,7 @@ namespace LMS_Lexicon.Controllers
                     {
                         var result = await _userManager.CreateAsync(user, vm.Password);
                         var addtoroleresult = await _userManager.AddToRoleAsync(user, "Student");
+                        TempData["StudentSuccess"] = "Studenten är tillagd";
                         return RedirectToAction(nameof(Index));
                         //return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "Index", db.Users.ToList()) });
                     }
@@ -122,19 +124,23 @@ namespace LMS_Lexicon.Controllers
                         throw;
                     }
                 }
-               
-            }
-            userIdExist = db.Users.Any(u => u.UserName == vm.Email);
 
-            if (userIdExist)
-            {
-                TempData["StudentExists"] = "The student already exist!";
-               
             }
-            //return RedirectToAction(nameof(Index));
-            //return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CreateStudentPartial", vm) });
-            //return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "Index", db.Users.ToList()) });
-            return RedirectToAction(nameof(Index));
+            else
+            {
+                if (userIdExist)
+                {
+                    TempData["StudentExists"] = "The student already exist!";
+
+                }
+                TempData["DisplayModal"] = "#modal-create-user";
+                return PartialView("CreateStudentPartial");
+                //return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CreateStudentPartial", vm) });
+                //return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "Index", db.Users.ToList()) });
+            }
+            //userIdExist = db.Users.Any(u => u.UserName == vm.Email);
+
+
         }
 
 
