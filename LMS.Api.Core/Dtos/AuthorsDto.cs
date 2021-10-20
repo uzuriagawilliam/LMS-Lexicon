@@ -8,7 +8,7 @@ namespace LMS_Lexicon.Api.Core.Dtos
 {
     public class AuthorsDto
     {
-       //public int AuthorId { get; set; }
+        public int AuthorId { get; set; }
         public string Name { get; set; }
         public int Age { get; set; }
 

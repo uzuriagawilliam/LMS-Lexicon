@@ -29,10 +29,26 @@ namespace LMS_Lexicon.Controllers
         }
 
         // GET: Authors
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
             var res = await SimpleGet();
             //var res2 = await SimpleGetLiterature();
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                res = res.Where(s => s.Name.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    res = res.OrderByDescending(s => s.Name);
+                    break;
+                default:
+                    res = res.OrderBy(s => s.Name);
+                    break;
+            }
 
             return View(res);
         }
@@ -43,9 +59,20 @@ namespace LMS_Lexicon.Controllers
 
         //    return View(res);
         //}
-        public async Task<IActionResult> LiteratureIndex()
+        public async Task<IActionResult> LiteratureIndex(string sortOrder)
         {            
             var res = await SimpleGetLiterature();
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    res = res.OrderByDescending(s => s.Title);
+                    break;
+                default:
+                    res = res.OrderBy(s => s.Title);
+                    break;
+            }
 
             return View( res);
         }
