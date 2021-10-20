@@ -130,7 +130,7 @@ namespace LMS_Lexicon.Data.Data
         {
             var courses = new List<Course>();
 
-            for (int i =0; i < 20; i++)
+            for (int i =0; i < 3; i++)
             {
                 string coursename = fake.Commerce.ProductName();
                 coursename = coursename.Length < 25 ? coursename : coursename.Substring(0, 25);

@@ -34,6 +34,7 @@ namespace LMS_Lexicon.Controllers
             }
 
             var course = await db.CourseClass
+                .Include(c => c.Modules)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (course == null)
             {
