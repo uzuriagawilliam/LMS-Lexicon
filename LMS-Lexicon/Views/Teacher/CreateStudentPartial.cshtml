@@ -1,6 +1,6 @@
 ﻿@model CreateStudentViewModel;
 @inject ICourseSelectService courseSelect
-
+    <!--Modal-->
 <div class="modal-content">
 
     <!--Modal Header Start-->
@@ -11,10 +11,25 @@
     <!--Modal Header End-->
     @Html.AntiForgeryToken()
     <div id="CreateStudent">
-        <form asp-action="CreateStudent" asp-controller="Teacher" method="post" enctype="multipart/form-data" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
-        @*<form asp-action="CreateStudent" asp-controller="Teacher" method="post" enctype="multipart/form-data">*@
+        <form asp-action="CreateStudent"
+              asp-controller="Teacher"
+              data-ajax="true"
+              data-ajax-method="post"
+              data-ajax-success="fixvalidation"
+              data-ajax-failure="failcreate"
+              data-ajax-update="studentFormCreate"
+              data-ajax-complete="OnComplete">
+            @*<form asp-action="CreateStudent" asp-controller="Teacher" method="post" enctype="multipart/form-data" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">*@
+            @*<form asp-action="CreateStudent" asp-controller="Teacher" method="post" enctype="multipart/form-data">*@
+            @Html.AntiForgeryToken()
+            <div class="alert alert-danger alert-dismissible fade hide" id="AlertDanger" role="alert">
+                @TempData["StudentExists"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="modal-body form-horizontal">
+            <div class="modal-body form-horizontal" id="studentFormCreate">
                 <div class="form-group row">
                     <label asp-for="FirstName" class="col-sm-2 col-form-label"></label>
                     <div class="col-sm-10">
@@ -69,17 +84,40 @@
 </div>
 @section Scripts{
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    (function ($) {
+        <script src="~/js/user.js" asp-append-version="true"></script>
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    @*$.fn.updateValidation = function () {*@
-    var $this = $("CreateStudent");
-    var form = $this.closest("form")
-    .removeData("validator")
-    .removeData("unobtrusiveValidation");
+        @if (@TempData["DisplayModel"] != null)
+        {
+            var modal = @TempData["DisplayModel"].ToString();
 
-    $.validator.unobtrusive.parse(form);
+            <script>
+                (function () {
+                    $.ajax({
+                        type: "GET",
+                        url: "Teacher/CreateStudent",
+                        success: function (res) {
+                            $('#modal-create-user').find(".modal-dialog").html(res);
 
-    return $this;
-    @*};*@
-    })(jQuery)
+                            $("#modal-create-user").modal('show');
+                        }
+                    })
+
+                }(jQuery));
+
+            </script>
+        }
+        <script>
+        @if (@TempData["StudentSuccess"] != null)
+        {
+            @: $('.alert').removeClass('hide');
+            @: $('.alert').addClass('show');
+        }
+        @if (@TempData["StudentExists"] != null)
+        {
+            @: $('.alert').removeClass('hide');
+            @: $('.alert').addClass('show');
+        }
+        </script>
+    }
 }

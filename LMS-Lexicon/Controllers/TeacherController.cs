@@ -27,6 +27,7 @@ namespace LMS_Lexicon.Controllers
             db = context;
         }
         // GET: TeacherController
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Index()
         {
             var studentsList = new List<IndexStudentsViewModel>();
@@ -56,6 +57,7 @@ namespace LMS_Lexicon.Controllers
 
 
         // GET: TeacherController/Details/5
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> DetailsStudent(string id)
         {
             var student = await db.Users
@@ -75,6 +77,7 @@ namespace LMS_Lexicon.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Teacher")]
         public IActionResult CreateStudent()
         {
             return PartialView("CreateStudentPartial");
@@ -88,13 +91,14 @@ namespace LMS_Lexicon.Controllers
         public async Task<IActionResult> CreateStudent(CreateStudentViewModel vm)
         {
             bool userIdExist = false;
-            if (ModelState.IsValid)
+            var userId = await db.Users.Where(u => u.UserName == vm.Email).SingleOrDefaultAsync();
+            if (userId == null)
             {
                 userIdExist = db.Users.Any(u => u.UserName == vm.Email);
 
                 if (userIdExist)
                 {
-                    TempData["StudentExists"] = "The student already exist!";
+                    TempData["StudentExists"] = "Studenten finns redan!";
                     return RedirectToAction(nameof(Index));
                 }
                 else
@@ -114,6 +118,7 @@ namespace LMS_Lexicon.Controllers
                     {
                         var result = await _userManager.CreateAsync(user, vm.Password);
                         var addtoroleresult = await _userManager.AddToRoleAsync(user, "Student");
+                        TempData["StudentSuccess"] = "Studenten " + user.FirstName + " är nu tillagd";
                         return RedirectToAction(nameof(Index));
                         //return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "Index", db.Users.ToList()) });
                     }
@@ -122,62 +127,116 @@ namespace LMS_Lexicon.Controllers
                         throw;
                     }
                 }
-               
-            }
-            userIdExist = db.Users.Any(u => u.UserName == vm.Email);
 
-            if (userIdExist)
-            {
-                TempData["StudentExists"] = "The student already exist!";
-               
             }
-            //return RedirectToAction(nameof(Index));
-            //return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CreateStudentPartial", vm) });
-            //return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "Index", db.Users.ToList()) });
+            else
+            {
+                if (userIdExist)
+                {
+                    TempData["StudentExists"] = "Studenten finns redan!";
+
+                }
+                TempData["DisplayModal"] = "#modal-create-user";
+                return PartialView("CreateStudentPartial");
+                //return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CreateStudentPartial", vm) });
+                //return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "Index", db.Users.ToList()) });
+            }
+            //userIdExist = db.Users.Any(u => u.UserName == vm.Email);
+
+
+        }
+
+        public async Task<IActionResult> EditStudent(string id)
+        {
+            if (id == "")
+            {
+                return NotFound();
+            }
+            var student = await _userManager.FindByIdAsync(id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            CreateStudentViewModel vm = new CreateStudentViewModel
+            {
+                //Id = id,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Email = student.Email,
+                CourseId = student.CourseId,
+                TimeOfRegistration = student.TimeOfRegistration
+            };
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        // GET: TeacherController/Edit/5
+        public async Task<IActionResult> EditStudent(string id, CreateStudentViewModel vm)
+        {
+            var std = await _userManager.FindByIdAsync(id);
+            std.FirstName = vm.FirstName;
+            std.LastName = vm.LastName;
+            std.Email = vm.Email;
+            std.UserName = vm.Email;
+            std.CourseId = vm.CourseId;
+            std.TimeOfRegistration = std.TimeOfRegistration;
+
+            var result = await _userManager.UpdateAsync(std);
+
+            TempData["StudentExists"] = "Studenten " + std.FirstName + " är nu ändrad";
+
             return RedirectToAction(nameof(Index));
         }
 
-
-        // GET: TeacherController/Edit/5
-        public ActionResult EditStudent(string id)
+        [Authorize(Roles = "Teacher")]
+        public async Task<IActionResult> DeleteStudent(string id)
         {
-            return View();
+
+            var std = await _userManager.FindByIdAsync(id);
+            var student = await db.Users
+            .Include(c => c.Course).Where(u => u.Id == std.Id).FirstOrDefaultAsync();
+
+            var model = new StudentDetailsViewModel
+            {
+                Id = student.Id,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Email = student.Email,
+                CourseName = student.Course.CourseName
+            };
+            return View(model);
         }
 
-        // POST: TeacherController/Edit/5
-        [HttpPost]
+        // POST: Activities/Delete/5
+        [HttpPost, ActionName("DeleteStudent")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditStudent(int id, IFormCollection collection)
+        [Authorize(Roles = "Teacher")]
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
-            }
+                var std = await _userManager.FindByIdAsync(id);
+                var result = await _userManager.DeleteAsync(std);
+                if (result.Succeeded)
+                {
+                    TempData["StudentSuccess"] = "Studenten är borttagen ";
+                }
+                else
+                {
+                    TempData["StudenExists"] = "Borttagningen misslyckades ";
+                }
+
+                    return RedirectToAction(nameof(Index));
+                }
             catch
             {
-                return View();
-            }
-        }
-
-        // GET: TeacherController/Delete/5
-        public async Task<IActionResult> Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: TeacherController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
+                throw;
             }
         }
     }
 }
+

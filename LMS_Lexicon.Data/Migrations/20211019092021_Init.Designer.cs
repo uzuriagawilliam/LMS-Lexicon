@@ -4,14 +4,16 @@ using LMS_Lexicon.Data.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LMS_Lexicon.Data.Migrations
 {
     [DbContext(typeof(LmsDbContext))]
-    partial class LmsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211019092021_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -186,7 +188,6 @@ namespace LMS_Lexicon.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("ActivityId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("ApplicationUserId")
@@ -418,9 +419,7 @@ namespace LMS_Lexicon.Data.Migrations
                 {
                     b.HasOne("LMS_Lexicon.Core.Models.Entities.Activity", "Activity")
                         .WithMany("Documents")
-                        .HasForeignKey("ActivityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ActivityId");
 
                     b.HasOne("LMS_Lexicon.Core.Models.Entities.ApplicationUser", "ApplicationUser")
                         .WithMany("Documents")

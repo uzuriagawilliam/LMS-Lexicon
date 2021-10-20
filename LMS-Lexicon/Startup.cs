@@ -26,8 +26,8 @@ namespace LMS_Lexicon
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<LmsDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<ApplicationUser>(options =>

@@ -165,7 +165,7 @@ namespace LMS_Lexicon.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
-        public async Task<IActionResult> CreateModule( Module module)
+        public async Task<IActionResult> CreateModule(Module module)
         {
             if (ModelState.IsValid)
             {
