@@ -135,28 +135,13 @@ namespace LMS_Lexicon.Data.Data
 
             for (int i =0; i < 15; i++)
             {
-                int courseId = db.CourseClass.Select(c => c.Id).FirstOrDefault();
-                string coursename = "";
-                if (courseId == 1)
-                {
-                    coursename = "";
-                }
-                else
-                {
-                    coursename = fake.Commerce.ProductName();
-                    coursename = coursename.Length < 25 ? coursename : coursename.Substring(0, 25);
-                }
+          
+                string coursename = fake.Commerce.ProductName();
+                coursename = coursename.Length < 25 ? coursename : coursename.Substring(0, 25);
 
-                string description = "";
-                if(courseId == 1)
-                {
-                    description = "";
-                }
-                else
-                {
-                    description = fake.Commerce.ProductDescription();
-                    description = description.Length < 45 ? description : description.Substring(0, 45);
-                }
+                string description = fake.Commerce.ProductDescription();
+                description = description.Length < 45 ? description : description.Substring(0, 45);
+
             
                 var course = new Course
                 {
@@ -176,9 +161,9 @@ namespace LMS_Lexicon.Data.Data
         {
             var modules = new List<Module>();
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 5; i++)
             {
-                string name = fake.Commerce.ProductName();
+                string name = fake.Commerce.Department();
                 name = name.Length < 25 ? name : name.Substring(0, 25);
 
                 string description = fake.Lorem.Sentence();
