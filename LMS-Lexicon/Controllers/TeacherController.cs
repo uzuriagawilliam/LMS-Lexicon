@@ -118,7 +118,7 @@ namespace LMS_Lexicon.Controllers
                     {
                         var result = await _userManager.CreateAsync(user, vm.Password);
                         var addtoroleresult = await _userManager.AddToRoleAsync(user, "Student");
-                        TempData["StudentSuccess"] = "Studenten är tillagd!";
+                        TempData["StudentSuccess"] = "Studenten " + user.FirstName + " är nu tillagd";
                         return RedirectToAction(nameof(Index));
                         //return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "Index", db.Users.ToList()) });
                     }
@@ -177,14 +177,7 @@ namespace LMS_Lexicon.Controllers
         // GET: TeacherController/Edit/5
         public async Task<IActionResult> EditStudent(string id, CreateStudentViewModel vm)
         {
-
-
             var std = await _userManager.FindByIdAsync(id);
-
-            //ApplicationUser student = new ApplicationUser();
-
-            //Id = id,
-
             std.FirstName = vm.FirstName;
             std.LastName = vm.LastName;
             std.Email = vm.Email;
@@ -197,20 +190,26 @@ namespace LMS_Lexicon.Controllers
             TempData["StudentExists"] = "Studenten " + std.FirstName + " är nu ändrad";
 
             return RedirectToAction(nameof(Index));
-
-
         }
 
+        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> DeleteStudent(string id)
         {
 
-
             var std = await _userManager.FindByIdAsync(id);
-            return View(std);
+            var student = await db.Users
+            .Include(c => c.Course).Where(u => u.Id == std.Id).FirstOrDefaultAsync();
 
-
+            var model = new StudentDetailsViewModel
+            {
+                Id = student.Id,
+                FirstName = student.FirstName,
+                LastName = student.LastName,
+                Email = student.Email,
+                CourseName = student.Course.CourseName
+            };
+            return View(model);
         }
-
 
         // POST: Activities/Delete/5
         [HttpPost, ActionName("DeleteStudent")]
