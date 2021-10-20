@@ -18,6 +18,8 @@ namespace LMS.Api.Data.Data
 
         public static async Task InitializeAcync(IServiceProvider services)
         {
+            var t1 = new DateTime(1919,01,01);
+            var t2 = new DateTime(1995,12,31);
 
             using var db = new LMS_LexiconApiContext(services.GetRequiredService<DbContextOptions<LMS_LexiconApiContext>>());
 
@@ -48,7 +50,8 @@ namespace LMS.Api.Data.Data
                 {
                     FirstName = faker1.Person.FirstName,
                     LastName = faker1.Person.LastName,
-                    BirthDate = DateTime.Now.AddYears(faker1.Random.Int(-90, -20)),
+                    BirthDate = faker1.Date.Between(t1,t2),
+                    //                    BirthDate = DateTime.Now.AddYears(faker1.Random.Int(-90, -20)),
                     Literatures = GetLiteratures(subjects, sub)
 
                 });

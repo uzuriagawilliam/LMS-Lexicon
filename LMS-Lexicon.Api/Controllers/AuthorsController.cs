@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -8,6 +7,8 @@ using LMS.Api.Core.Entities;
 using LMS_Lexicon.Api.Data.Data;
 using LMS.Api.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using LMS.Api.Core.Dto;
 
 namespace LMS_Lexicon.Api.Controllers
 {
@@ -17,13 +18,30 @@ namespace LMS_Lexicon.Api.Controllers
     {
         private readonly LMS_LexiconApiContext _context;
         private readonly IUoW uow;
+        private readonly IMapper mapper;
 
-        public AuthorsController(IUoW uow, LMS_LexiconApiContext context)
+        public AuthorsController(IUoW uow, LMS_LexiconApiContext context, IMapper mapper)
         {
              this._context = context;
              this.uow = uow;
+             this.mapper = mapper;
+
         }
 
+        // GET: api/Authors
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Author>>> GetAllAuthors()
+        {
+            var author = await uow.AuthorRepository.GetAllAuthors();
+            var authorDto = mapper.Map<IEnumerable<AuthorDto>>(author);
+
+            return Ok(authorDto);
+        }
+ //      var events = await uow.EventRepo.GetAsync(includeLectures);
+//            return Ok(mapper.Map<IEnumerable<CodeEventDto>>(events));
+
+
+        /*
         // GET: api/Authors
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Author>>> GetAllAuthors()
@@ -32,27 +50,27 @@ namespace LMS_Lexicon.Api.Controllers
 
             return Ok(author);
         }
-
+        */
         // GET: api/Authors/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Author>> GetAuthor(int id)
+        [HttpGet("{AuthorId}")]
+        public async Task<ActionResult<Author>> GetAuthor(int AuthorId)
         {
-            var author = await uow.AuthorRepository.FindAsync(id);
+            var author = await uow.AuthorRepository.FindAsync(AuthorId);
 
             if (author == null)
             {
                 return NotFound();
             }
 
-            return author;
+            return Ok(mapper.Map<AuthorDto>(author));
         }
 
         // PUT: api/Authors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutAuthor(int id, Author author)
+        [HttpPut("{AustorId}")]
+        public async Task<IActionResult> PutAuthor(int AuthorId, Author author)
         {
-            if (id != author.AuthorId)
+            if (AuthorId != author.AuthorId)
             {
                 return BadRequest();
             }
@@ -65,7 +83,7 @@ namespace LMS_Lexicon.Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AuthorExists(id))
+                if (!AuthorExists(AuthorId))
                 {
                     return NotFound();
                 }

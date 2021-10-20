@@ -8,22 +8,31 @@ using LMS.Api.Core.Entities;
 using LMS_Lexicon.Api.Data.Data;
 using LMS.Api.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace LMS_Lexicon.Api.Controllers
 {
-    [Route("api/[controller]")]
+ //      [Route("api/authors/{authorId}/litteratures")]
+      [Route("api/[controller]")]
     [ApiController]
     public class LiteraturesController : ControllerBase
     {
         private readonly LMS_LexiconApiContext _context;
         private readonly IUoW uow;
+        private readonly IMapper mapper;
 
         public LiteraturesController(LMS_LexiconApiContext context, IUoW uow)
         {
             _context = context;
             this.uow = uow;
         }
-
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<Literature>>> GetLiteraturesForAuthor(int AuthorID)
+        //{
+        //     var literature = await uow.LiteratureRepository.GetAllLiteratures();
+        //            return Ok(literature);
+        //}
+       
         // GET: api/Literatures
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Literature>>> GetLiteratures()
