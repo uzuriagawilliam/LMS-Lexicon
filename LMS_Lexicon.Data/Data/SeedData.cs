@@ -25,6 +25,7 @@ namespace LMS_Lexicon.Data.Data
             fake = new Faker("sv");
             //db.Database.EnsureDeleted();
             //db.Database.Migrate();
+       
 
             if (await db.Users.AnyAsync()) return;
 
@@ -41,19 +42,11 @@ namespace LMS_Lexicon.Data.Data
                 const string roleName = "Teacher";
                 const string roleStudent = "Student";
 
-            //var role = new IdentityRole { Name = roleName };
-            //var addRoleResult = await roleManager.CreateAsync(role);
-
-            var user = await AddUserAsync(userEmail, userPW);
+                var role = new IdentityRole { Name = roleName };
+                var addRoleResult = await roleManager.CreateAsync(role);
+                var user = await AddUserAsync(userEmail, userPW);
                 await AddToRolesAsync(user, roleName);
-
-                await CreateActivityType(db);
-  
-                var courses = GetCourses();
-                await db.AddRangeAsync(courses);
-
-                await db.SaveChangesAsync();
-
+            
                 var students = GetStudents();
 
                 foreach (var student in students)
@@ -62,6 +55,11 @@ namespace LMS_Lexicon.Data.Data
                     if (!result.Succeeded) throw new Exception(String.Join("\n", result.Errors));
                     await userManager.AddToRoleAsync(student, roleStudent);
                 }
+
+                await CreateActivityType(db);
+                var courses = GetCourses();
+                await db.AddRangeAsync(courses);
+                await db.SaveChangesAsync();
         }
 
         private static async Task CreateActivityType(LmsDbContext db)
@@ -130,8 +128,9 @@ namespace LMS_Lexicon.Data.Data
         {
             var courses = new List<Course>();
 
-            for (int i =0; i < 3; i++)
+            for (int i =0; i < 15; i++)
             {
+                int courseId = db.CourseClass.Select(c => c.Id).FirstOrDefault();
                 string coursename = fake.Commerce.ProductName();
                 coursename = coursename.Length < 25 ? coursename : coursename.Substring(0, 25);
 
@@ -142,8 +141,8 @@ namespace LMS_Lexicon.Data.Data
                     CourseName = coursename,
                     Description = description, 
                     StartDate = System.DateTime.Now.AddDays(fake.Random.Int(-5,5)),
-                    Modules = GetModules(),
-                    Documents = GetDocuments()
+                    Modules = GetModules()
+                    //Documents = GetDocuments()
 
                 };
                 courses.Add(course);
@@ -169,7 +168,7 @@ namespace LMS_Lexicon.Data.Data
                     StartDate = System.DateTime.Now.AddDays(fake.Random.Int(-5, 5)),
                     EndDate = System.DateTime.Now.AddDays(fake.Random.Int(6, 16)),
                     Activities = GetActivities(),
-                    Documents = GetDocuments()
+                    //Documents = GetDocuments()
                 };
                 modules.Add(module);
             }
@@ -196,43 +195,43 @@ namespace LMS_Lexicon.Data.Data
                     StartDate = System.DateTime.Now.AddDays(fake.Random.Int(-5, 5)),
                     EndDate = System.DateTime.Now.AddDays(fake.Random.Int(6, 16)),
                     ActivityTypeId = activitytypeid,
-                    Documents = GetDocuments()
+                    //Documents = GetDocuments()
                 };
                 activities.Add(activity);
             }
             return activities;
         }
 
-        private static ICollection<Document> GetDocuments()
-        {
-            var documents = new List<Document>();
+        //private static ICollection<Document> GetDocuments()
+        //{
+        //    var documents = new List<Document>();
 
-            for (int i = 0; i < 20; i++)
-            {
-                string name = fake.Commerce.ProductName();
-                name = name.Length < 25 ? name : name.Substring(0, 25);
+        //    for (int i = 0; i < 20; i++)
+        //    {
+        //        string name = fake.Commerce.ProductName();
+        //        name = name.Length < 25 ? name : name.Substring(0, 25);
 
-                var document = new Document
-                {
-                    Name = name,
-                    TimeStamp = DateTime.Now.AddDays(fake.Random.Int(1, 10))
-                };
-                documents.Add(document);
-            }
-            return documents;
-        }
+        //        var document = new Document
+        //        {
+        //            Name = name,
+        //            TimeStamp = DateTime.Now.AddDays(fake.Random.Int(1, 10))
+        //        };
+        //        documents.Add(document);
+        //    }
+        //    return documents;
+        //}
 
         private static List<ApplicationUser> GetStudents()
         {
             var students = new List<ApplicationUser>();
 
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 15; i++)
             {
                 var fName = fake.Name.FirstName();
                 var lName = fake.Name.LastName();
                 var email = fake.Internet.Email($"{fName}{lName}");
                 Random rnd = new Random();
-                int courseid = rnd.Next(1, 20);
+                int courseid = rnd.Next(1, 15);
                 var student = new ApplicationUser
                 {
                     FirstName = fName,

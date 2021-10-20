@@ -78,7 +78,7 @@ namespace LMS_Lexicon.Data.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
                     TimeOfRegistration = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: true),
+                    CourseId = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -102,7 +102,7 @@ namespace LMS_Lexicon.Data.Migrations
                         column: x => x.CourseId,
                         principalTable: "CourseClass",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -243,48 +243,6 @@ namespace LMS_Lexicon.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "DocumentClass",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
-                    TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModuleId = table.Column<int>(type: "int", nullable: true),
-                    ActivityId = table.Column<int>(type: "int", nullable: true),
-                    CourseId = table.Column<int>(type: "int", nullable: true),
-                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DocumentClass", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_DocumentClass_ActivityClass_ActivityId",
-                        column: x => x.ActivityId,
-                        principalTable: "ActivityClass",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_DocumentClass_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_DocumentClass_CourseClass_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "CourseClass",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_DocumentClass_ModuleClass_ModuleId",
-                        column: x => x.ModuleId,
-                        principalTable: "ModuleClass",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_ActivityClass_ActivityTypeId",
                 table: "ActivityClass",
@@ -340,26 +298,6 @@ namespace LMS_Lexicon.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DocumentClass_ActivityId",
-                table: "DocumentClass",
-                column: "ActivityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DocumentClass_ApplicationUserId",
-                table: "DocumentClass",
-                column: "ApplicationUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DocumentClass_CourseId",
-                table: "DocumentClass",
-                column: "CourseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_DocumentClass_ModuleId",
-                table: "DocumentClass",
-                column: "ModuleId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_ModuleClass_CourseId",
                 table: "ModuleClass",
                 column: "CourseId");
@@ -367,6 +305,9 @@ namespace LMS_Lexicon.Data.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ActivityClass");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -383,22 +324,16 @@ namespace LMS_Lexicon.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "DocumentClass");
+                name: "ActivityType");
+
+            migrationBuilder.DropTable(
+                name: "ModuleClass");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "ActivityClass");
-
-            migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "ActivityType");
-
-            migrationBuilder.DropTable(
-                name: "ModuleClass");
 
             migrationBuilder.DropTable(
                 name: "CourseClass");
