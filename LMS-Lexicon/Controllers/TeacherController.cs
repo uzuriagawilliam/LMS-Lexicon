@@ -92,7 +92,7 @@ namespace LMS_Lexicon.Controllers
         {
             bool userIdExist = false;
             var userId = await db.Users.Where(u => u.UserName == vm.Email).SingleOrDefaultAsync();
-            if (userId.Email != vm.Email|| userId == null)
+            if (userId == null)
             {
                 userIdExist = db.Users.Any(u => u.UserName == vm.Email);
 
@@ -118,7 +118,7 @@ namespace LMS_Lexicon.Controllers
                     {
                         var result = await _userManager.CreateAsync(user, vm.Password);
                         var addtoroleresult = await _userManager.AddToRoleAsync(user, "Student");
-                        TempData["StudentSuccess"] = "Studenten är tillagd";
+                        TempData["StudentSuccess"] = "Studenten är tillagd!";
                         return RedirectToAction(nameof(Index));
                         //return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "Index", db.Users.ToList()) });
                     }
@@ -133,7 +133,7 @@ namespace LMS_Lexicon.Controllers
             {
                 if (userIdExist)
                 {
-                    TempData["StudentExists"] = "The student already exist!";
+                    TempData["StudentExists"] = "Studenten finns redan!";
 
                 }
                 TempData["DisplayModal"] = "#modal-create-user";
@@ -194,7 +194,7 @@ namespace LMS_Lexicon.Controllers
 
             var result = await _userManager.UpdateAsync(std);
 
-            TempData["StudentExists"] = "User [" + std.FirstName + "] edited";
+            TempData["StudentExists"] = "Studenten " + std.FirstName + " är nu ändrad";
 
             return RedirectToAction(nameof(Index));
 
@@ -206,10 +206,7 @@ namespace LMS_Lexicon.Controllers
 
 
             var std = await _userManager.FindByIdAsync(id);
-
-            var result = await _userManager.DeleteAsync(std);
-            TempData["StudentExists"] = "Delete " + result.ToString();
-            return RedirectToAction(nameof(Index));
+            return View(std);
 
 
         }
