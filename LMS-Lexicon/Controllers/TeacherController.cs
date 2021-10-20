@@ -90,6 +90,7 @@ namespace LMS_Lexicon.Controllers
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> CreateStudent(CreateStudentViewModel vm)
         {
+            bool userIdExist = false;
             var userId = await db.Users.Where(u => u.UserName == vm.Email).SingleOrDefaultAsync();
             if (userId.Email != vm.Email|| userId == null)
             {
@@ -145,8 +146,7 @@ namespace LMS_Lexicon.Controllers
 
         }
 
-        // GET: TeacherController/Edit/5
-        public ActionResult EditStudent(int id)
+        public async Task<IActionResult> EditStudent(string id)
         {
             if (id == "")
             {
@@ -173,10 +173,12 @@ namespace LMS_Lexicon.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Teacher")]
+
         // GET: TeacherController/Edit/5
         public async Task<IActionResult> EditStudent(string id, CreateStudentViewModel vm)
         {
+
+
             var std = await _userManager.FindByIdAsync(id);
 
             //ApplicationUser student = new ApplicationUser();
@@ -191,28 +193,25 @@ namespace LMS_Lexicon.Controllers
             std.TimeOfRegistration = std.TimeOfRegistration;
 
             var result = await _userManager.UpdateAsync(std);
-            TempData["StudentSuccess"] = "User [" + std.FirstName + "] edited";
+
+            TempData["StudentExists"] = "User [" + std.FirstName + "] edited";
 
             return RedirectToAction(nameof(Index));
+
+
         }
 
-        [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> DeleteStudent(string id)
         {
 
-            var std = await _userManager.FindByIdAsync(id);
-            var student = await db.Users
-            .Include(c => c.Course).Where(u => u.Id == std.Id).FirstOrDefaultAsync();
 
-            var model = new StudentDetailsViewModel
-            {
-                Id = student.Id,
-                FirstName = student.FirstName,
-                LastName = student.LastName,
-                Email = student.Email,
-                CourseName = student.Course.CourseName
-            };
-            return View(model);
+            var std = await _userManager.FindByIdAsync(id);
+
+            var result = await _userManager.DeleteAsync(std);
+            TempData["StudentExists"] = "Delete " + result.ToString();
+            return RedirectToAction(nameof(Index));
+
+
         }
 
 
