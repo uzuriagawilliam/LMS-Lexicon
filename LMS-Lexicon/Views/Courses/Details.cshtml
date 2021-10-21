@@ -6,39 +6,44 @@
 
 <h1>Details</h1>
 
-<div>
-    
-    <button type="button" class="btn btn-info text-danger"> <a asp-action="Create" asp-controller="Modules" asp-route-courseId="@Model.Id">Skapa Modules</a></button>
-</div>
+
 
 <div class="accordion" id="accordionExample">
     <div class="card">
         <div class="card-header" id="headingOne">
             <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                   @Model.CourseName
+                    <h4>Course :  @Model.CourseName</h4>
+                   
+                    <p>Start Date : @Model.StartDate </p>
+                    
+
                 </button>
             </h2>
-        </div>
-
-        @*<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-            <div class="card-body">
-              -
-            @Model.Description
+            <div>
+                
+                 <a asp-action="Create" class="btn btn-success" asp-controller="Modules" asp-route-courseId="@Model.Id">Skapa Modules+</a>
             </div>
-        </div>*@
-    @*</div>*@
-    @*<div class="card">
+        </div>
+       
+
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+                <p>Description :  @Model.Description </p>
+            </div>
+        </div>
+    </div>
+    <div class="card">
         <div class="card-header" id="headingOne">
             <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    @Model.CourseName
+                    Description
                 </button>
             </h2>
         </div>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
             <div class="card-body">
-                Front End Modules
+                Beskrivning
             </div>
         </div>
     </div>
@@ -46,20 +51,33 @@
         <div class="card-header" id="headingThree">
             <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    @Model.Description
+                    Mudules
                 </button>
             </h2>
         </div>
         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
             <div class="card-body">
-                 Document
+                Moduls lista
+                @foreach (var moodule in Model.Modules)
+            {
+                <div>
+                    <h2>@moodule.Name</h2>
+                    @*<h2>@moodule.Id</h2>*@
+                   
+
+
+                    
+                    
+
+                </div>
+            }
             </div>
-        </div>*@
+        </div>
     </div>
 </div>
 
 
-<div>
+@*<div>
     <h4>Course</h4>
     <hr />
     <dl class="row">
@@ -83,7 +101,7 @@
         </dd>
     </dl>
 </div>
-<div>
+<div>*@
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
-</div>
+

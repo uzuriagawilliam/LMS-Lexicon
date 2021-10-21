@@ -4,10 +4,10 @@
     ViewData["Title"] = "Courses";
 }
 
-<h1>Index</h1>
+<h1>Courses</h1>
 
 <p>
-    <a asp-action="Create">Lägg till kurse</a>
+    <a asp-action="Create" class="btn btn-success">Lägg till kurse+</a>
     @*<a class="btn btn-success text-white popup" data-url="Teacher/CreateStudent" data-toggle="modal" data-target="#modal-create-user" id="UserModel">Lägg till kurs <i class="fa fa-plus"></i></a>*@
 </p>
 
@@ -39,9 +39,9 @@
                 @Html.DisplayFor(modelItem => item.StartDate)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-dark">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-dark" >Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id " class="btn btn-danger">Delete</a>
             </td>
         </tr>
 }
