@@ -25,7 +25,7 @@ namespace LMS_Lexicon.Core.Models.Entities
         public int ModuleId { get; set; }
 
         //Navigation property
-        //public ICollection<Document> Documents { get; set; }
+        public ICollection<Document> Documents { get; set; }
         public ActivityType ActivityType { get; set; }
         public Module Module { get; set; }
     }

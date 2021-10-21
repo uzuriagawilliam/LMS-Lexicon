@@ -49,13 +49,6 @@ namespace LMS_Lexicon.Data.Data
                 await db.AddRangeAsync(courses);
                 await db.SaveChangesAsync();
 
-                var user = await userManager.FindByEmailAsync(userEmail);
-                    if (user == null)
-                    {
-                        user = await AddUserAsync(userEmail, userPW);
-                        await AddToRolesAsync(user, roleName);
-                    }
-
                 var students = GetStudents();
 
                 foreach (var student in students)
@@ -135,7 +128,6 @@ namespace LMS_Lexicon.Data.Data
 
             for (int i =0; i < 15; i++)
             {
-          
                 string coursename = fake.Commerce.ProductName();
                 coursename = coursename.Length < 25 ? coursename : coursename.Substring(0, 25);
 
