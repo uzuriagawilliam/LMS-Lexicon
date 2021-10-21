@@ -57,7 +57,14 @@ namespace LMS_Lexicon.Data.Data
 
                 await db.SaveChangesAsync();
 
-                var students = GetStudents();
+            var user = await userManager.FindByEmailAsync(userEmail);
+            if (user == null)
+            {
+                user = await AddUserAsync(userEmail, userPW);
+                await AddToRolesAsync(user, roleName);
+            }
+
+            var students = GetStudents();
 
                 foreach (var student in students)
                 {
@@ -133,13 +140,14 @@ namespace LMS_Lexicon.Data.Data
         {
             var courses = new List<Course>();
 
-            for (int i =0; i < 20; i++)
+            for (int i =0; i < 3; i++)
             {
                 string coursename = fake.Commerce.ProductName();
                 coursename = coursename.Length < 25 ? coursename : coursename.Substring(0, 25);
 
                 string description = fake.Commerce.ProductDescription();
                 description = description.Length < 45 ? description : description.Substring(0, 45);
+
                 var course = new Course
                 {
                     CourseName = coursename,
@@ -150,6 +158,7 @@ namespace LMS_Lexicon.Data.Data
                 };
                 courses.Add(course);
             }
+
             return courses;
         }
 

@@ -34,6 +34,7 @@ namespace LMS_Lexicon.Controllers
             }
 
             var course = await db.CourseClass
+                .Include(c => c.Modules)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (course == null)
             {
@@ -164,7 +165,7 @@ namespace LMS_Lexicon.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
-        public async Task<IActionResult> CreateModule( Module module)
+        public async Task<IActionResult> CreateModule(Module module)
         {
             if (ModelState.IsValid)
             {

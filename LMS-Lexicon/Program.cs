@@ -24,7 +24,7 @@ namespace LMS_Lexicon
 
                 //dotnet user-secrets set "AdminPW" "BytMig123!"
                 var config = services.GetRequiredService<IConfiguration>();
-                //var userPW = config["UserPW"];
+               // var userPW = config["UserPW"];
                 var userPW = "PassWord";
 
 
@@ -34,7 +34,7 @@ namespace LMS_Lexicon
                 }
                 catch (Exception ex)
                 {
-                    throw;
+                    //throw;
                 }
 
             }
