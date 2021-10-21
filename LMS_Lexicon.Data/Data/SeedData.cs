@@ -142,7 +142,6 @@ namespace LMS_Lexicon.Data.Data
                 string description = fake.Commerce.ProductDescription();
                 description = description.Length < 45 ? description : description.Substring(0, 45);
 
-            
                 var course = new Course
                 {
                     CourseName = coursename,
