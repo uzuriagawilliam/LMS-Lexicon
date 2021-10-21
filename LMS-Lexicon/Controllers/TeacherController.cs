@@ -160,6 +160,7 @@ namespace LMS_Lexicon.Controllers
 
             CreateStudentViewModel vm = new CreateStudentViewModel
             {
+              
                 FirstName = student.FirstName,
                 LastName = student.LastName,
                 Email = student.Email,

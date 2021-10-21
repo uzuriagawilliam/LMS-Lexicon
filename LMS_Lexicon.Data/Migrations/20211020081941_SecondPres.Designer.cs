@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LMS_Lexicon.Data.Migrations
 {
     [DbContext(typeof(LmsDbContext))]
-    [Migration("20211020155110_Init")]
-    partial class Init
+    [Migration("20211020081941_SecondPres")]
+    partial class SecondPres
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -87,7 +87,7 @@ namespace LMS_Lexicon.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CourseId")
+                    b.Property<int?>("CourseId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -178,6 +178,47 @@ namespace LMS_Lexicon.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CourseClass");
+                });
+
+            modelBuilder.Entity("LMS_Lexicon.Core.Models.Entities.Document", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ActivityId")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ModuleId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActivityId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("ModuleId");
+
+                    b.ToTable("DocumentClass");
                 });
 
             modelBuilder.Entity("LMS_Lexicon.Core.Models.Entities.Module", b =>
@@ -370,11 +411,38 @@ namespace LMS_Lexicon.Data.Migrations
                 {
                     b.HasOne("LMS_Lexicon.Core.Models.Entities.Course", "Course")
                         .WithMany("ApplicationUsers")
-                        .HasForeignKey("CourseId")
+                        .HasForeignKey("CourseId");
+
+                    b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("LMS_Lexicon.Core.Models.Entities.Document", b =>
+                {
+                    b.HasOne("LMS_Lexicon.Core.Models.Entities.Activity", "Activity")
+                        .WithMany("Documents")
+                        .HasForeignKey("ActivityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("LMS_Lexicon.Core.Models.Entities.ApplicationUser", "ApplicationUser")
+                        .WithMany("Documents")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("LMS_Lexicon.Core.Models.Entities.Course", "Course")
+                        .WithMany("Documents")
+                        .HasForeignKey("CourseId");
+
+                    b.HasOne("LMS_Lexicon.Core.Models.Entities.Module", "Module")
+                        .WithMany("Documents")
+                        .HasForeignKey("ModuleId");
+
+                    b.Navigation("Activity");
+
+                    b.Navigation("ApplicationUser");
+
                     b.Navigation("Course");
+
+                    b.Navigation("Module");
                 });
 
             modelBuilder.Entity("LMS_Lexicon.Core.Models.Entities.Module", b =>
@@ -439,14 +507,26 @@ namespace LMS_Lexicon.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("LMS_Lexicon.Core.Models.Entities.Activity", b =>
+                {
+                    b.Navigation("Documents");
+                });
+
             modelBuilder.Entity("LMS_Lexicon.Core.Models.Entities.ActivityType", b =>
                 {
                     b.Navigation("Activities");
                 });
 
+            modelBuilder.Entity("LMS_Lexicon.Core.Models.Entities.ApplicationUser", b =>
+                {
+                    b.Navigation("Documents");
+                });
+
             modelBuilder.Entity("LMS_Lexicon.Core.Models.Entities.Course", b =>
                 {
                     b.Navigation("ApplicationUsers");
+
+                    b.Navigation("Documents");
 
                     b.Navigation("Modules");
                 });
@@ -454,6 +534,8 @@ namespace LMS_Lexicon.Data.Migrations
             modelBuilder.Entity("LMS_Lexicon.Core.Models.Entities.Module", b =>
                 {
                     b.Navigation("Activities");
+
+                    b.Navigation("Documents");
                 });
 #pragma warning restore 612, 618
         }
