@@ -44,9 +44,6 @@ namespace LMS_Lexicon.Data.Data
             //var role = new IdentityRole { Name = roleName };
             //var addRoleResult = await roleManager.CreateAsync(role);
 
-            var user = await AddUserAsync(userEmail, userPW);
-                await AddToRolesAsync(user, roleName);
-
                 await CreateActivityType(db);
   
                 var courses = GetCourses();
