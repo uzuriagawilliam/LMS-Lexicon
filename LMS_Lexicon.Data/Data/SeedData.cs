@@ -21,49 +21,55 @@ namespace LMS_Lexicon.Data.Data
         {
             if (string.IsNullOrWhiteSpace(userPW)) throw new Exception("Cant get password from config");
             if (context is null) throw new NullReferenceException(nameof(LmsDbContext));
+            db = context;
+            fake = new Faker("sv");
+            //db.Database.EnsureDeleted();
+            //db.Database.Migrate();
+       
 
-            roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-            if (roleManager is null) throw new NullReferenceException(nameof(RoleManager<IdentityRole>));
+            if (await db.Users.AnyAsync()) return;
 
-            userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-            if (userManager is null) throw new NullReferenceException(nameof(UserManager<ApplicationUser>));
+                userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                if (userManager is null) throw new NullReferenceException(nameof(UserManager<ApplicationUser>));
+                roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                if (roleManager is null) throw new NullReferenceException(nameof(RoleManager<IdentityRole>));
 
-            var roleNames = new[] { "Student", "Teacher" };
-            var userEmail = "test2@lms.se";
+                var roleNames = new[] { "Student", "Teacher" };
+                var userEmail = "test2@lms.se";
 
-            using (var db = services.GetRequiredService<LmsDbContext>())
-            {
-                //db.Database.EnsureDeleted();
-                //db.Database.Migrate();
-
-                if (await db.Users.AnyAsync()) return;
-
-                const string roleName = "Student";
-
-                var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-
-                var role = new IdentityRole { Name = roleName };
-                var addRoleResult = await roleManager.CreateAsync(role);
-
-                fake = new  Faker("sv");
                 await AddRolesAsync(roleNames);
 
-                var user = await AddUserAsync(userEmail, userPW);
-                await AddToRolesAsync(user, roleNames);
+                const string roleName = "Teacher";
+                const string roleStudent = "Student";
 
+                //var role = new IdentityRole { Name = roleName };
+                //var addRoleResult = await roleManager.CreateAsync(role);
                 await CreateActivityType(db);
-  
                 var courses = GetCourses();
                 await db.AddRangeAsync(courses);
-
                 await db.SaveChangesAsync();
-            }
+
+                var user = await userManager.FindByEmailAsync(userEmail);
+                    if (user == null)
+                    {
+                        user = await AddUserAsync(userEmail, userPW);
+                        await AddToRolesAsync(user, roleName);
+                    }
+
+                var students = GetStudents();
+
+                foreach (var student in students)
+                {
+                    var result = await userManager.CreateAsync(student, userPW);
+                    if (!result.Succeeded) throw new Exception(String.Join("\n", result.Errors));
+                    await userManager.AddToRoleAsync(student, roleStudent);
+                }
         }
 
         private static async Task CreateActivityType(LmsDbContext db)
         {
             var activitytypes = new List<ActivityType>();
+            var fake = new Faker("sv");
 
             for (int i = 0; i < 5; i++)
             {
@@ -80,7 +86,6 @@ namespace LMS_Lexicon.Data.Data
             }
             await db.AddRangeAsync(activitytypes);
             await db.SaveChangesAsync();
-
         }
 
         private static async Task AddRolesAsync(string[] roleNames)
@@ -95,16 +100,12 @@ namespace LMS_Lexicon.Data.Data
             }
         }
 
-        private static async Task AddToRolesAsync(ApplicationUser user, string[] roleNames)
+        private static async Task AddToRolesAsync(ApplicationUser user, string roleName)
         {
             if (user is null) throw new NullReferenceException(nameof(user));
 
-            foreach (var role in roleNames)
-            {
-                if (await userManager.IsInRoleAsync(user, role)) continue;
-                var result = await userManager.AddToRoleAsync(user, role);
+                var result = await userManager.AddToRoleAsync(user, roleName);
                 if (!result.Succeeded) throw new Exception(string.Join("\n", result.Errors));
-            }
         }
         private static async Task<ApplicationUser> AddUserAsync(string userEmail, string userPW)
         {
@@ -118,8 +119,8 @@ namespace LMS_Lexicon.Data.Data
                 LastName = fake.Person.LastName,
                 UserName = userEmail,
                 Email = userEmail,
-               
-                TimeOfRegistration = DateTime.Now
+                TimeOfRegistration = DateTime.Now,
+                CourseId = 1
             };
 
             var result = await userManager.CreateAsync(user, userPW);
@@ -132,26 +133,27 @@ namespace LMS_Lexicon.Data.Data
         {
             var courses = new List<Course>();
 
-            for (int i =0; i < 20; i++)
+            for (int i =0; i < 15; i++)
             {
+          
                 string coursename = fake.Commerce.ProductName();
                 coursename = coursename.Length < 25 ? coursename : coursename.Substring(0, 25);
 
                 string description = fake.Commerce.ProductDescription();
                 description = description.Length < 45 ? description : description.Substring(0, 45);
+
+            
                 var course = new Course
                 {
                     CourseName = coursename,
                     Description = description, 
                     StartDate = System.DateTime.Now.AddDays(fake.Random.Int(-5,5)),
-                    Modules = GetModules(),
-                    Documents = GetDocuments()
+                    Modules = GetModules()
+                    //Documents = GetDocuments()
 
                 };
                 courses.Add(course);
-
             }
-
             return courses;
         }
 
@@ -159,9 +161,9 @@ namespace LMS_Lexicon.Data.Data
         {
             var modules = new List<Module>();
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 5; i++)
             {
-                string name = fake.Commerce.ProductName();
+                string name = fake.Commerce.Department();
                 name = name.Length < 25 ? name : name.Substring(0, 25);
 
                 string description = fake.Lorem.Sentence();
@@ -173,7 +175,7 @@ namespace LMS_Lexicon.Data.Data
                     StartDate = System.DateTime.Now.AddDays(fake.Random.Int(-5, 5)),
                     EndDate = System.DateTime.Now.AddDays(fake.Random.Int(6, 16)),
                     Activities = GetActivities(),
-                    Documents = GetDocuments()
+                    //Documents = GetDocuments()
                 };
                 modules.Add(module);
             }
@@ -200,30 +202,57 @@ namespace LMS_Lexicon.Data.Data
                     StartDate = System.DateTime.Now.AddDays(fake.Random.Int(-5, 5)),
                     EndDate = System.DateTime.Now.AddDays(fake.Random.Int(6, 16)),
                     ActivityTypeId = activitytypeid,
-                    Documents = GetDocuments()
+                    //Documents = GetDocuments()
                 };
                 activities.Add(activity);
             }
             return activities;
         }
 
-        private static ICollection<Document> GetDocuments()
+        //private static ICollection<Document> GetDocuments()
+        //{
+        //    var documents = new List<Document>();
+
+        //    for (int i = 0; i < 20; i++)
+        //    {
+        //        string name = fake.Commerce.ProductName();
+        //        name = name.Length < 25 ? name : name.Substring(0, 25);
+
+        //        var document = new Document
+        //        {
+        //            Name = name,
+        //            TimeStamp = DateTime.Now.AddDays(fake.Random.Int(1, 10))
+        //        };
+        //        documents.Add(document);
+        //    }
+        //    return documents;
+        //}
+
+        private static List<ApplicationUser> GetStudents()
         {
-            var documents = new List<Document>();
+            var students = new List<ApplicationUser>();
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 15; i++)
             {
-                string name = fake.Commerce.ProductName();
-                name = name.Length < 25 ? name : name.Substring(0, 25);
-
-                var document = new Document
+                var fName = fake.Name.FirstName();
+                var lName = fake.Name.LastName();
+                var email = fake.Internet.Email($"{fName}{lName}");
+                Random rnd = new Random();
+                int courseid = rnd.Next(1, 15);
+                var student = new ApplicationUser
                 {
-                    Name = name,
-                    TimeStamp = System.DateTime.Now.AddDays(fake.Random.Int(1, 10))
+                    FirstName = fName,
+                    LastName = lName,
+                    Email = email,
+                    UserName = email,
+                    TimeOfRegistration = DateTime.Now.AddDays(fake.Random.Int(-30, 0)),
+                    CourseId = courseid
+
                 };
-                documents.Add(document);
+                students.Add(student);
             }
-            return documents;
+
+            return students;
         }
     }
 }

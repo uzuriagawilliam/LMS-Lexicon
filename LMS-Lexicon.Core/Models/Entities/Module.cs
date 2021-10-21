@@ -24,7 +24,7 @@ namespace LMS_Lexicon.Core.Models.Entities
         //Forign Key
         public int CourseId { get; set; }
         //NAV Properties
-        public ICollection<Document> Documents { get; set; }
+        //public ICollection<Document> Documents { get; set; }
         public ICollection<Activity> Activities { get; set; }
         public Course Course { get; set; }
     }

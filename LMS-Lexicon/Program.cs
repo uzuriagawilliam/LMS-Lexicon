@@ -1,5 +1,6 @@
 using LMS_Lexicon.Data.Data;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -18,8 +19,8 @@ namespace LMS_Lexicon
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<LmsDbContext>();
 
-                //context.Database.EnsureDeleted();
-                //context.Database.Migrate();
+                context.Database.EnsureDeleted();
+                context.Database.Migrate();
 
                 //dotnet user-secrets set "AdminPW" "BytMig123!"
                 var config = services.GetRequiredService<IConfiguration>();

@@ -1,13 +1,13 @@
-﻿@model IEnumerable<LMS_Lexicon.Core.Models.Entities.Module>
+﻿@model IEnumerable<LMS_Lexicon.Core.Models.Entities.Activity>
 
 @{
-    ViewData["Title"] = "Modules";
+    ViewData["Title"] = "Index";
 }
 
-<h1>Modules</h1>
+<h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Skapa Modules</a>
+    <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -25,7 +25,10 @@
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Course)
+                @Html.DisplayNameFor(model => model.ActivityType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Module)
             </th>
             <th></th>
         </tr>
@@ -46,7 +49,10 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Course.CourseName)
+                @Html.DisplayFor(modelItem => item.ActivityType.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Module.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

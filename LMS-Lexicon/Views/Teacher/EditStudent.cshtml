@@ -2,18 +2,18 @@
 @inject ICourseSelectService courseSelect
 
 @{
-    ViewData["Title"] = "CreateStudent";
+    ViewData["Title"] = "EditStudent";
 }
 
-<h1>CreateStudent</h1>
+<h1>Ändra Student</h1>
 
-<h4>CreateStudentViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CreateStudent">
+        <form asp-action="EditStudent">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <input type="hidden" asp-for="Id" class="form-control" />
                 <label asp-for="FirstName" class="control-label"></label>
                 <input asp-for="FirstName" class="form-control" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
@@ -28,11 +28,11 @@
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <label asp-for="CourseId" class="control-label"></label>
                 <select asp-for="CourseId" asp-items="@await courseSelect.GetCoursesAsync()" class="form-control">
@@ -41,7 +41,7 @@
                 <span asp-validation-for="CourseId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Edit" class="btn btn-primary" />
             </div>
         </form>
     </div>
