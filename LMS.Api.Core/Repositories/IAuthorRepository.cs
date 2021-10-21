@@ -17,5 +17,7 @@ namespace LMS.Api.Core.Repository
         void Update(Author author);
         void Remove(Author author);
         public bool Any(int? id);
+        Task <Author> GetAuthorByName(string name);
+        Task<IEnumerable<Author>> GetAllAuthors(bool includeincludeLiterature);
     }
 }

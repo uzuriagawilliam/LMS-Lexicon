@@ -6,9 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using LMS.Api.Core.Entities;
 using LMS_Lexicon.Api.Data.Data;
 using LMS.Api.Core.Repositories;
-using Microsoft.EntityFrameworkCore;
+using LMS_Lexicon.Api.Dtos;
 using AutoMapper;
-using LMS.Api.Core.Dto;
+using System.Collections;
+using LMS_Lexicon.Api.Core.Dtos;
 
 namespace LMS_Lexicon.Api.Controllers
 {
@@ -44,11 +45,26 @@ namespace LMS_Lexicon.Api.Controllers
         /*
         // GET: api/Authors
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Author>>> GetAllAuthors()
+        public async Task<ActionResult<IEnumerable<AuthorsDto>>> GetAllAuthors(bool includeLiterature)
+        
         {
-            var author = await uow.AuthorRepository.GetAllAuthors();            
+            //Return AuthorsDto
+            if (includeLiterature)
+            {
+                var author = await uow.AuthorRepository.GetAllAuthors(includeLiterature);
 
-            return Ok(author);
+                var dto = mapper.Map<IEnumerable<AuthorsDto>>(author); 
+
+                return Ok(dto);
+            }
+            else
+            {
+                var author = await uow.AuthorRepository.GetAllAuthors();                
+ 
+                var dto = mapper.Map<IEnumerable<AuthorsDto>>(author);
+
+                return Ok(dto);                
+            }           
         }
         */
         // GET: api/Authors/5

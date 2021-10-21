@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using LMS.Api.Core.Dto;
 using LMS.Api.Core.Entities;
+using LMS_Lexicon.Api.Core.Dtos;
+using LMS_Lexicon.Api.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,16 +16,17 @@ namespace LMS.Api.Data.Data
     {
         public MapperProfile()
         {
-            CreateMap<Author, AuthorDto>()
+            //CreateMap<Author, AuthorsDto>().ReverseMap();
+            CreateMap<Author, AuthorsDto>()
                 .ForMember(
-                dest => dest.FullName,
+                dest => dest.Name,
                 opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"))
                 .ForMember(
-                dest => dest.AuthorAge,
+                dest => dest.Age,
                 opt => opt.MapFrom(src => src.BirthDate.GetCurrentAge()));
-            //           CreateMap<Author, AuthorDto>().ReverseMap();
+            
             CreateMap<Literature, LiteratureDto>().ReverseMap();
         }
-
+        
     }
 }

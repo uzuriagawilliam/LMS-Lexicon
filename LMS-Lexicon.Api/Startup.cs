@@ -33,7 +33,8 @@ namespace LMS_Lexicon.Api
         {
 
             services.AddControllers(opt => opt.ReturnHttpNotAcceptable = true)
-                .AddNewtonsoftJson()
+                .AddNewtonsoftJson(opt => 
+                opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
                 .AddXmlDataContractSerializerFormatters();
             services.AddSwaggerGen(c =>
            {
@@ -41,6 +42,9 @@ namespace LMS_Lexicon.Api
             });
 
             services.AddScoped<IUoW, UoW>();
+
+            //services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(MapperProfile));
 
             services.AddDbContext<LMS_LexiconApiContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("LMS_LexiconApiContext")));

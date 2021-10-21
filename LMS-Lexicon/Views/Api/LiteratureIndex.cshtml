@@ -1,0 +1,44 @@
+﻿@model IEnumerable<LiteratureDto>
+
+@{
+    ViewData["Title"] = "API Literature View";
+}
+
+<h1>Api Literature View</h1>
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Title)*@
+                @Html.ActionLink("Title", "LiteratureIndex", new { sortOrder = ViewBag.NameSortParm })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.Authors)
+            </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Authors)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
