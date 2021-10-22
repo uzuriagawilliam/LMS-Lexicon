@@ -62,7 +62,7 @@ namespace LMS_Lexicon.Controllers
             {
                 _context.Add(@module);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Courses", new { id = module.CourseId, expandedModule = true });
             }
             ViewData["CourseId"] = new SelectList(_context.CourseClass, "Id", "CourseName", @module.CourseId);
             return View(@module);
