@@ -11,5 +11,7 @@ namespace LMS_Lexicon.Core.Models.ViewModels
         public string LastName { get; set; }
         public string Role { get; set; }
 
+        public IEnumerable<IndexUsersViewModel> UserList { get; set; }
+
     }
 }

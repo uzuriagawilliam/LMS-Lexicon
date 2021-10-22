@@ -30,29 +30,33 @@ namespace LMS_Lexicon.Controllers
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Index()
         {
-            var studentsList = new List<IndexStudentsViewModel>();
-            var students = await db.Users
+            var usersList = new List<IndexUsersViewModel>();
+            var users = await db.Users
                 .Include(c => c.Course).OrderBy(u => u.FirstName).ToListAsync();
 
-            foreach (var student in students)
+            foreach (var u in users)
             {
 
-                var user = await db.Users.Where(x => x.Id == student.Id).FirstOrDefaultAsync();
-                var role = await _userManager.GetRolesAsync(user);
+                var currentuser = await db.Users.Where(x => x.Id == u.Id).FirstOrDefaultAsync();
+                var role = await _userManager.GetRolesAsync(currentuser);
 
                 if (role.Single() == "Student")
                 {
-                    studentsList.Add(new IndexStudentsViewModel
+                    usersList.Add(new IndexUsersViewModel
                     {
-                        Id = student.Id,
-                        FirstName = student.FirstName,
-                        LastName = student.LastName,
-                        Email = student.Email,
-                        CourseName = student.Course.CourseName
+                        Id = u.Id,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Email = u.Email,
+                        CourseName = u.Course.CourseName,
+                        Role = role[0]
                     });
                 }
             }
-            return View(studentsList);
+            var model = new IndexViewModel();
+            model.UserList = usersList;
+
+            return View(model);
         }
 
 
@@ -91,6 +95,7 @@ namespace LMS_Lexicon.Controllers
         public async Task<IActionResult> CreateStudent(CreateStudentViewModel vm)
         {
             bool userIdExist = false;
+            string defaultpassword = "PassWord";
             var userId = await db.Users.Where(u => u.UserName == vm.Email).SingleOrDefaultAsync();
             if (userId == null)
             {
@@ -99,51 +104,77 @@ namespace LMS_Lexicon.Controllers
                 if (userIdExist)
                 {
                     TempData["StudentExists"] = "Studenten finns redan!";
-                    return RedirectToAction(nameof(Index));
+                    var model = await GetUsers();
+                    return PartialView("UsersPartial");
                 }
                 else
                 {
-                    var user = new ApplicationUser
+                    if (ModelState.IsValid)
                     {
-                        FirstName = vm.FirstName,
-                        LastName = vm.LastName,
-                        Email = vm.Email,
-                        UserName = vm.Email,
-                        CourseId = vm.CourseId,
-                        TimeOfRegistration = DateTime.Now
-                    };
-
-
-                    try
-                    {
-                        var result = await _userManager.CreateAsync(user, vm.Password);
-                        var addtoroleresult = await _userManager.AddToRoleAsync(user, "Student");
-                        TempData["StudentSuccess"] = "Studenten " + user.FirstName + " är nu tillagd";
-                        return RedirectToAction(nameof(Index));
-                        //return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "Index", db.Users.ToList()) });
+                        var user = new ApplicationUser
+                        {
+                            FirstName = vm.FirstName,
+                            LastName = vm.LastName,
+                            Email = vm.Email,
+                            UserName = vm.Email,
+                            CourseId = vm.CourseId,
+                            TimeOfRegistration = DateTime.Now
+                        };
+                        try
+                        {
+                            var result = await _userManager.CreateAsync(user, defaultpassword);
+                            var addtoroleresult = await _userManager.AddToRoleAsync(user, "Student");
+                            TempData["StudentSuccess"] = "Studenten " + user.FirstName + " är nu tillagd";
+                            var model = await GetUsers();
+                            return PartialView("UsersPartial", model);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw;
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        throw;
-                    }
+                    var defaultmodel = await GetUsers();
+                    return PartialView("UsersPartial", defaultmodel);
+
                 }
-
             }
             else
             {
                 if (userIdExist)
                 {
                     TempData["StudentExists"] = "Studenten finns redan!";
-
                 }
                 TempData["DisplayModal"] = "#modal-create-user";
-                return PartialView("CreateStudentPartial");
-                //return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "CreateStudentPartial", vm) });
-                //return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "Index", db.Users.ToList()) });
+                var model = await GetUsers();
+                return PartialView("UsersPartial", model);
             }
-            //userIdExist = db.Users.Any(u => u.UserName == vm.Email);
+        }
 
+        private async Task<IEnumerable<IndexUsersViewModel>> GetUsers()
+        {
+            var usersList = new List<IndexUsersViewModel>();
+            var users = await db.Users
+                .Include(c => c.Course).OrderBy(u => u.FirstName).ToListAsync();
 
+            foreach (var u in users)
+            {
+                var currentuser = await db.Users.Where(x => x.Id == u.Id).FirstOrDefaultAsync();
+                var role = await _userManager.GetRolesAsync(currentuser);
+
+                if (role.Single() == "Student")
+                {
+                    usersList.Add(new IndexUsersViewModel
+                    {
+                        Id = u.Id,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Email = u.Email,
+                        CourseName = u.Course.CourseName,
+                        Role = role[0]
+                    });
+                }
+            }
+            return usersList;
         }
 
         public async Task<IActionResult> EditStudent(string id)
@@ -160,7 +191,6 @@ namespace LMS_Lexicon.Controllers
 
             CreateStudentViewModel vm = new CreateStudentViewModel
             {
-              
                 FirstName = student.FirstName,
                 LastName = student.LastName,
                 Email = student.Email,

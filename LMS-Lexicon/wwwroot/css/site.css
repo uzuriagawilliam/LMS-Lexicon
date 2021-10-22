@@ -24,6 +24,13 @@ a {
   border-color: #1861ac;
 }
 
+.navbar-expand-md .navbar-nav .dropdown-menu {
+    position: absolute !important;
+}
+.mb-3, .my-3 {
+    margin-bottom: 0 rem !important;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {

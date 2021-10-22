@@ -1,0 +1,57 @@
+﻿@model IEnumerable<IndexUsersViewModel>
+@if (TempData["StudentSuccess"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade hide" id="AlertDanger" role="alert">
+        @TempData["StudentSuccess"].ToString()
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+@if (TempData["StudentExists"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade hide" id="AlertDanger" role="alert">
+        @TempData["StudentExists"].ToString()
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.FirstName)</th>
+            <th>@Html.DisplayNameFor(model => model.LastName)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                <td> @Html.DisplayFor(modelItem => item.LastName)</td>
+                <td>
+                    <a asp-action="EditStudent" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a> |
+                    <a asp-action="DetailsStudent" asp-route-id="@item.Id"><i class="fas fa-sticky-note"></i></a> |
+                    <a asp-action="DeleteStudent" asp-route-id="@item.Id"><i class="fas fa-trash-alt"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <script>
+   @if(@TempData["StudentSuccess"] != null)
+    {
+    @: $('.alert').removeClass('hide');
+    @: $('.alert').addClass('show');
+    }
+   @if(@TempData["StudentExists"] != null)
+    {
+    @: $('.alert').removeClass('hide');
+    @: $('.alert').addClass('show');
+    }
+    </script>
+}
