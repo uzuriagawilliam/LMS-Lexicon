@@ -22,6 +22,9 @@ function fixvalidation() {
     let valresult = $(form).valid();
     if (valresult)
         complete();
+    else {
+        failure();
+    }
     console.log("Validation"); 
 }
 function complete() {
@@ -31,5 +34,4 @@ function complete() {
 
 function failure() {
     console.log("Failure");
-   /* $('#modal-create-user').modal('hide');*/
 }

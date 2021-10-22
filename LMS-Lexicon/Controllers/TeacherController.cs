@@ -96,10 +96,11 @@ namespace LMS_Lexicon.Controllers
         {
             bool userIdExist = false;
             string defaultpassword = "PassWord";
+            userIdExist = db.Users.Any(u => u.UserName == vm.Email);
             var userId = await db.Users.Where(u => u.UserName == vm.Email).SingleOrDefaultAsync();
             if (userId == null)
             {
-                userIdExist = db.Users.Any(u => u.UserName == vm.Email);
+                //userIdExist = db.Users.Any(u => u.UserName == vm.Email);
 
                 if (userIdExist)
                 {
