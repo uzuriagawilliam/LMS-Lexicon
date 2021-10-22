@@ -15,6 +15,26 @@
 </p>
 
 <div id="UsersList">
+    @if (StudentSuccess != null)
+    {
+        <div class="alert alert-success alert-dismissible fade hide" id="AlertDanger" role="alert">
+            @TempData["StudentSuccess"].ToString()
+
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+    @if (StudentExists != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade hide" id="AlertDanger" role="alert">
+            @TempData["StudentExists"].ToString()
+
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
     <partial name="UsersPartial" model="@Model.UserList" />
 </div>
 @section Scripts {

@@ -1,5 +1,9 @@
 ﻿@model IEnumerable<IndexUsersViewModel>
-@if (TempData["StudentSuccess"] != null)
+@{
+    var StudentExists = TempData["StudentExists"];
+    var StudentSuccess = TempData["StudentSuccess"];
+}
+@if (StudentSuccess != null)
 {
     <div class="alert alert-success alert-dismissible fade hide" id="AlertDanger" role="alert">
         @TempData["StudentSuccess"].ToString()
@@ -9,7 +13,7 @@
         </button>
     </div>
 }
-@if (TempData["StudentExists"] != null)
+@if (StudentExists != null)
 {
     <div class="alert alert-danger alert-dismissible fade hide" id="AlertDanger" role="alert">
         @TempData["StudentExists"].ToString()
@@ -19,6 +23,7 @@
         </button>
     </div>
 }
+
 <table class="table">
     <thead>
         <tr>
@@ -41,17 +46,4 @@
         }
     </tbody>
 </table>
-@section Scripts{
-    <script>
-   @if(@TempData["StudentSuccess"] != null)
-    {
-    @: $('.alert').removeClass('hide');
-    @: $('.alert').addClass('show');
-    }
-   @if(@TempData["StudentExists"] != null)
-    {
-    @: $('.alert').removeClass('hide');
-    @: $('.alert').addClass('show');
-    }
-    </script>
-}
+

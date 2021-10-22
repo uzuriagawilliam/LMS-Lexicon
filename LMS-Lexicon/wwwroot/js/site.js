@@ -12,18 +12,16 @@ function Ok() {
 }
 //Get form in modal
 function success(response) {
-    //target.innerHTML = response;
     fixvalidation();
-    if (response.success) {
-        $('#modal-create-user').modal('hide');
-    }
-    //$('#modal-create-user').modal('hide'); 
 }
   //Add form to validationscript
 function fixvalidation() {
     console.log('Create Form loaded');
     let form = document.querySelector('#CreateStudent');
     $.validator.unobtrusive.parse(form);
+    let valresult = $(form).valid();
+    if (valresult)
+        complete();
     console.log("Validation"); 
 }
 function complete() {

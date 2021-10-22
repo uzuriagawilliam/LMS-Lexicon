@@ -20,9 +20,7 @@
                   data-ajax-method="post"
                   data-ajax-success="success"
                   data-ajax-update="#UsersList"
-                  data-ajax-failure="failure"
-               
-                  >
+                  data-ajax-failure="failure">
                 <div class="modal-body form-horizontal" id="studentFormCreate">
                     <div class="form-group row">
                         <label asp-for="FirstName" class="col-sm-2 col-form-label"></label>
@@ -74,6 +72,6 @@
         </div>
     </div>
 </div>
-@*@section Scripts {
+@section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}*@
+}
