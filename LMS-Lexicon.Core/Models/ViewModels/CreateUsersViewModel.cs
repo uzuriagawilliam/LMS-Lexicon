@@ -37,6 +37,7 @@ namespace LMS_Lexicon.Core.Models.ViewModels
         [Required(ErrorMessage = "Du måste välja en kurs för studenten")]
         [Display(Name = "Kursnamn")]
         public int? CourseId { get; set; }
+        public string Role { get; set; }
 
         //public IEnumerable<SelectListItem> Courses { get; set; }
     }

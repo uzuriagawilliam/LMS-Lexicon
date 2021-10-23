@@ -13,34 +13,32 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-md navbar-dark bg-primary flex-row border-bottom box-shadow">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Student" asp-action="Index">LMS_Lexicon</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <partial name="_LoginPartial" />
-                </div>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-md navbar-dark navbar-left bg-primary flex-row border-bottom box-shadow">
+            <a class="navbar-brand ml-4" id="logo" asp-area="" asp-controller="Student" asp-action="Index">LMS_Lexicon</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
+                <partial name="_LoginPartial" />
             </div>
         </nav>
         <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-                <ul class="navbar-nav navbar-nav mr-auto">
+            <ul class="navbar-nav navbar-nav mr-auto">
 
-                    @if (User.IsInRole("Teacher"))
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Courses" asp-action="Index">Kurser</a>
-                        </li>
-                    }
-                    @if (User.IsInRole("Teacher"))
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Teacher" asp-action="Index">Användare</a>
-                        </li>
-                    }
-                </ul>
+                @if (User.IsInRole("Teacher"))
+                {
+                    <li class="nav-item px-md-4">
+                        <a class="nav-link" asp-area="" asp-controller="Courses" asp-action="Index">Kurser</a>
+                    </li>
+                }
+                @if (User.IsInRole("Teacher"))
+                {
+                    <li class="nav-item px-md-4">
+                        <a class="nav-link" asp-area="" asp-controller="Teacher" asp-action="Index">Användare</a>
+                    </li>
+                }
+            </ul>
         </nav>
     </header>
     <div class="container">
@@ -56,7 +54,9 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    @*<script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.js"></script>*@
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -3,9 +3,25 @@
     var StudentExists = TempData["StudentExists"];
     var StudentSuccess = TempData["StudentSuccess"];
 }
+
+@{ if (Model.FirstOrDefault().Role == "Student")
+    {<h2>Studenter</h2>
+        <br />
+        <p>
+            <a asp-action="CreateUser" asp-route-role="Student" class="btn btn-success text-white popup" id="CreateUser" data-ajax="true" data-ajax-method="GET" data-ajax-success="success" data-ajax-update="#addUser" data-ajax-mode="replace"> Lägg till student <i class="fa fa-plus"></i></a>
+        </p>}
+    else
+    { <h2>Lärare</h2>
+        <br />
+        <p>
+            <a asp-action="CreateUser" asp-route-role="Teacher" class="btn btn-success text-white popup" id="CreateUser" data-ajax="true" data-ajax-method="GET" data-ajax-success="success" data-ajax-update="#addUser" data-ajax-mode="replace"> Lägg till lärare <i class="fa fa-plus"></i></a>
+        </p>
+    }
+}
+
 @if (StudentSuccess != null)
 {
-    <div class="alert alert-success alert-dismissible fade hide" id="AlertDanger" role="alert">
+    <div class="alert alert-success alert-dismissible fade show" id="AlertDanger" role="alert">
         @TempData["StudentSuccess"].ToString()
 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -15,7 +31,7 @@
 }
 @if (StudentExists != null)
 {
-    <div class="alert alert-danger alert-dismissible fade hide" id="AlertDanger" role="alert">
+    <div class="alert alert-danger alert-dismissible fade show" id="AlertDanger" role="alert">
         @TempData["StudentExists"].ToString()
 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -23,27 +39,52 @@
         </button>
     </div>
 }
-
 <table class="table">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(model => model.FirstName)</th>
-            <th>@Html.DisplayNameFor(model => model.LastName)</th>
+            <th>@Html.DisplayNameFor(model => model.FullName)</th>
+
+            @{ if (Model.FirstOrDefault().Role == "Student")
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.CourseName)
+                    </th>
+                }
+            }
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
-                <td> @Html.DisplayFor(modelItem => item.LastName)</td>
+                <td>@Html.DisplayFor(modelItem => item.FullName)</td>
+                @{ if (Model.FirstOrDefault().Role == "Student")
+                    {
+                        <td> @Html.DisplayFor(modelItem => item.CourseName)</td>
+                    }
+                }
+
                 <td>
-                    <a asp-action="EditStudent" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a> |
-                    <a asp-action="DetailsStudent" asp-route-id="@item.Id"><i class="fas fa-sticky-note"></i></a> |
-                    <a asp-action="DeleteStudent" asp-route-id="@item.Id"><i class="fas fa-trash-alt"></i></a>
+                    <a asp-action="EditStudent" asp-route-id="@item.Id" asp-route-role="@item.Role"><i class="fas fa-edit"></i></a> |
+                    <a asp-action="DetailsStudent" asp-route-id="@item.Id" asp-route-role="@item.Role"><i class="fas fa-sticky-note"></i></a> |
+                    <a asp-action="DeleteStudent" asp-route-id="@item.Id" asp-route-role="@item.Role"><i class="fas fa-trash-alt"></i></a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+@section Scripts {
+
+
+    @if (@TempData["StudentSuccess"] != null)
+    {
+        @: $('.alert').removeClass('hide');
+        @: $('.alert').addClass('show');
+    }
+    @if (@TempData["StudentExists"] != null)
+    {
+        @: $('.alert').removeClass('hide');
+        @: $('.alert').addClass('show');
+    }
+}
 

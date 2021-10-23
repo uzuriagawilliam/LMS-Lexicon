@@ -1,19 +1,38 @@
 ﻿@model IndexViewModel
-@inject ICourseSelectService courseSelect
+@inject IRolesSelectService rolesSelect
 
 @{
     ViewData["Title"] = "Index";
     var StudentExists = TempData["StudentExists"];
     var StudentSuccess = TempData["StudentSuccess"];
 }
-<div id="addStudent"></div>
-
-<h1>Studenter</h1>
 <br />
-<p>
-    <a asp-action="CreateStudent" class="btn btn-success text-white popup" data-ajax="true" data-ajax-method="GET" data-ajax-success="Ok" data-ajax-update="#addStudent" data-ajax-mode="replace"> Lägg till student <i class="fa fa-plus"></i></a>
-</p>
-
+<div class="row">
+    @*<div class="col-md-4">
+        @{ if (Model.RoleName == "Student")
+            {
+                <p>
+                    <a asp-action="CreateUser" asp-route-role="Student" class="btn btn-success text-white popup" id="CreateUser" data-ajax="true" data-ajax-method="GET" data-ajax-success="success" data-ajax-update="#addUser" data-ajax-mode="replace"> Lägg till student <i class="fa fa-plus"></i></a>
+                </p>}
+            else
+            {
+                <p>
+                    <a asp-action="CreateUser" asp-route-role="Teacher" class="btn btn-success text-white popup" id="CreateUser" data-ajax="true" data-ajax-method="GET" data-ajax-success="success" data-ajax-update="#addUser" data-ajax-mode="replace"> Lägg till lärare <i class="fa fa-plus"></i></a>
+                </p>
+            }
+        }
+    </div>*@
+    <div class="col-md-4"></div>
+    <div class="col-md-3 px-md-3">
+        <form asp-action="GetUsersByRole" class="input-group ml-1" id="RoleForm" data-ajax="true" data-ajax-method="GET" data-ajax-update="#UsersList" data-ajax-mode="replace">
+            <select asp-for="RoleId" asp-items="@await rolesSelect.GetUserRolessAsync()" class="form-control form-control form-control-sm">
+                <option selected="selected" value="">Välj roll</option>
+            </select>
+        </form>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+<div id="addUser"></div>
 <div id="UsersList">
     @if (StudentSuccess != null)
     {
@@ -35,11 +54,14 @@
             </button>
         </div>
     }
+
+
     <partial name="UsersPartial" model="@Model.UserList" />
 </div>
-@section Scripts {
-    <script src="~/js/site.js"></script>
+@*@section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    <script src="~/js/site.js"></script>
+
+}*@
 
 

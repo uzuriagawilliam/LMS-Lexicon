@@ -4,12 +4,17 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Detaljer</h1>
 
 <div>
-    <h4>Course</h4>
+    @{ if (Model.Role == "Student")
+        {<h2>Studenter</h2>}
+        else
+        { <h2>Lärare</h2>}
+    }
     <hr />
     <dl class="row">
+
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FirstName)
         </dt>
@@ -28,28 +33,32 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Email)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CourseName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CourseName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-    </dl>
+
+        @if (Model.Role == "Student")
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CourseName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CourseName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.StartDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StartDate)
+            </dd>
+        }
+        </dl>
 </div>
 <div>
-    <a asp-action="EditStudent" asp-route-id="@Model.Id"><i class="fas fa-edit"></i></a> |
+    <a asp-action="EditStudent" asp-route-id="@Model.Id" asp-route-role="@Model.Role" ><i class="fas fa-edit"></i></a> |
     <a asp-action="DeleteStudent" asp-route-id="@Model.Id"><i class="fas fa-trash-alt"></i></a> |
-    <a asp-action="Index"><i class="fas fa-list-alt"></i></a>
+    <a asp-action="Index" asp-route-role="@Model.Role"><i class="fas fa-list-alt"></i></a>
 </div>

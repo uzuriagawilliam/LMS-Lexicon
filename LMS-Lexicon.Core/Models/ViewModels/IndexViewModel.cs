@@ -9,7 +9,8 @@ namespace LMS_Lexicon.Core.Models.ViewModels
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Role { get; set; }
+        public string RoleId { get; set; }
+        public string RoleName { get; set; }
 
         public IEnumerable<IndexUsersViewModel> UserList { get; set; }
 

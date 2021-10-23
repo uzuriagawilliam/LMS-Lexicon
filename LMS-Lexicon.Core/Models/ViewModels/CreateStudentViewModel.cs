@@ -20,7 +20,7 @@ namespace LMS_Lexicon.Core.Models.ViewModels
         [MaxLength(25), MinLength(3)]
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "Du måste ange en epost adress")]
+        [Required(ErrorMessage = "Du måste ange en giltig epost adress")]
         [EmailAddress]
         [Display(Name = "Epost")]
         //[RegularExpression(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",

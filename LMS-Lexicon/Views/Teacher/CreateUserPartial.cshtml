@@ -1,0 +1,89 @@
+﻿@model CreateUsersViewModel
+@inject ICourseSelectService courseSelect
+<div class="modal" tabindex="-1" id="modal-create-user" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                @if (Model.Role == "Student")
+                {
+
+                <h4 class="modal-title">Lägg till Student </h4>
+                }
+                else
+                {
+                <h4 class="modal-title">Lägg till Lärare </h4>
+                }
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <!--Modal Header End-->
+            <div class="modal-body">
+
+                <!--Modal-->
+                <div class="modal fade" aria-labelledby="modal-create-user-label" role="dialog" tabindex="-1" id="modal-create-user" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form asp-action="CreateUser"
+                                  asp-controller="Teacher"
+                                  id="CreateStudent"
+                                  data-ajax="true"
+                                  data-ajax-method="post"
+                                  data-ajax-update="#UsersList"
+                                  data-ajax-failure="failcreate"
+                                  data-ajax-success="removeForm"
+                                  data-ajax-mode="replace">
+                                <div class="modal-body form-horizontal">
+                                    <div class="form-group row">
+                                        <label asp-for="FirstName" class="col-sm-2 col-form-label" id="FirstName"></label>
+                                        <div class="col-sm-10">
+                                            <input asp-for="FirstName" class="form-control" id="firstname" />
+                                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label asp-for="LastName" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10">
+                                            <input asp-for="LastName" class="form-control" />
+                                            <span asp-validation-for="LastName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label asp-for="Email" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10">
+                                            <input asp-for="Email" class="form-control" />
+                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label asp-for="CourseId" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10">
+                                            <select asp-for="CourseId" asp-items="@await courseSelect.GetCoursesAsync()" class="form-control">
+                                                <option selected="selected" value="">Please select</option>
+                                            </select>
+                                            <span asp-validation-for="CourseId" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <input asp-for="Role" type="hidden" value="Student" />
+
+                                    <!--Modal Footer Start-->
+                                </div>
+                                <div class="modal-footer">
+                                    <button data-dismiss="modal" id="cancel" class="btn btn-default" type="button">Cancel</button>
+                                    <button class="btn btn-success relative" id="btnSubmit" type="submit">
+                                        <i class="loader"></i>
+                                        Skicka
+                                    </button>
+                                </div> <!--Modal Footer End-->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

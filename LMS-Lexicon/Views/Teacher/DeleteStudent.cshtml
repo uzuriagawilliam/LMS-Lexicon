@@ -4,12 +4,11 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Ta bort</h1>
+<h2>Ta bort</h2>
 
-<h3>Är du säker på att du vill ta bort det här?</h3>
+<h3>Är du säker på att du vill ta bort den här användaren?</h3>
 
 <div>
-    <h4>Student</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -42,7 +41,7 @@
     <form asp-action="DeleteStudent">
         <input type="hidden" asp-for="@Model.Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index"><i class="fas fa-list-alt"></i></a>
+        <a asp-action="Index" asp-route-role="@Model.Role"><i class="fas fa-list-alt"></i></a>
     </form>
 </div>
 

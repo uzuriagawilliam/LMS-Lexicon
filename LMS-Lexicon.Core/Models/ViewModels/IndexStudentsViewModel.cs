@@ -16,6 +16,9 @@ namespace LMS_Lexicon.Core.Models.ViewModels
         [Display(Name = "Efternamn")]
         public string LastName { get; set; }
 
+        [Display(Name = "Namn")]
+        public string FullName { get; set; }
+
         [Display(Name = "Epost")]
         //[RegularExpression(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",
         //ErrorMessage = "Felaktig epost adress.")]
