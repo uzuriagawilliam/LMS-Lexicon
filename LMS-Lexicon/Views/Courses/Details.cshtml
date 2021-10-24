@@ -52,7 +52,7 @@
                 </button>
             </h2>
         </div>
-        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+        <div id="collapseThree" class="collapse @(ViewBag.ShowModule ? "show" :"")" aria-labelledby="headingThree" data-parent="#accordionExample">
             <div class="card-body">
                 Modul-lista
                 @foreach (var moodule in Model.Modules)
@@ -61,7 +61,7 @@
                         <h2>@moodule.Name</h2>
                         @*<h2>@moodule.Id</h2>*@
 
-
+                        
 
 
 

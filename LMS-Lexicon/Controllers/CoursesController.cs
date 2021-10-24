@@ -26,7 +26,7 @@ namespace LMS_Lexicon.Controllers
         }
 
         // GET: Courses/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, bool expandedModule = false)
         {
             if (id == null)
             {
@@ -40,6 +40,8 @@ namespace LMS_Lexicon.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.ShowModule = expandedModule;
 
             return View(course);
         }
@@ -173,7 +175,7 @@ namespace LMS_Lexicon.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(module);
+            return View();
         }
 
         private bool CourseExists(int id)

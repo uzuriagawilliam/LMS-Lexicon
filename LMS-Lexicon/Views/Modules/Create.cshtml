@@ -42,9 +42,7 @@
 </div>
 
 <div>
-    
-    <a asp-action="/Courses/Index">tillbaka till kursen</a>
-
+    <a asp-controller="Courses" asp-action="Details" asp-route-id="@Model.CourseId">tillbaka till kursen</a>
 </div>
 
 <
