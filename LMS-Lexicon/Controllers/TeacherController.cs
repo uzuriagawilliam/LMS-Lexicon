@@ -93,7 +93,7 @@ namespace LMS_Lexicon.Controllers
         }
         // GET: TeacherController/Details/5
         [Authorize(Roles = "Teacher")]
-        public async Task<IActionResult> DetailsStudent(string id, string role)
+        public async Task<IActionResult> DetailsUser(string id, string role)
         {
             var student = await db.Users
             .Include(c => c.Course).Where(u => u.Id == id).FirstOrDefaultAsync();
@@ -118,7 +118,7 @@ namespace LMS_Lexicon.Controllers
         {
             var model = new CreateUsersViewModel();
             model.Role = role;
-            return PartialView("CreateStudentPartial", model);
+            return PartialView("CreateUserPartial", model);
         }
         // POST: Courses/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -136,7 +136,7 @@ namespace LMS_Lexicon.Controllers
             {
                 if (userIdExist)
                 {
-                    TempData["StudentExists"] = "Studenten finns redan!";
+                    TempData["UserExists"] = "Studenten finns redan!";
                     var model = await GetUsers(vm.Role);
                     return PartialView("UsersPartial");
                 }
@@ -159,13 +159,13 @@ namespace LMS_Lexicon.Controllers
                             {
                                 var result = await _userManager.CreateAsync(user, defaultpassword);
                                 var addtoroleresult = await _userManager.AddToRoleAsync(user, vm.Role);
-                                TempData["StudentSuccess"] = "Studenten " + user.FirstName + " är nu tillagd";
+                                TempData["UserSuccess"] = "Studenten " + user.FirstName + " är nu tillagd";
                             }
                             else
                             {
                                 var result = await _userManager.CreateAsync(user, defaultpassword);
                                 var addtoroleresult = await _userManager.AddToRoleAsync(user, vm.Role);
-                                TempData["StudentSuccess"] = "Läraren " + user.FirstName + " är nu tillagd";
+                                TempData["UserSuccess"] = "Läraren " + user.FirstName + " är nu tillagd";
                             }
                        
                             var model = await GetUsers(vm.Role);
@@ -176,6 +176,10 @@ namespace LMS_Lexicon.Controllers
                             throw;
                         }
                     }
+                    else
+                    {
+                        TempData["UserExists"] = "Ingen databaslagring gjordes!";
+                    }
                     var defaultmodel = await GetUsers(vm.Role);
                     return PartialView("UsersPartial", defaultmodel);
                 }
@@ -184,14 +188,14 @@ namespace LMS_Lexicon.Controllers
             {
                 if (userIdExist)
                 {
-                    TempData["StudentExists"] = "Studenten finns redan!";
+                    TempData["UserExists"] = "Studenten finns redan!";
                 }
                 var model = await GetUsers(vm.Role);
                 return PartialView("UsersPartial", model);
             }
         }
 
-        public async Task<IActionResult> EditStudent(string id, string role)
+        public async Task<IActionResult> EditUser(string id, string role)
         {
             if (id == "")
             {
@@ -220,7 +224,7 @@ namespace LMS_Lexicon.Controllers
         [ValidateAntiForgeryToken]
 
         // GET: TeacherController/Edit/5
-        public async Task<IActionResult> EditStudent(string id, CreateUsersViewModel vm)
+        public async Task<IActionResult> EditUser(string id, CreateUsersViewModel vm)
         {
             var std = await _userManager.FindByIdAsync(id);
             std.FirstName = vm.FirstName;
@@ -235,18 +239,18 @@ namespace LMS_Lexicon.Controllers
                 if(vm.Role == "Student")
                 {
                     var result = await _userManager.UpdateAsync(std);
-                    TempData["StudentSuccess"] = "Studenten " + std.FirstName + " är nu ändrad";
+                    TempData["UserSuccess"] = "Studenten " + std.FirstName + " är nu ändrad";
                 }
                 else
                 {
                     var result = await _userManager.UpdateAsync(std);
-                    TempData["StudentSuccess"] = "Läraren " + std.FirstName + " är nu ändrad";
+                    TempData["UserSuccess"] = "Läraren " + std.FirstName + " är nu ändrad";
                 }
               
             }
             else
             {
-                TempData["StudentExists"] = "Ingen ändring gjordes för " + std.FirstName;
+                TempData["UserExists"] = "Ingen ändring gjordes för " + std.FirstName;
             }
             return RedirectToAction(nameof(Index), new { @role = vm.Role });
         }
@@ -263,7 +267,7 @@ namespace LMS_Lexicon.Controllers
         }
 
         [Authorize(Roles = "Teacher")]
-        public async Task<IActionResult> DeleteStudent(string id, string role)
+        public async Task<IActionResult> DeleteUser(string id, string role)
         {
 
             var std = await _userManager.FindByIdAsync(id);
@@ -283,7 +287,7 @@ namespace LMS_Lexicon.Controllers
         }
 
         // POST: Activities/Delete/5
-        [HttpPost, ActionName("DeleteStudent")]
+        [HttpPost, ActionName("DeleteUser")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> DeleteConfirmed(string id)
@@ -294,7 +298,7 @@ namespace LMS_Lexicon.Controllers
                 var result = await _userManager.DeleteAsync(std);
                 if (result.Succeeded)
                 {
-                    TempData["StudentSuccess"] = "Studenten är borttagen ";
+                    TempData["UserSuccess"] = "Studenten är borttagen ";
                 }
                 else
                 {

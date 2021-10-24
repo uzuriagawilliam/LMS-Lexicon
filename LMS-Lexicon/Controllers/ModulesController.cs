@@ -47,7 +47,12 @@ namespace LMS_Lexicon.Controllers
         public IActionResult Create(int courseId)
         {
             //ViewData["CourseId"] = courseId;
-            var model = new Module { CourseId = courseId };
+            var model = new Module 
+            { 
+                CourseId = courseId,
+                StartDate = DateTime.Now.Date,
+                EndDate = DateTime.Now.Date
+            };
             return View(model);
         }
 
@@ -62,7 +67,7 @@ namespace LMS_Lexicon.Controllers
             {
                 _context.Add(@module);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), "Courses", new { Id= @module.CourseId});
             }
             ViewData["CourseId"] = new SelectList(_context.CourseClass, "Id", "CourseName", @module.CourseId);
             return View(@module);

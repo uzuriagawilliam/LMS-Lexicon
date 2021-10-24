@@ -11,24 +11,18 @@
         $('form#RoleForm').submit();
     })
 
-    $('#CreateUser').on('click', function () {
-        var idModal = $(this).data("modal")
-        $(idModal).modal('show');
-    });
+    //$('#CreateUser').on('click', function () {
+    //    var idModal = $(this).data("modal")
+    //    $(idModal).modal('show');
+    //});
 
 })();
 
 
 /****************** Valitation for Create User *********************/
 let target = document.querySelector('#addUser');
- //Show modale
-function Ok() {
-    console.log("Done");
-    $('#modal-create-user').on('shown.bs.modal', function () {
-        $('#FirstName').trigger('focus')
-    })
-    $('#modal-create-user').modal('show');
-}
+
+//Show modale
 //Get form in modal
 function success(response) {
     target.innerHTML = response;

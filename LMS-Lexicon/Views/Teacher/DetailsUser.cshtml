@@ -3,14 +3,12 @@
 @{
     ViewData["Title"] = "Details";
 }
-
-<h1>Detaljer</h1>
-
+<br/>
 <div>
     @{ if (Model.Role == "Student")
-        {<h2>Studenter</h2>}
+        {<h2>Detaljer studenter</h2>}
         else
-        { <h2>Lärare</h2>}
+        { <h2>Detaljer lärare</h2>}
     }
     <hr />
     <dl class="row">
@@ -58,7 +56,7 @@
         </dl>
 </div>
 <div>
-    <a asp-action="EditStudent" asp-route-id="@Model.Id" asp-route-role="@Model.Role" ><i class="fas fa-edit"></i></a> |
-    <a asp-action="DeleteStudent" asp-route-id="@Model.Id"><i class="fas fa-trash-alt"></i></a> |
+    <a asp-action="EditUser" asp-route-id="@Model.Id" asp-route-role="@Model.Role" ><i class="fas fa-edit"></i></a> |
+    <a asp-action="DeleteUser" asp-route-id="@Model.Id"><i class="fas fa-trash-alt"></i></a> |
     <a asp-action="Index" asp-route-role="@Model.Role"><i class="fas fa-list-alt"></i></a>
 </div>

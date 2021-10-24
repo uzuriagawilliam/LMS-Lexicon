@@ -1,38 +1,38 @@
 ﻿@model IEnumerable<IndexUsersViewModel>
 @{
-    var StudentExists = TempData["StudentExists"];
-    var StudentSuccess = TempData["StudentSuccess"];
+    var UserExists = TempData["UserExists"];
+    var UserSuccess = TempData["UserSuccess"];
 }
 
 @{ if (Model.FirstOrDefault().Role == "Student")
     {<h2>Studenter</h2>
         <br />
         <p>
-            <a asp-action="CreateUser" asp-route-role="Student" class="btn btn-success text-white popup" id="CreateUser" data-ajax="true" data-ajax-method="GET" data-ajax-success="success" data-ajax-update="#addUser" data-ajax-mode="replace"> Lägg till student <i class="fa fa-plus"></i></a>
+            <a asp-action="CreateUser" asp-route-role="Student" class="btn btn-success text-white popup" data-ajax="true" data-ajax-method="GET" data-ajax-success="success" data-ajax-update="#addUser" data-ajax-mode="replace"> Lägg till student <i class="fa fa-plus"></i></a>
         </p>}
     else
     { <h2>Lärare</h2>
         <br />
         <p>
-            <a asp-action="CreateUser" asp-route-role="Teacher" class="btn btn-success text-white popup" id="CreateUser" data-ajax="true" data-ajax-method="GET" data-ajax-success="success" data-ajax-update="#addUser" data-ajax-mode="replace"> Lägg till lärare <i class="fa fa-plus"></i></a>
+            <a asp-action="CreateUser" asp-route-role="Teacher" class="btn btn-success text-white popup" data-ajax="true" data-ajax-method="GET" data-ajax-success="success" data-ajax-update="#addUser" data-ajax-mode="replace"> Lägg till lärare <i class="fa fa-plus"></i></a>
         </p>
     }
 }
 
-@if (StudentSuccess != null)
+@if (UserSuccess != null)
 {
     <div class="alert alert-success alert-dismissible fade show" id="AlertDanger" role="alert">
-        @TempData["StudentSuccess"].ToString()
+        @TempData["UserSuccess"].ToString()
 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
 }
-@if (StudentExists != null)
+@if (UserExists != null)
 {
     <div class="alert alert-danger alert-dismissible fade show" id="AlertDanger" role="alert">
-        @TempData["StudentExists"].ToString()
+        @TempData["UserExists"].ToString()
 
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -65,9 +65,9 @@
                 }
 
                 <td>
-                    <a asp-action="EditStudent" asp-route-id="@item.Id" asp-route-role="@item.Role"><i class="fas fa-edit"></i></a> |
-                    <a asp-action="DetailsStudent" asp-route-id="@item.Id" asp-route-role="@item.Role"><i class="fas fa-sticky-note"></i></a> |
-                    <a asp-action="DeleteStudent" asp-route-id="@item.Id" asp-route-role="@item.Role"><i class="fas fa-trash-alt"></i></a>
+                    <a asp-action="EditUser" asp-route-id="@item.Id" asp-route-role="@item.Role"><i class="fas fa-edit"></i></a> |
+                    <a asp-action="DetailsUser" asp-route-id="@item.Id" asp-route-role="@item.Role"><i class="fas fa-sticky-note"></i></a> |
+                    <a asp-action="DeleteUser" asp-route-id="@item.Id" asp-route-role="@item.Role"><i class="fas fa-trash-alt"></i></a>
                 </td>
             </tr>
         }
@@ -76,12 +76,12 @@
 @section Scripts {
 
 
-    @if (@TempData["StudentSuccess"] != null)
+    @if (@TempData["UserSuccess"] != null)
     {
         @: $('.alert').removeClass('hide');
         @: $('.alert').addClass('show');
     }
-    @if (@TempData["StudentExists"] != null)
+    @if (@TempData["UserExists"] != null)
     {
         @: $('.alert').removeClass('hide');
         @: $('.alert').addClass('show');
