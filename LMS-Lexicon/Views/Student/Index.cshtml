@@ -1,8 +1,124 @@
-﻿@model IndexViewModel
+﻿@model IndexStudentViewModel
+@inject ICourseSelectService courseSelect
+
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "StudentCourseDetails";
 }
 
-<div class="text-center">
-    <h1 class="display-4">@Model.FirstName : @Model.RoleName</h1>
+
+<div class="text-left">
 </div>
+
+<div>
+    <h3>Min Sida</h3>
+
+</div>
+<div class="accordion" id="accordionExample">
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <h4 class="mb-0">@Model.FirstName @Model.LastName</h4>
+            <dl class="row">
+                <dt class="col-sm-2">
+                    Email
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+                <dt class="col-sm-2">
+                    Registrationstid
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.TimeOfRegistration)
+                </dd>
+                <dt class="col-sm-2">
+                    Kursnamn
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CourseName)
+                </dd>
+                <dt class="col-sm-2">
+                    Startdatum
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CourseStartDate)
+                </dd>
+            </dl>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+                    Kursbeskrivning >
+                </button>
+            </h2>
+        </div>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+            <div class="card-body">
+                <p>@Model.CourseName </p>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header" id="headingThree">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left text-dark font-weight-bold collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Moduler >
+                </button>
+            </h2>
+        </div>
+        <div id="collapseThree" class="collapse @(ViewBag.ShowModule ? "show" :"")" aria-labelledby="headingThree" data-parent="#accordionExample">
+            <div id="accordion">
+                <div class="card">
+                    @foreach (var module in Model.Modules)
+                    {
+                        <div class="card">
+
+                            <div class="card-header" id="headingFive">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                        @module.Name
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+                                <div class="card-body">
+                                    <dl class="row">
+                                        <dt class="col-sm-2">
+                                            Startdatum:
+                                        </dt>
+                                        <dd class="col-sm-10">
+                                            @Html.DisplayFor(model => @module.StartDate)
+                                        </dd>
+                                        <dt class="col-sm-2">
+                                            Slutdatum:
+                                        </dt>
+                                        <dd class="col-sm-10">
+                                            @Html.DisplayFor(model => @module.EndDate)
+                                        </dd>
+                                        <dt class="col-sm-2">
+                                            Beskrivning:
+                                        </dt>
+                                        <dd class="col-sm-10">
+                                            @Html.DisplayFor(model => @module.Description)
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="card-body">
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div>
+        <a asp-action="Index"><i class="fas fa-list-alt fa-lg"></i></a>
+    </div>
+    <div>
+        <a asp-controller="Student" asp-action="Details" asp-route-id="@Model.CourseId">Show Course Details</a>
+    </div>*@
+
