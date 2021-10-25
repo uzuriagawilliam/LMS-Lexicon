@@ -67,7 +67,7 @@ namespace LMS_Lexicon.Api.Controllers
 
         // PUT: api/Authors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{AustorId}")]
+        [HttpPut("{AuthorId}")]
         public async Task<IActionResult> PutAuthor(int AuthorId, Author author)
         {
             if (AuthorId != author.AuthorId)
