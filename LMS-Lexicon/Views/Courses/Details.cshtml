@@ -16,7 +16,7 @@
                 @*<button class="btn btn-link btn-block text-left text-left text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                     <h4>@Model.CourseName</h4>*@
 
-                <p>Startdatum : @Model.StartDate </p>
+                <p>Kursstartdatum : @Model.StartDate </p>
 
 
                 @*</button>*@
@@ -55,7 +55,7 @@
         </div>
         <div id="collapseThree" class="collapse @(ViewBag.ShowModule ? "show" :"")" aria-labelledby="headingThree" data-parent="#accordionExample">
             <div id="accordion">
-                <div class="card">
+                @*<div class="card">*@
                     @*Modul-lista*@
 
                     @foreach (var module in Model.Modules)
@@ -76,8 +76,8 @@
                             </div>
                             <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
                                 <div class="card-body">
-                                    <p>Börja :  @module.StartDate</p>
-                                    <p>Slut :@module.EndDate</p>
+                                    <p>Startdatum:  @module.StartDate</p>
+                                    <p>Slutdatum: :@module.EndDate</p>
 
                                     <p>Beskrivning @module.Description</p>
 
