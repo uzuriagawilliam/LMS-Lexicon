@@ -26,8 +26,9 @@ namespace LMS_Lexicon.Core.Models.ViewModels
         public string RoleId { get; set; }
         public string RoleName { get; set; }
 
-        public IEnumerable<IndexUsersViewModel> UserList { get; set; }
+        public List<ApplicationUser> UsersList { get; set; }
         public ICollection<Module> Modules { get; set; }
+
 
     }
 }
