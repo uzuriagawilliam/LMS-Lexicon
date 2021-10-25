@@ -133,7 +133,11 @@
                             @foreach (var user in Model.UsersList)
                             {
                             
-                            <n>@user.FirstName @user.LastName</n>
+                                <ul>
+                                    <li>
+                                        @user.FirstName @user.LastName
+                                    </li>
+                                </ul>
                                  
                             }
                         </div>
