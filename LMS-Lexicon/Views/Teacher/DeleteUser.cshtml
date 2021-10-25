@@ -3,9 +3,7 @@
 @{
     ViewData["Title"] = "Delete";
 }
-
-<h2>Ta bort</h2>
-
+<br/>
 <h3>Är du säker på att du vill ta bort den här användaren?</h3>
 
 <div>
@@ -40,8 +38,9 @@
 <div>
     <form asp-action="DeleteUser">
         <input type="hidden" asp-for="@Model.Id" />
+        <input type="hidden" asp-for="@Model.Role" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index" asp-route-role="@Model.Role"><i class="fas fa-list-alt"></i></a>
+        <a asp-action="Index" asp-route-role="@Model.Role"><i class="fas fa-list-alt fa-lg"></i></a>
     </form>
 </div>
 
