@@ -38,6 +38,12 @@
                         <a class="nav-link" asp-area="" asp-controller="Teacher" asp-action="Index">Användare</a>
                     </li>
                 }
+                @*@if (User.IsInRole("Teacher"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Modules" asp-action="Index">Modules</a>
+                    </li>
+                }*@
             </ul>
         </nav>
     </header>
