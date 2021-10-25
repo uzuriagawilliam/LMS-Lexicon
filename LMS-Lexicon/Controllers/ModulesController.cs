@@ -160,7 +160,7 @@ namespace LMS_Lexicon.Controllers
             var @module = await _context.ModuleClass.FindAsync(id);
             _context.ModuleClass.Remove(@module);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Courses", new { id = @module.CourseId, expandedModule = true });
         }
 
         private bool ModuleExists(int id)

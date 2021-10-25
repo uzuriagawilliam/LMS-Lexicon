@@ -4,47 +4,49 @@
     ViewData["Title"] = "Index";
 }
 <br/>
-<h1>Kurser</h1>
-
-<p>
-    <a asp-action="Create">Skapa kurs <i class="fas fa-pen"></i></a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CourseName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-        <td>
-            <div class="btn text-black-50 btn-warning">
-                @* <a style="color:black" asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.CourseName)</a>*@
-                <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.CourseName)</a>
-            </div>
-        </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartDate)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a> |
-                <a asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-sticky-note"></i></a> |
-                <a asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash-alt"></i></a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="row">
+    <div class="col-md-10">
+        <h2>Kurser</h2>
+    </div>
+    <div class="col-md-2">
+        <a asp-action="Create" class="btn btn-success text-white"> Lägg till kurs <i class="fa fa-plus"></i></a>
+    </div>
+</div>
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.CourseName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StartDate)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.CourseName)</a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartDate)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a> |
+                        <a asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-sticky-note"></i></a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash-alt"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

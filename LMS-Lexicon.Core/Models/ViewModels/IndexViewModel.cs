@@ -15,14 +15,12 @@ namespace LMS_Lexicon.Core.Models.ViewModels
         public string Role { get; set; }
         public int CourseId { get; set; }
         public string CourseName { get; set; }
-
         public string CourseDescription { get; set; }
-
         public DateTime CourseStartDate { get; set; }
         public string FullName { get; set; }
         public string RoleId { get; set; }
         public string RoleName { get; set; }
-        public string CourseName { get; set; }
+   
 
         public IEnumerable<IndexUsersViewModel> UserList { get; set; }
 
