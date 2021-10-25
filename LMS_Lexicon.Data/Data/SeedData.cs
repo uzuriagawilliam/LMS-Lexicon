@@ -17,7 +17,7 @@ namespace LMS_Lexicon.Data.Data
         private static RoleManager<IdentityRole> roleManager;
         private static UserManager<ApplicationUser> userManager;
 
-        public static async Task InitAsync(LmsDbContext context, IServiceProvider services,string userPW) 
+        public static async Task InitAsync(LmsDbContext context, IServiceProvider services,string userPW, string studentPW) 
         {
             if (string.IsNullOrWhiteSpace(userPW)) throw new Exception("Cant get password from config");
             if (context is null) throw new NullReferenceException(nameof(LmsDbContext));
@@ -68,7 +68,7 @@ namespace LMS_Lexicon.Data.Data
 
                 foreach (var student in students)
                 {
-                    var result = await userManager.CreateAsync(student, userPW);
+                    var result = await userManager.CreateAsync(student, studentPW);
                     if (!result.Succeeded) throw new Exception(String.Join("\n", result.Errors));
                     await userManager.AddToRoleAsync(student, roleStudent);
                 }
@@ -127,7 +127,8 @@ namespace LMS_Lexicon.Data.Data
                 LastName = fake.Person.LastName,
                 UserName = userEmail,
                 Email = userEmail,
-                TimeOfRegistration = DateTime.Now
+                TimeOfRegistration = DateTime.Now,
+                CourseId = 1
             };
 
             var result = await userManager.CreateAsync(user, userPW);
@@ -140,7 +141,7 @@ namespace LMS_Lexicon.Data.Data
         {
             var courses = new List<Course>();
 
-            for (int i =0; i < 3; i++)
+            for (int i =0; i < 15; i++)
             {
                 string coursename = fake.Commerce.ProductName();
                 coursename = coursename.Length < 25 ? coursename : coursename.Substring(0, 25);
@@ -154,7 +155,7 @@ namespace LMS_Lexicon.Data.Data
                     Description = description, 
                     StartDate = System.DateTime.Now.AddDays(fake.Random.Int(-5,5)),
                     Modules = GetModules(),
-                    Documents = GetDocuments()
+                    //Documents = GetDocuments()
                 };
                 courses.Add(course);
             }
@@ -180,7 +181,7 @@ namespace LMS_Lexicon.Data.Data
                     StartDate = System.DateTime.Now.AddDays(fake.Random.Int(-5, 5)),
                     EndDate = System.DateTime.Now.AddDays(fake.Random.Int(6, 16)),
                     Activities = GetActivities(),
-                    Documents = GetDocuments()
+                    //Documents = GetDocuments()
                 };
                 modules.Add(module);
             }
@@ -207,31 +208,31 @@ namespace LMS_Lexicon.Data.Data
                     StartDate = System.DateTime.Now.AddDays(fake.Random.Int(-5, 5)),
                     EndDate = System.DateTime.Now.AddDays(fake.Random.Int(6, 16)),
                     ActivityTypeId = activitytypeid,
-                    Documents = GetDocuments()
+                    //Documents = GetDocuments()
                 };
                 activities.Add(activity);
             }
             return activities;
         }
 
-        private static ICollection<Document> GetDocuments()
-        {
-            var documents = new List<Document>();
+        //private static ICollection<Document> GetDocuments()
+        //{
+        //    var documents = new List<Document>();
 
-            for (int i = 0; i < 20; i++)
-            {
-                string name = fake.Commerce.ProductName();
-                name = name.Length < 25 ? name : name.Substring(0, 25);
+        //    for (int i = 0; i < 20; i++)
+        //    {
+        //        string name = fake.Commerce.ProductName();
+        //        name = name.Length < 25 ? name : name.Substring(0, 25);
 
-                var document = new Document
-                {
-                    Name = name,
-                    TimeStamp = DateTime.Now.AddDays(fake.Random.Int(1, 10))
-                };
-                documents.Add(document);
-            }
-            return documents;
-        }
+        //        var document = new Document
+        //        {
+        //            Name = name,
+        //            TimeStamp = DateTime.Now.AddDays(fake.Random.Int(1, 10))
+        //        };
+        //        documents.Add(document);
+        //    }
+        //    return documents;
+        //}
 
         private static List<ApplicationUser> GetStudents()
         {
@@ -243,7 +244,7 @@ namespace LMS_Lexicon.Data.Data
                 var lName = fake.Name.LastName();
                 var email = fake.Internet.Email($"{fName}{lName}");
                 Random rnd = new Random();
-                int courseid = rnd.Next(1, 20);
+                int courseid = rnd.Next(1, 15);
                 var student = new ApplicationUser
                 {
                     FirstName = fName,
@@ -256,7 +257,6 @@ namespace LMS_Lexicon.Data.Data
                 };
                 students.Add(student);
             }
-
             return students;
         }
     }

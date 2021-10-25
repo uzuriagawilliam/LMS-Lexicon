@@ -1,170 +1,51 @@
-﻿@model IEnumerable<IndexStudentsViewModel>
-@inject ICourseSelectService courseSelect
-
-
-
+﻿@model IndexViewModel
+@inject IRolesSelectService rolesSelect
 
 @{
     ViewData["Title"] = "Index";
-    var StudentExists = TempData["StudentExists"];
-    var StudentSuccess = TempData["StudentSuccess"];
+    var UserExists = TempData["UserExists"];
+    var UserSuccess = TempData["UserSuccess"];
 }
-
-<h1>Studenter</h1>
 <br />
-<br />
-<p>
-    @*<a asp-action="CreateStudent">Lägg till Student</a>*@
-    <a class="btn btn-success text-white popup" data-ajax="true" data-ajax-method="GET" data-ajax-success="fixvalidation" data-url="Teacher/CreateStudent" data-toggle="modal" data-target="#modal-create-user" id="UserModel">Lägg till student <i class="fa fa-plus"></i></a>
-    @*<a asp-action="CreateStudent"
-       asp-controller="Teacher"
-       class="btn btn-dark"
-       data-ajax="true"
-       data-toggle="ajax-modal"
-       data-ajax-method="GET"
-       data-target="#modal-create-user"
-       data-ajax-success="fixvalidation">Lägg till student<i class="fa fa-plus"></i> </a>*@
-</p>
-@*@if (StudentExists != null)
-{
-    <div class="alert alert-danger alert-dismissible fade hide" id="AlertDanger" role="alert">
-        @StudentExists
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+<div class="row">
+    <div class="col-md-9"></div>
+    <div class="col-md-3 px-md-3">
+        <form asp-action="GetUsersByRole" class="input-group ml-1" id="RoleForm" data-ajax="true" data-ajax-method="GET" data-ajax-update="#UsersList" data-ajax-mode="replace">
+            <select asp-for="RoleId" asp-items="@await rolesSelect.GetUserRolessAsync()" class="form-control form-control form-control-sm">
+                <option selected="selected" value="">Välj roll</option>
+            </select>
+        </form>
     </div>
-}
 
-@if (StudentSuccess != null)
-{
-    <div class="alert alert-success alert-dismissible fade hide" id="AlertSuccess" role="alert">
-        @StudentSuccess
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-}*@
-
-    @if (TempData["StudentSuccess"] != null)
+</div>
+<div id="addUser"></div>
+<div id="UsersList">
+    @if (UserSuccess != null)
     {
         <div class="alert alert-success alert-dismissible fade hide" id="AlertDanger" role="alert">
-            @TempData["StudentSuccess"].ToString()
+            @TempData["UserSuccess"].ToString()
 
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
     }
-    @if (TempData["StudentExists"] != null)
+    @if (UserExists != null)
     {
         <div class="alert alert-danger alert-dismissible fade hide" id="AlertDanger" role="alert">
-            @TempData["StudentExists"].ToString()
+            @TempData["UserExists"].ToString()
 
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
     }
-    @if (TempData["DisplayModal"] != null)
-    {
-        var modal = TempData["DisplayModal"].ToString();
-    }
-    <div id="Modal">
-        <partial name="_Modal" />
-    </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LastName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Email)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CourseName)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LastName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CourseName)
-                    </td>
-                    <td>
-                        <a asp-action="EditStudent" asp-route-id="@item.Id">Ändra</a> |
-                        <a asp-action="DetailsStudent" asp-route-id="@item.Id">Detaljer</a> |
-                        <a asp-action="DeleteStudent" asp-route-id="@item.Id">Ta bort</a>
-                    </td>
-                </tr>
-            }
 
 
-        </tbody>
-    </table>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script>
-   @if(@TempData["StudentSuccess"] != null)
-    {
-    @: $('.alert').removeClass('hide');
-    @: $('.alert').addClass('show');
-    }
-   @if(@TempData["StudentExists"] != null)
-    {
-    @: $('.alert').removeClass('hide');
-    @: $('.alert').addClass('show');
-    }
-    </script>
-    @section Scripts{
-        <script src="~/js/user.js" asp-append-version="true"></script>
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="UsersPartial" model="@Model.UserList" />
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
 
-        @if (@TempData["DisplayModel"] != null)
-        {
-            var modal = @TempData["DisplayModel"].ToString();
-
-            <script>
-                (function () {
-                    $.ajax({
-                        type: "GET",
-                        url: "Teacher/CreateStudent",
-                        success: function (res) {
-                            $('#modal-create-user').find(".modal-dialog").html(res);
-
-                            $("#modal-create-user").modal('show');
-                        }
-                    })
-
-                }(jQuery));
-
-            </script>
-        }
-        <script>
-        @if (@TempData["StudentSuccess"] != null)
-        {
-            @: $('.alert').removeClass('hide');
-            @: $('.alert').addClass('show');
-        }
-        @if (@TempData["StudentExists"] != null)
-        {
-            @: $('.alert').removeClass('hide');
-            @: $('.alert').addClass('show');
-        }
-        </script>
-    }
 

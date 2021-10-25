@@ -1,12 +1,10 @@
-﻿@model LMS_Lexicon.Core.Models.Entities.Module
+﻿@model Module
 
 @{
     ViewData["Title"] = "Skapa";
 }
-
-<h1>Läg till Modules</h1>
-
-<h4>Modules</h4>
+<br/>
+<h4>Lägg till Modul</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -41,7 +39,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Details" asp-controller="Courses" asp-route-Id="@Model.CourseId">Back to List</a>
 </div>
 
 @section Scripts {
