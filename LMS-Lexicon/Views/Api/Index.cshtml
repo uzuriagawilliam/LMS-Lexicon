@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LMS_Lexicon.Api.Core.Dtos.AuthorsDto>
+﻿@model IEnumerable<LMS_Lexicon.Models.AuthorsDto>
 
 @{
     ViewData["Title"] = "API-View";
@@ -7,9 +7,9 @@
 <h1>Api Authors View</h1>
 
 <p>
-        <a asp-action="Create">Add author</a>
+    <a asp-action="Create">Add author</a>
 
-    </p>
+</p>
 @using (Html.BeginForm())
 {
     <p>
@@ -33,21 +33,21 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            @*If student*@
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Age)
-            </td>
-            @*if teacher *@
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.AuthorId">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.AuthorId">Delete</a>
-            </td>
+            <tr>
+                @*If student*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                @*if teacher *@
+                <td>
+                    @*<a asp-action="Edit" asp-route-id="@item.AuthorId">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.AuthorId">Delete</a>*@
+                </td>
 
-        </tr>
+            </tr>
         }
     </tbody>
 </table>

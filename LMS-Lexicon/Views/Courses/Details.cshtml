@@ -1,0 +1,143 @@
+﻿@model Course
+
+@{
+    ViewData["Title"] = "Details";
+}
+<br/>
+<h3>Skapa moduler</h3>
+
+<h1>@Model.CourseName</h1>
+
+
+<div class="accordion" id="accordionExample">
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+                @*<button class="btn btn-link btn-block text-left text-left text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <h4>@Model.CourseName</h4>*@
+
+                <p>Startdatum : @Model.StartDate </p>
+
+
+                @*</button>*@
+            </h2>
+
+        </div>
+
+
+        @*<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+                    <p>@Model.Description </p>
+                </div>
+            </div>*@
+    </div>
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+                    Beskrivning >
+                </button>
+            </h2>
+        </div>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+            <div class="card-body">
+                <p>@Model.Description </p>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header" id="headingThree">
+            <h2 class="mb-0">
+                <button class="btn btn-link btn-block text-left text-dark font-weight-bold collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Moduler >
+                </button>
+            </h2>
+        </div>
+        <div id="collapseThree" class="collapse @(ViewBag.ShowModule ? "show" :"")" aria-labelledby="headingThree" data-parent="#accordionExample">
+            <div id="accordion">
+                <div class="card">
+                    Modul-lista
+
+                    @foreach (var module in Model.Modules)
+
+                    {
+                       
+                    <div class="card">
+                        
+                        <div class="card-header" id="headingFive">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                    @module.Name
+
+                                </button>
+
+                            </h5>
+                           
+                        </div>
+                        <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+                            <div class="card-body">
+                                <p>Börja :  @module.StartDate</p>
+                                <p>Slut :@module.EndDate</p>
+
+                                <p>Beskrivning @module.Description</p>
+                                @module.Id
+                            </div>
+                            <div>
+
+                                <a asp-action="Edit"  asp-controller="Modules" asp-route-moduleId="@module.Id">Edit modul+</a>
+                            </div>
+
+                            <div>
+
+                            </div>
+                            <div class="card-body">
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    }
+
+
+
+                </div>
+            </div>
+            </div>
+</div>
+        
+
+<div>
+    <h4>Kurs</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CourseName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CourseName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit fa-lg"></i></a> |
+    <a asp-action="Index"><i class="fas fa-list-alt fa-lg"></i></a>
+
+    <a asp-action="Create" class="btn btn-success" asp-controller="Modules" asp-route-courseId="@Model.Id">Skapa ny modul+</a>
+</div>
+<a asp-action="Edit" asp-route-id="@Model.Id">Ändra</a> |
+<a asp-action="Index">Tillbaka till kurslista</a>
+

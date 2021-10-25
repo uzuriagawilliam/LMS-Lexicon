@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LiteratureDto>
+﻿@model IEnumerable<LMS_Lexicon.Models.LiteratureDto>
 
 @{
     ViewData["Title"] = "API Literature View";
@@ -7,8 +7,8 @@
 <h1>Api Literature View</h1>
 
 @*<p>
-    <a asp-action="Create">Create New</a>
-</p>*@
+        <a asp-action="Create">Create New</a>
+    </p>*@
 <table class="table table-striped">
     <thead>
         <tr>
@@ -20,25 +20,25 @@
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             @*<th>
-                @Html.DisplayNameFor(model => model.Authors)
-            </th>*@
+                    @Html.DisplayNameFor(model => model.Authors)
+                </th>*@
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Authors)
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Authors)
+                </td>
+            </tr>
         }
     </tbody>
 </table>

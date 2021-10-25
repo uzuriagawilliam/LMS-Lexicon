@@ -1,4 +1,4 @@
-using LMS_Lexicon.Api.Data.Data;
+//using LMS_Lexicon.Api.Data.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -9,7 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LMS.Api.Data.Data;
+//using LMS.Api.Data.Data;
+//using LMS.Api.Data;
+using LMS_Api.Data;
 
 namespace LMS_Lexicon.Api
 {
@@ -23,6 +25,7 @@ namespace LMS_Lexicon.Api
             {
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<LMS_LexiconApiContext>();
+
 
                 context.Database.EnsureDeleted();
                 context.Database.Migrate();

@@ -4,16 +4,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using LMS.Api.Core.Entities;
-using LMS_Lexicon.Api.Data.Data;
+//using LMS_Lexicon.Api.Data.Data;
 using LMS.Api.Core.Repositories;
-using LMS_Lexicon.Api.Dtos;
+using Microsoft.EntityFrameworkCore;
+//using LMS.Api.Core.Dtos;
+//using LMS.Api.Data;
+using LMS_Api.Data;
 using AutoMapper;
-using System.Collections;
-using LMS_Lexicon.Api.Core.Dtos;
+using LMS_Api.Core.Dtos;
 
-namespace LMS_Lexicon.Api.Controllers
+namespace LMS_Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -23,11 +24,12 @@ namespace LMS_Lexicon.Api.Controllers
         private readonly IUoW uow;
         private readonly IMapper mapper;
 
+
         public AuthorsController(IUoW uow, LMS_LexiconApiContext context, IMapper mapper)
         {
              this._context = context;
              this.uow = uow;
-            this.mapper = mapper;
+             this.mapper = mapper;
         }
 
 
@@ -35,23 +37,11 @@ namespace LMS_Lexicon.Api.Controllers
         public async Task<ActionResult<IEnumerable<AuthorsDto>>> GetAllAuthors(bool includeLiterature)
         
         {
-            //Return AuthorsDto
-            if (includeLiterature)
-            {
-                var author = await uow.AuthorRepository.GetAllAuthors(includeLiterature);
+            var author = await uow.AuthorRepository.GetAllAuthors();
+            
+            var dto = mapper.Map<IEnumerable<AuthorsDto>>(author);
 
-                var dto = mapper.Map<IEnumerable<AuthorsDto>>(author); 
-
-                return Ok(dto);
-            }
-            else
-            {
-                var author = await uow.AuthorRepository.GetAllAuthors();                
- 
-                var dto = mapper.Map<IEnumerable<AuthorsDto>>(author);
-
-                return Ok(dto);                
-            }           
+            return Ok(dto);
         }
 
         // GET: api/Authors/5

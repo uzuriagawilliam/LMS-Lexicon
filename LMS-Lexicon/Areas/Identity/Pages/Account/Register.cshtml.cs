@@ -7,7 +7,7 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using LMS_Lexicon.Models.Entities;
+using LMS_Lexicon.Core.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -66,6 +66,8 @@ namespace LMS_Lexicon.Areas.Identity.Pages.Account
             public string FirstName { get; set; }
             [MaxLength(25), MinLength(3)]
             public string LastName { get; set; }
+
+            public int CourseId { get; set; }
             public DateTime TimeOfRegistration { get; set; }
         }
 
@@ -83,7 +85,9 @@ namespace LMS_Lexicon.Areas.Identity.Pages.Account
             {
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName, TimeOfRegistration = Input.TimeOfRegistration };
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                if (result.Succeeded)
+                var addtoroleresult = await _userManager.AddToRoleAsync(user, "Teacher");
+
+                if (result.Succeeded && addtoroleresult.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
@@ -104,7 +108,7 @@ namespace LMS_Lexicon.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        //await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
                 }

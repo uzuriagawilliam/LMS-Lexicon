@@ -1,18 +1,15 @@
-﻿using LMS_Lexicon.Data;
-using LMS_Lexicon.Models.Entities;
+﻿using LMS_Lexicon.Core.Models.Entities;
+using LMS_Lexicon.Data.Data;
+using LMS_Lexicon.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LMS_Lexicon
 {
@@ -28,9 +25,9 @@ namespace LMS_Lexicon
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<LmsDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<ApplicationUser>(options =>
@@ -42,11 +39,23 @@ namespace LMS_Lexicon
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
              })
-             .AddEntityFrameworkStores<ApplicationDbContext>();
+             .AddRoles<IdentityRole>()
+             .AddEntityFrameworkStores<LmsDbContext>();
 
-            services.AddDbContext<LMS_LexiconContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("LMS_LexiconContext")));
+            services.AddTransient<ICourseSelectService, CourseSelectService>();
+            services.AddTransient<IRolesSelectService, RolesSelectService>();
 
+            services.AddControllersWithViews(opt =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .Build();
+
+                opt.Filters.Add(new AuthorizeFilter(policy));
+            });
+
+            services.AddDbContext<LmsDbContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,7 +68,7 @@ namespace LMS_Lexicon
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Student/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -75,7 +84,7 @@ namespace LMS_Lexicon
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Student}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

@@ -1,0 +1,62 @@
+﻿@model CreateUsersViewModel;
+@inject ICourseSelectService courseSelect
+<br/>
+@{ if (Model.Role == "Student")
+    {<h2>Ändra Student</h2>}
+    else
+    { <h2>Ändra Lärare</h2>} 
+}
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditUser">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input type="hidden" asp-for="Id" class="form-control" />
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>*@
+            @if (Model.Role == "Student")
+            {
+                <div class="form-group">
+                    <label asp-for="CourseId" class="control-label"></label>
+                    <select asp-for="CourseId" asp-items="@await courseSelect.GetCoursesAsync()" class="form-control">
+                        <option selected="selected" value="">Please select</option>
+                    </select>
+                    <span asp-validation-for="CourseId" class="text-danger"></span>
+                </div>
+                <input asp-for="Role" type="hidden" value="Student" />
+            }
+            else
+            {
+                <input asp-for="CourseId" type="hidden" value="1" />
+                <input asp-for="Role" type="hidden" value="Teacher" />
+            }
+
+        <div class="form-group">
+            <input type="submit" value="Ändra" class="btn btn-primary" />
+        </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-route-role="@Model.Role"><i class="fas fa-list-alt fa-lg"></i></a>
+</div>
