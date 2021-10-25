@@ -57,21 +57,18 @@
                 Modul-lista
                 @foreach (var moodule in Model.Modules)
                 {
-                    <div>
-                        <h2>@moodule.Name</h2>
+                    //class="col-sm-6"
+                    <div class="btn btn-primary">
+                        <a style="color:black" asp-action="Activities" asp-route-id="@moodule.Id"><h2>@moodule.Name</h2></a>
                         @*<h2>@moodule.Id</h2>*@
-
-                        
-
-
-
-
                     </div>
                 }
             </div>
         </div>
     </div>
 </div>
+
+
 
 
 @*<div>
