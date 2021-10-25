@@ -17,7 +17,7 @@ namespace LMS_Lexicon.Data.Data
         private static RoleManager<IdentityRole> roleManager;
         private static UserManager<ApplicationUser> userManager;
 
-        public static async Task InitAsync(LmsDbContext context, IServiceProvider services,string userPW) 
+        public static async Task InitAsync(LmsDbContext context, IServiceProvider services,string userPW, string studentPW) 
         {
             if (string.IsNullOrWhiteSpace(userPW)) throw new Exception("Cant get password from config");
             if (context is null) throw new NullReferenceException(nameof(LmsDbContext));
@@ -25,7 +25,6 @@ namespace LMS_Lexicon.Data.Data
             fake = new Faker("sv");
             //db.Database.EnsureDeleted();
             //db.Database.Migrate();
-       
 
             if (await db.Users.AnyAsync()) return;
 
@@ -42,25 +41,28 @@ namespace LMS_Lexicon.Data.Data
                 const string roleName = "Teacher";
                 const string roleStudent = "Student";
 
-                //var role = new IdentityRole { Name = roleName };
-                //var addRoleResult = await roleManager.CreateAsync(role);
+            //var role = new IdentityRole { Name = roleName };
+            //var addRoleResult = await roleManager.CreateAsync(role);
+
                 await CreateActivityType(db);
+  
                 var courses = GetCourses();
                 await db.AddRangeAsync(courses);
+
                 await db.SaveChangesAsync();
 
-                var user = await userManager.FindByEmailAsync(userEmail);
-                    if (user == null)
-                    {
-                        user = await AddUserAsync(userEmail, userPW);
-                        await AddToRolesAsync(user, roleName);
-                    }
+            var user = await userManager.FindByEmailAsync(userEmail);
+            if (user == null)
+            {
+                user = await AddUserAsync(userEmail, userPW);
+                await AddToRolesAsync(user, roleName);
+            }
 
-                var students = GetStudents();
+            var students = GetStudents();
 
                 foreach (var student in students)
                 {
-                    var result = await userManager.CreateAsync(student, userPW);
+                    var result = await userManager.CreateAsync(student, studentPW);
                     if (!result.Succeeded) throw new Exception(String.Join("\n", result.Errors));
                     await userManager.AddToRoleAsync(student, roleStudent);
                 }
@@ -135,25 +137,23 @@ namespace LMS_Lexicon.Data.Data
 
             for (int i =0; i < 15; i++)
             {
-          
                 string coursename = fake.Commerce.ProductName();
                 coursename = coursename.Length < 25 ? coursename : coursename.Substring(0, 25);
 
                 string description = fake.Commerce.ProductDescription();
                 description = description.Length < 45 ? description : description.Substring(0, 45);
 
-            
                 var course = new Course
                 {
                     CourseName = coursename,
                     Description = description, 
                     StartDate = System.DateTime.Now.AddDays(fake.Random.Int(-5,5)),
-                    Modules = GetModules()
+                    Modules = GetModules(),
                     //Documents = GetDocuments()
-
                 };
                 courses.Add(course);
             }
+
             return courses;
         }
 
@@ -161,9 +161,9 @@ namespace LMS_Lexicon.Data.Data
         {
             var modules = new List<Module>();
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 20; i++)
             {
-                string name = fake.Commerce.Department();
+                string name = fake.Commerce.ProductName();
                 name = name.Length < 25 ? name : name.Substring(0, 25);
 
                 string description = fake.Lorem.Sentence();
@@ -232,7 +232,7 @@ namespace LMS_Lexicon.Data.Data
         {
             var students = new List<ApplicationUser>();
 
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < 30; i++)
             {
                 var fName = fake.Name.FirstName();
                 var lName = fake.Name.LastName();
@@ -251,7 +251,6 @@ namespace LMS_Lexicon.Data.Data
                 };
                 students.Add(student);
             }
-
             return students;
         }
     }

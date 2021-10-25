@@ -1,9 +1,6 @@
-﻿using LMS_Lexicon.Core.Models.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LMS_Lexicon.Core.Models.Entities
 {
@@ -26,7 +23,7 @@ namespace LMS_Lexicon.Core.Models.Entities
         //Nav prop
         public ICollection<ApplicationUser> ApplicationUsers { get; set; }
         public ICollection<Module> Modules { get; set; }
-        //public ICollection<Document> Documents { get; set; }
+        public ICollection<Document> Documents { get; set; }
 
 
     }

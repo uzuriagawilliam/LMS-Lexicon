@@ -3,13 +3,14 @@
 @{
     ViewData["Title"] = "Delete";
 }
+<br />
+@{ if (Model.Role == "Student")
+    {<h3>Är du säker på att du vill ta bort den här studenten?</h3>}
+    else{<h3>Är du säker på att du vill ta bort den här läraren?</h3>}
+}
 
-<h1>Ta bort</h1>
-
-<h3>Är du säker på att du vill ta bort det här?</h3>
 
 <div>
-    <h4>Student</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -39,10 +40,11 @@
     </dl>
 </div>
 <div>
-    <form asp-action="DeleteStudent">
+    <form asp-action="DeleteUser">
         <input type="hidden" asp-for="@Model.Id" />
+        <input type="hidden" asp-for="@Model.Role" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <a asp-action="Index" asp-route-role="@Model.Role"><i class="fas fa-list-alt fa-lg"></i></a>
     </form>
 </div>
 

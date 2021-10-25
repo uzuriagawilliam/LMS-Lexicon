@@ -1,16 +1,14 @@
 ﻿@model IEnumerable<Course>
 
 @{
-    ViewData["Title"] = "Courses";
+    ViewData["Title"] = "Index";
 }
-
-<h1>Index</h1>
+<br/>
+<h1>Kurser</h1>
 
 <p>
-    <a asp-action="Create">Lägg till kurser</a>
-    @*<a class="btn btn-success text-white popup" data-url="Teacher/CreateStudent" data-toggle="modal" data-target="#modal-create-user" id="UserModel">Lägg till kurs <i class="fa fa-plus"></i></a>*@
+    <a asp-action="Create">Skapa kurs <i class="fas fa-pen"></i></a>
 </p>
-
 <table class="table">
     <thead>
         <tr>
@@ -30,7 +28,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.CourseName)
+                <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.CourseName)</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
@@ -39,9 +37,9 @@
                 @Html.DisplayFor(modelItem => item.StartDate)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a> |
+                <a asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-sticky-note"></i></a> |
+                <a asp-action="Delete" asp-route-id="@item.Id"><i class="fas fa-trash-alt"></i></a>
             </td>
         </tr>
 }

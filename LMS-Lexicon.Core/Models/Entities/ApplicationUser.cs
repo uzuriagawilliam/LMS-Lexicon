@@ -19,9 +19,10 @@ namespace LMS_Lexicon.Core.Models.Entities
         public string LastName { get; set; }
         public DateTime TimeOfRegistration { get; set; }
         // ForignKey
-        public int CourseId { get; set; }  //ToDo Fix!!!!!! remove ?
+        public int? CourseId { get; set; }  //ToDo Fix!!!!!! remove ?
         //Nav Properties
-        //public ICollection<Document> Documents { get; set; }
+        public ICollection<Document> Documents { get; set; }
         public Course Course { get; set; }
+
     }
 }

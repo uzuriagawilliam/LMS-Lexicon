@@ -11,7 +11,7 @@ namespace LMS_Lexicon.Data.Data
     public class LmsDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
     {
         public DbSet<Course> CourseClass { get; set; }
-        //public DbSet<Document> DocumentClass { get; set; }
+        public DbSet<Document> DocumentClass { get; set; }
         public DbSet<Module> ModuleClass { get; set; }
         public DbSet<Activity> ActivityClass { get; set; }
 

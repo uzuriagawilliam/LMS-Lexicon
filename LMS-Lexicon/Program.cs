@@ -19,18 +19,18 @@ namespace LMS_Lexicon
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<LmsDbContext>();
 
-                context.Database.EnsureDeleted();
-                context.Database.Migrate();
+                //context.Database.EnsureDeleted();
+                //context.Database.Migrate();
 
                 //dotnet user-secrets set "AdminPW" "BytMig123!"
                 var config = services.GetRequiredService<IConfiguration>();
                 //var userPW = config["UserPW"];
                 var userPW = "PassWord";
-
+                var studentPW = "PassWord";
 
                 try
                 {
-                    SeedData.InitAsync(context, services, userPW).Wait();
+                    //SeedData.InitAsync(context, services, userPW, studentPW).Wait();
                 }
                 catch (Exception ex)
                 {

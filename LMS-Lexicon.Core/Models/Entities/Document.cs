@@ -20,14 +20,14 @@ namespace LMS_Lexicon.Core.Models.Entities
         //Forignkeys
         public int? ModuleId { get; set; }
         public int? ActivityId { get; set; }
-        public int CourseId { get; set; }
+        public int? CourseId { get; set; }
         public string ApplicationUserId { get; set; }
 
         //Navigation property
-        //public ApplicationUser ApplicationUser { get; set; }
-        //public Module Module { get; set; }
-        //public Course Course { get; set; }
-        //public Activity Activity { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
+        public Module Module { get; set; }
+        public Course Course { get; set; }
+        public Activity Activity { get; set; }
 
 
     }

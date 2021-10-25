@@ -3,8 +3,8 @@
 @{
     ViewData["Title"] = "Details";
 }
-
-<h1>Details</h1>
+<br/>
+<h3>Skapa moduler</h3>
 
 <div>
     
@@ -60,7 +60,7 @@
 
 
 <div>
-    <h4>Course</h4>
+    <h4>Kurs</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -84,6 +84,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit fa-lg"></i></a> |
+    <a asp-action="Index"><i class="fas fa-list-alt fa-lg"></i></a>
 </div>
