@@ -57,14 +57,7 @@ namespace LMS_Lexicon.Data.Data
 
                 await db.SaveChangesAsync();
 
-            var user = await userManager.FindByEmailAsync(userEmail);
-            if (user == null)
-            {
-                user = await AddUserAsync(userEmail, userPW);
-                await AddToRolesAsync(user, roleName);
-            }
-
-            var students = GetStudents();
+                var students = GetStudents();
 
                 foreach (var student in students)
                 {
