@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LMS_Lexicon.Core.Models.ViewModels
 {
-    public class IndexStudentsViewModel
+    public class IndexUsersViewModel
     {
         public string Id { get; set; }
         [Display(Name = "Förnamn")]
@@ -20,11 +20,11 @@ namespace LMS_Lexicon.Core.Models.ViewModels
         public string FullName { get; set; }
 
         [Display(Name = "Epost")]
-        //[RegularExpression(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",
-        //ErrorMessage = "Felaktig epost adress.")]
         public string Email { get; set; }
 
         [Display(Name = "Kursnamn")]
         public string CourseName { get; set; }
+
+        public string Role { get; set; }
     }
 }

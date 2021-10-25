@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace LMS_Lexicon.Core.Models.ViewModels
 {
-    public class CreateStudentViewModel
+    public class CreateUsersViewModel
     {
         public string Id { get; set; }
         public DateTime TimeOfRegistration { get; set; }
@@ -20,7 +21,7 @@ namespace LMS_Lexicon.Core.Models.ViewModels
         [MaxLength(25), MinLength(3)]
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "Du måste ange en giltig epost adress")]
+        [Required(ErrorMessage = "Du måste ange en epost adress")]
         [EmailAddress]
         [Display(Name = "Epost")]
         //[RegularExpression(@"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",
@@ -36,6 +37,7 @@ namespace LMS_Lexicon.Core.Models.ViewModels
         [Required(ErrorMessage = "Du måste välja en kurs för studenten")]
         [Display(Name = "Kursnamn")]
         public int? CourseId { get; set; }
+        public string Role { get; set; }
 
         //public IEnumerable<SelectListItem> Courses { get; set; }
     }
