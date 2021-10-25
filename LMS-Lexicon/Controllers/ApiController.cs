@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LMS_Lexicon.Data;
 using System.Net.Http;
-using LMS_Lexicon.Models;
+using LMS_Lexicon.Core.Models;
 using Newtonsoft.Json;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 //using LMS.Api.Core.Dtos;
 //using LMS_Api.Core.Dtos;
 //using JsonSerializer = Newtonsoft.Json.JsonSerializer;
@@ -20,6 +22,9 @@ namespace LMS_Lexicon.Controllers
     public class ApiController : Controller
     {
         private HttpClient httpClient;
+        private const string json = "application/json";
+        private readonly IHttpClientFactory httpClientFactory;
+        //private readonly CodeEventClient codeEventClient;
 
         public ApiController()
         {
@@ -99,7 +104,7 @@ namespace LMS_Lexicon.Controllers
 
             return codeEvents;
         }
-        private async Task<IEnumerable<Models.LiteratureDto>> SimpleGetLiterature()
+        private async Task<IEnumerable<LiteratureDto>> SimpleGetLiterature()
         {
             var response = await httpClient.GetAsync("api/Literatures");
             //IEnumerable<AuthorsDto> authorsDto;
@@ -107,7 +112,7 @@ namespace LMS_Lexicon.Controllers
 
             var content = await response.Content.ReadAsStringAsync();
 
-            var codeEvents = System.Text.Json.JsonSerializer.Deserialize<IEnumerable<Models.LiteratureDto>>(content, new
+            var codeEvents = System.Text.Json.JsonSerializer.Deserialize<IEnumerable<LiteratureDto>>(content, new
                 JsonSerializerOptions
             { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 
@@ -120,9 +125,36 @@ namespace LMS_Lexicon.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Teacher")]
-        public IActionResult Create(Author author)
+        public async Task<IActionResult> Create(Author author)
         {
-            
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/Author");
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(json));
+
+            request.Content = JsonContent.Create(author, typeof(Author), new MediaTypeHeaderValue(json));
+
+            var response = await httpClient.SendAsync(request);//Crash
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            var codeEvents = System.Text.Json.JsonSerializer.Deserialize<AuthorsDto>(content, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+
+
+            //var res = await CreateAuthor();
+            return View(codeEvents);
+        }
+
+        public IActionResult Edit()
+        {
+
+
+            return View();
+        }
+
+        public IActionResult Delete()
+        {
+
+            //Hittar inte Author i 
             return View();
         }
 

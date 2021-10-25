@@ -1,5 +1,5 @@
 ﻿using LMS_Lexicon.Core.Models.Entities;
-using LMS_Lexicon.Models;
+using LMS_Lexicon.Core.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
