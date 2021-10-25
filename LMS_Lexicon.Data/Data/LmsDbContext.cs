@@ -1,4 +1,5 @@
 ﻿using LMS_Lexicon.Core.Models.Entities;
+using LMS_Lexicon.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ namespace LMS_Lexicon.Data.Data
         public DbSet<Document> DocumentClass { get; set; }
         public DbSet<Module> ModuleClass { get; set; }
         public DbSet<Activity> ActivityClass { get; set; }
+        public DbSet<Author> AthorClass { get; set; }//William
 
         public LmsDbContext(DbContextOptions<LmsDbContext> options)
             : base(options)

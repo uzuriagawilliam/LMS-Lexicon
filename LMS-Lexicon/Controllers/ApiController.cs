@@ -10,6 +10,7 @@ using System.Net.Http;
 using LMS_Lexicon.Models;
 using Newtonsoft.Json;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
 //using LMS.Api.Core.Dtos;
 //using LMS_Api.Core.Dtos;
 //using JsonSerializer = Newtonsoft.Json.JsonSerializer;
@@ -96,7 +97,6 @@ namespace LMS_Lexicon.Controllers
                 JsonSerializerOptions
             { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 
-
             return codeEvents;
         }
         private async Task<IEnumerable<Models.LiteratureDto>> SimpleGetLiterature()
@@ -113,5 +113,18 @@ namespace LMS_Lexicon.Controllers
 
             return codeEvents;
         }
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Teacher")]
+        public IActionResult Create(Author author)
+        {
+            
+            return View();
+        }
+
     }
 }

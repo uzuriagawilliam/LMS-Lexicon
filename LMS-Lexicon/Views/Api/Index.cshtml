@@ -4,28 +4,51 @@
     ViewData["Title"] = "API-View";
 }
 
-<h1>Api Authors View</h1>
+<table class="table table-borderless">
+    
+    <tbody>
+        <tr>
+            
+            <td><p>
+                <h4><a asp-action="Create">Lägg till författare</a></h4>
+                </p></td>
+            <td>
+                <p>
+                    @using (Html.BeginForm())
+                    {
+                <p>
+                    Sök efter författare: @Html.TextBox("SearchString")
+                    <input type="submit" value="Search" />
+                </p>
+                }
+                </p>
+            </td>
+            
+        </tr>
+        </tbody>
+</table>
 
-<p>
-    <a asp-action="Create">Add author</a>
 
+@*<p>
+    <h3><a asp-action="Create">Ny författare</a></h3>
 </p>
 @using (Html.BeginForm())
 {
     <p>
-        Find by name: @Html.TextBox("SearchString")
+        Sök efter författare: @Html.TextBox("SearchString")
         <input type="submit" value="Search" />
     </p>
-}
+}*@
 <table class="table table-striped">
     <thead>
         <tr>
             <th>
                 @*@Html.DisplayNameFor(model => model.Name)*@
-                @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm })
+                @Html.ActionLink("Nam", "Index", new { sortOrder = ViewBag.NameSortParm })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Age)
+                @*@Html.DisplayNameFor(model => model.Age)*@
+                Ålder
             </th>
             <th></th>
         </tr>
@@ -43,8 +66,8 @@
                 </td>
                 @*if teacher *@
                 <td>
-                    @*<a asp-action="Edit" asp-route-id="@item.AuthorId">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.AuthorId">Delete</a>*@
+                    <a asp-action="Edit" asp-route-id="@item.AuthorId">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.AuthorId">Delete</a>
                 </td>
 
             </tr>

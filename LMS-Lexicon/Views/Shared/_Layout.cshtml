@@ -38,6 +38,18 @@
                         <a class="nav-link" asp-area="" asp-controller="Teacher" asp-action="Index">Användare</a>
                     </li>
                 }
+                @if (User.IsInRole("Teacher"))//William
+                {
+                    <li class="nav-item px-md-4">
+                        <a class="nav-link" asp-area="" asp-controller="Api" asp-action="Index">Författare</a>
+                    </li>
+                }
+                @if (User.IsInRole("Teacher"))//William
+                {
+                    <li class="nav-item px-md-4">
+                        <a class="nav-link" asp-area="" asp-controller="Api" asp-action="LiteratureIndex">Litteratur</a>
+                    </li>
+                }
             </ul>
         </nav>
     </header>
