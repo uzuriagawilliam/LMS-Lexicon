@@ -177,7 +177,27 @@ namespace LMS_Lexicon.Controllers
             }
             return View();
         }
+        public IActionResult EditModule(int courseId)
+        {
+            return View();
+        }
 
+        // POST: Module/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Teacher")]
+        public async Task<IActionResult> EditModule(Module module)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Add(module);
+                await db.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
+        }
         private bool CourseExists(int id)
         {
             return db.CourseClass.Any(e => e.Id == id);

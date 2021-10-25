@@ -34,7 +34,7 @@
         <div class="card-header" id="headingOne">
             <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
-                    Beskrivning
+                    Beskrivning >
                 </button>
             </h2>
         </div>
@@ -48,30 +48,64 @@
         <div class="card-header" id="headingThree">
             <h2 class="mb-0">
                 <button class="btn btn-link btn-block text-left text-dark font-weight-bold collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    Moduler
+                    Moduler >
                 </button>
             </h2>
         </div>
         <div id="collapseThree" class="collapse @(ViewBag.ShowModule ? "show" :"")" aria-labelledby="headingThree" data-parent="#accordionExample">
-            <div class="card-body">
-                Modul-lista
-                @foreach (var moodule in Model.Modules)
-                {
-                    <div>
-                        <h2>@moodule.Name</h2>
-                        @*<h2>@moodule.Id</h2>*@
+            <div id="accordion">
+                <div class="card">
+                    Modul-lista
 
+                    @foreach (var module in Model.Modules)
+
+                    {
+                       
+                    <div class="card">
                         
+                        <div class="card-header" id="headingFive">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                    @module.Name
+
+                                </button>
+
+                            </h5>
+                           
+                        </div>
+                        <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+                            <div class="card-body">
+                                <p>Börja :  @module.StartDate</p>
+                                <p>Slut :@module.EndDate</p>
+
+                                <p>Beskrivning @module.Description</p>
+                                @module.Id
+                            </div>
+                            <div>
+
+                                <a asp-action="Edit"  asp-controller="Modules" asp-route-moduleId="@module.Id">Edit modul+</a>
+                            </div>
+
+                            <div>
+
+                            </div>
+                            <div class="card-body">
 
 
 
-
+                            </div>
+                        </div>
                     </div>
-                }
+
+                    }
+
+
+
+                </div>
             </div>
-        </div>
-    </div>
+            </div>
 </div>
+        
 
 
 @*<div>
