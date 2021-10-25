@@ -9,7 +9,7 @@
 <br />
 <div class="row">
     <div class="col-md-8"></div>
-    <div class="col-md-3 px-md-3">
+    <div class="col-md-3 px-sm-1 px-md-4 px-lg-6">
         <form asp-action="GetUsersByRole" class="input-group ml-1" id="RoleForm" data-ajax="true" data-ajax-method="GET" data-ajax-update="#UsersList" data-ajax-mode="replace">
             <select asp-for="RoleId" asp-items="@await rolesSelect.GetUserRolessAsync()" class="form-control form-control form-control-sm">
                 <option selected="selected" value="">Välj roll</option>
@@ -18,12 +18,12 @@
     </div>
     <div class="col-md-1"></div>
 </div>
+<br/>
 <div id="addUser"></div>
 <div id="UsersList">
     <partial name="UsersPartial" model="@Model.UserList" />
 </div>
 @section Scripts {
-    <script src="~/js/site.js"></script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 

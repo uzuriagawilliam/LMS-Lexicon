@@ -1,12 +1,11 @@
-﻿@model LMS_Lexicon.Core.Models.Entities.Activity
+﻿@model CreateActivityViewModel
+@inject IActivityTypeSelectService typeSelect
 
 @{
     ViewData["Title"] = "Create";
 }
-
-<h1>Create</h1>
-
-<h4>Activity</h4>
+<br/>
+<h4>Lägg till aktivitet</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -33,22 +32,24 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ActivityTypeId" class="control-label"></label>
-                <select asp-for="ActivityTypeId" class ="form-control" asp-items="ViewBag.ActivityTypeId"></select>
+                <label asp-for="ActivityTypeId" class="col-form-label"></label>
+                <div class="col-sm-10">
+                    <select asp-for="ActivityTypeId" asp-items="@await typeSelect.GetActivityTypeAsync()" class="form-control">
+                        <option selected="selected" value="">-- Välj aktivitetstyp --</option>
+                    </select>
+                    <span asp-validation-for="ActivityTypeId" value="@Model.CourseId" class="text-danger"></span>
+                </div>
             </div>
+            <input asp-for="ModuleId" type="hidden" class="form-control" />
+            <input asp-for="CourseId" type="hidden" class="form-control" />
             <div class="form-group">
-                <label asp-for="ModuleId" class="control-label"></label>
-                <select asp-for="ModuleId" class ="form-control" asp-items="ViewBag.ModuleId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Lägg till" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
-
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Details" asp-controller="Courses" asp-route-Id="@Model.CourseId"><i class="fas fa-list-alt fa-lg"></i></a>
 </div>
 
 @section Scripts {

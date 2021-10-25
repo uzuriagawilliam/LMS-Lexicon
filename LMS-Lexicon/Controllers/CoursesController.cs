@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using LMS_Lexicon.Data.Data;
 using LMS_Lexicon.Core.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
+using LMS_Lexicon.Core.Models.ViewModels;
 
 namespace LMS_Lexicon.Controllers
 {
@@ -36,14 +37,40 @@ namespace LMS_Lexicon.Controllers
             var course = await db.CourseClass
                 .Include(c => c.Modules)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
+
+            var modules = await db.ModuleClass
+                .Include(a => a.Activities)
+                .Where(m => m.CourseId == id)
+                .ToListAsync();
+
+            var activities = modules.Select(a => a.Activities).ToList();
+
             if (course == null)
+            {
+                return NotFound();
+            }
+            if (modules == null)
+            {
+                return NotFound();
+            }
+            if (activities == null)
             {
                 return NotFound();
             }
 
             ViewBag.ShowModule = expandedModule;
+            var model = new ModulesDetailsViewModel
+            {
+                Id = course.Id,
+                CourseName = course.CourseName,
+                Description = course.Description,
+                StartDate = course.StartDate,
+                Modules = modules,
+                Activities = activities
+            };
 
-            return View(course);
+            return View(model);
         }
 
         // GET: Courses/Create
