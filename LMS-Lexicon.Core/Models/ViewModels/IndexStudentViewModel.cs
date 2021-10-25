@@ -1,11 +1,14 @@
-﻿using System;
+﻿using LMS_Lexicon.Core.Models.Entities;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace LMS_Lexicon.Core.Models.ViewModels
 {
-    public class IndexViewModel
+    public class IndexStudentViewModel
     {
         public string Id { get; set; }
         public string FirstName { get; set; }
@@ -24,6 +27,7 @@ namespace LMS_Lexicon.Core.Models.ViewModels
         public string RoleName { get; set; }
 
         public IEnumerable<IndexUsersViewModel> UserList { get; set; }
+        public ICollection<Module> Modules { get; set; }
 
     }
 }
