@@ -4,7 +4,7 @@
     ViewData["Title"] = "Skapa";
 }
 <br/>
-<h4>Lägg till Modul</h4>
+<h3>Lägg till Modul</h3>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -32,14 +32,14 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Lägg till" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Details" asp-controller="Courses" asp-route-Id="@Model.CourseId">Back to List</a>
+    <a asp-action="Details" asp-controller="Courses" asp-route-Id="@Model.CourseId"><i class="fas fa-list-alt fa-lg"></i></a>
 </div>
 
 @section Scripts {

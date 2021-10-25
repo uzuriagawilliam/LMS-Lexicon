@@ -290,7 +290,7 @@ namespace LMS_Lexicon.Controllers
         [HttpPost, ActionName("DeleteUser")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(string id, string role)
         {
             try
             {
@@ -298,7 +298,14 @@ namespace LMS_Lexicon.Controllers
                 var result = await _userManager.DeleteAsync(std);
                 if (result.Succeeded)
                 {
-                    TempData["UserSuccess"] = "Studenten är borttagen ";
+                    if (role == "Student")
+                    {
+                        TempData["UserSuccess"] = "Studenten " + std.FirstName + " är nu borttagen";
+                    }
+                    else
+                    {
+                        TempData["UserSuccess"] = "Läraren " + std.FirstName + " är nu borttagen";
+                    }
                 }
                 else
                 {
