@@ -4,10 +4,9 @@
 }
 
 @foreach (var act in Model.Modules.)
-                {
-                    //class="col-sm-6"
-<div class="btn btn-primary">
-    <a style="color:black" asp-action="Activities" asp-route-id="@moodule.Id"><h2>@moodule.Name</h2></a>
-    <h2>@moodule.Id</h2>
-</div>
-                }
+{
+    //class="col-sm-6"
+    <div class="btn btn-primary">
+        <a style="color:black" asp-action="Activities" asp-route-id="@act.Id"><h2>@act.Name</h2></a>
+        <h2>@act.Id</h2>
+    </div>
