@@ -27,9 +27,12 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
+        <td>
+            <div class="btn text-black-50 btn-warning">
+                @* <a style="color:black" asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.CourseName)</a>*@
                 <a asp-action="Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.CourseName)</a>
-            </td>
+            </div>
+        </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
