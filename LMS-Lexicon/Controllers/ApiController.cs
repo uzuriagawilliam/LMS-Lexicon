@@ -11,7 +11,7 @@ using LMS_Lexicon.Models;
 using Newtonsoft.Json;
 using System.Text.Json;
 //using LMS.Api.Core.Dtos;
-using LMS_Api.Core.Dtos;
+//using LMS_Api.Core.Dtos;
 //using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 namespace LMS_Lexicon.Controllers

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LMS_Lexicon.Models.AuthorSDto>
+﻿@model IEnumerable<LMS_Lexicon.Models.AuthorsDto>
 
 @{
     ViewData["Title"] = "API-View";
@@ -43,8 +43,8 @@
                 </td>
                 @*if teacher *@
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.AuthorId">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.AuthorId">Delete</a>
+                    @*<a asp-action="Edit" asp-route-id="@item.AuthorId">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.AuthorId">Delete</a>*@
                 </td>
 
             </tr>
