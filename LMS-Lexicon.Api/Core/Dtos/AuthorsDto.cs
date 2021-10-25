@@ -12,6 +12,6 @@ namespace LMS_Api.Core.Dtos
         public string Name { get; set; }
         public int Age { get; set; }
 
-        public ICollection<Literature> Literatures { get; set; }
+        //public ICollection<Literature> Literatures { get; set; }
     }
 }
