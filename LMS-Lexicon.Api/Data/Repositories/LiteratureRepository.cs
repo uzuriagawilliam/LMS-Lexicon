@@ -1,14 +1,13 @@
 ﻿using LMS.Api.Core.Entities;
 using LMS.Api.Core.Repository;
-using LMS_Lexicon.Api.Data.Data;
+//using LMS.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace LMS.Api.Data.Repositories
+namespace LMS_Api.Data.Repositories
 {
     public class LiteratureRepository : ILiteratureRepository
     {
@@ -57,6 +56,5 @@ namespace LMS.Api.Data.Repositories
         {
             db.Update(literature);
         }
-
     }
 }
