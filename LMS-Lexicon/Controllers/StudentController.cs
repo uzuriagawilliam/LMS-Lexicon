@@ -34,12 +34,23 @@ namespace LMS_Lexicon.Controllers
 
         public async Task<IActionResult> Index()
         {
+            bool expandedModule = false; 
             var user = await _userManager.GetUserAsync(User);
             //var course = await db.Users.Include(c => c.Course).Where(i => i.CourseId == user.CourseId).Select(n => n.Course.CourseName).FirstOrDefaultAsync();
             var currentrole = User.IsInRole("Student") ? "Student" : User.IsInRole("Teacher") ? "Teacher" : "-";
             var coursename = await db.CourseClass.Where(i => i.Id == user.CourseId).Select(n => n.CourseName).FirstOrDefaultAsync();
             var coursedescription = await db.CourseClass.Where(i => i.Id == user.CourseId).Select(d => d.Description).FirstOrDefaultAsync();
             var coursestartdate = await db.CourseClass.Where(i => i.Id == user.CourseId).Select(d => d.StartDate).FirstOrDefaultAsync();
+            
+            var course = await db.CourseClass
+            .Include(c => c.Modules)
+            .FirstOrDefaultAsync(m => m.Id == user.CourseId);
+            if (course == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.ShowModule = expandedModule;
 
             if (User.IsInRole("Teacher"))
             {
@@ -54,41 +65,40 @@ namespace LMS_Lexicon.Controllers
             //return View(studentDetails);
 
 
-            var model = new IndexViewModel
+            var model = new IndexStudentViewModel
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
+
                 TimeOfRegistration = user.TimeOfRegistration,
                 Role = currentrole,
                 CourseName = coursename,
                 CourseDescription = coursedescription,
-                CourseStartDate = coursestartdate
+                CourseStartDate = coursestartdate,
+                Modules = course.Modules
             };
             return View(model);
 
         }
-        // GET: StudentController/Details/5
-        //public async Task<IActionResult> Details(int? id)
+        //public async Task<IActionResult> Details(int? id, bool expandedModule = false)
         //{
         //    if (id == null)
         //    {
         //        return NotFound();
         //    }
 
-        //    //var @module = await context.ModuleClass
-        //    //    .FirstOrDefaultAsync(m => m.Id == id);
-        //    //if (@module == null)
-        //    //{
-        //    //    return NotFound();
-        //    //}
+        //    var course = await db.CourseClass
+        //        .Include(c => c.Modules)
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (course == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-        //    //return View(@module);
-        //}
+        //    ViewBag.ShowModule = expandedModule;
 
-        //public ActionResult Details(int id)
-        //{
-        //    return View();
+        //    return View(course);
         //}
 
         // GET: StudentController/Create
