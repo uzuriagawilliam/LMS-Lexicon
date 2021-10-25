@@ -4,8 +4,11 @@ using LMS_Lexicon.Data.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace LMS_Lexicon.Controllers
 {
@@ -20,32 +23,73 @@ namespace LMS_Lexicon.Controllers
             _logger = logger;
             _userManager = userManager;
             db = context;
+            
         }
+
+
+        //public async Task<IActionResult> Index2()
+        //{
+        //    return View(await db.CourseClass.ToListAsync());
+        //}
 
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
+            //var course = await db.Users.Include(c => c.Course).Where(i => i.CourseId == user.CourseId).Select(n => n.Course.CourseName).FirstOrDefaultAsync();
             var currentrole = User.IsInRole("Student") ? "Student" : User.IsInRole("Teacher") ? "Teacher" : "-";
+            var coursename = await db.CourseClass.Where(i => i.Id == user.CourseId).Select(n => n.CourseName).FirstOrDefaultAsync();
+            var coursedescription = await db.CourseClass.Where(i => i.Id == user.CourseId).Select(d => d.Description).FirstOrDefaultAsync();
+            var coursestartdate = await db.CourseClass.Where(i => i.Id == user.CourseId).Select(d => d.StartDate).FirstOrDefaultAsync();
 
             if (User.IsInRole("Teacher"))
             {
                 return RedirectToAction("Index", "Courses");
             }
+            //var studentDetails = new StudentDetailsViewModel
+            //    (
+            //    f = user.FirstName,
+            //    LastName = user.LastName
+
+            //    );
+            //return View(studentDetails);
+
 
             var model = new IndexViewModel
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Role = currentrole
+                Email = user.Email,
+                TimeOfRegistration = user.TimeOfRegistration,
+                Role = currentrole,
+                CourseName = coursename,
+                CourseDescription = coursedescription,
+                CourseStartDate = coursestartdate
             };
             return View(model);
-        }
 
-        // GET: StudentController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
         }
+        // GET: StudentController/Details/5
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    //var @module = await context.ModuleClass
+        //    //    .FirstOrDefaultAsync(m => m.Id == id);
+        //    //if (@module == null)
+        //    //{
+        //    //    return NotFound();
+        //    //}
+
+        //    //return View(@module);
+        //}
+
+        //public ActionResult Details(int id)
+        //{
+        //    return View();
+        //}
 
         // GET: StudentController/Create
         public ActionResult Create()
