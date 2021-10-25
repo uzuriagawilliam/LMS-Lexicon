@@ -26,19 +26,29 @@
         <nav class="navbar navbar-expand-md navbar-dark bg-dark">
             <ul class="navbar-nav navbar-nav mr-auto">
 
-                @if (User.IsInRole("Teacher"))
-                {
-                    <li class="nav-item px-md-4">
-                        <a class="nav-link" asp-area="" asp-controller="Courses" asp-action="Index">Kurser</a>
-                    </li>
-                }
-                @if (User.IsInRole("Teacher"))
-                {
-                    <li class="nav-item px-md-4">
-                        <a class="nav-link" asp-area="" asp-controller="Teacher" asp-action="Index">Användare</a>
-                    </li>
-                }
-            </ul>
+                        @if (User.IsInRole("Teacher"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Courses" asp-action="Index">Kurser</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Teacher"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Teacher" asp-action="Index">Studenter</a>
+                            </li>
+                        }
+                        @*@if (User.IsInRole("Teacher"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Modules" asp-action="Index">Modules</a>
+                            </li>
+                        }*@
+
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
         </nav>
     </header>
     <div class="container">
