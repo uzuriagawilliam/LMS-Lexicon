@@ -3,8 +3,12 @@
 @{
     ViewData["Title"] = "Delete";
 }
-<br/>
-<h3>Är du säker på att du vill ta bort den här användaren?</h3>
+<br />
+@{ if (Model.Role == "Student")
+    {<h3>Är du säker på att du vill ta bort den här studenten?</h3>}
+    else{<h3>Är du säker på att du vill ta bort den här läraren?</h3>}
+}
+
 
 <div>
     <hr />

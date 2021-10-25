@@ -309,7 +309,7 @@ namespace LMS_Lexicon.Controllers
                 }
                 else
                 {
-                    TempData["StudenExists"] = "Borttagningen misslyckades ";
+                    TempData["UserExists"] = "Borttagningen misslyckades ";
                 }
 
                 return RedirectToAction(nameof(Index));
