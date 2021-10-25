@@ -47,7 +47,12 @@ namespace LMS_Lexicon.Controllers
         public IActionResult Create(int courseId)
         {
             //ViewData["CourseId"] = courseId;
-            var model = new Module { CourseId = courseId };
+            var model = new Module 
+            { 
+                CourseId = courseId,
+                StartDate = DateTime.Now.Date,
+                EndDate = DateTime.Now.Date
+            };
             return View(model);
         }
 
@@ -62,29 +67,36 @@ namespace LMS_Lexicon.Controllers
             {
                 _context.Add(@module);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Courses", new { id = module.CourseId, expandedModule = true });
             }
             ViewData["CourseId"] = new SelectList(_context.CourseClass, "Id", "CourseName", @module.CourseId);
             return View(@module);
         }
 
         // GET: Modules/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        //public async Task<IActionResult> Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var @module = await _context.ModuleClass.FindAsync(id);
+        //    if (@module == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    ViewData["CourseId"] = new SelectList(_context.CourseClass, "Id", "CourseName", @module.CourseId);
+        //    return View(@module);
+        //}
+        // Post: Modules/Edit
+        public async Task<IActionResult> Edit(int moduleId)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var @module = await _context.ModuleClass.FindAsync(id);
-            if (@module == null)
-            {
-                return NotFound();
-            }
-            ViewData["CourseId"] = new SelectList(_context.CourseClass, "Id", "CourseName", @module.CourseId);
-            return View(@module);
+            var model  = await _context.ModuleClass.FindAsync(moduleId);
+            //ViewData["CourseId"] = courseId;
+            //var model = new Module { CourseId = courseId };
+            return View(model);
         }
-
         // POST: Modules/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -92,16 +104,17 @@ namespace LMS_Lexicon.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StartDate,EndDate,Description,CourseId")] Module @module)
         {
-            if (id != @module.Id)
-            {
-                return NotFound();
-            }
+            //if (id != @module.Id)
+            //{
+            //    return NotFound();
+            //}
 
             if (ModelState.IsValid)
             {
                 try
                 {
                     _context.Update(@module);
+                    _context.Entry(@module).Property(m => m.CourseId).IsModified = false;
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -115,9 +128,9 @@ namespace LMS_Lexicon.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Courses", new { id = @module.CourseId, expandedModule = true });
             }
-            ViewData["CourseId"] = new SelectList(_context.CourseClass, "Id", "CourseName", @module.CourseId);
+           // ViewData["CourseId"] = new SelectList(_context.CourseClass, "Id", "CourseName", @module.CourseId);
             return View(@module);
         }
 

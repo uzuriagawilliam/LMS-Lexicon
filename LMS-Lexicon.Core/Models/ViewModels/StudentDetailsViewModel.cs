@@ -29,5 +29,6 @@ namespace LMS_Lexicon.Core.Models.ViewModels
 
         [Display(Name = "Startdatum")]
         public DateTime StartDate { get; set; }
+        public string Role { get; set; }
     }
 }

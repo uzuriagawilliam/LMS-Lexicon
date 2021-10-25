@@ -43,6 +43,7 @@ namespace LMS_Lexicon
              .AddEntityFrameworkStores<LmsDbContext>();
 
             services.AddTransient<ICourseSelectService, CourseSelectService>();
+            services.AddTransient<IRolesSelectService, RolesSelectService>();
 
             services.AddControllersWithViews(opt =>
             {
