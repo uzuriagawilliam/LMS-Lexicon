@@ -185,7 +185,7 @@ namespace LMS_Lexicon.Data.Data
         {
             var activities = new List<Activity>();
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 5; i++)
             {
                 string name = fake.Commerce.ProductName();
                 name = name.Length < 25 ? name : name.Substring(0, 25);

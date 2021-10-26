@@ -92,9 +92,13 @@ namespace LMS_Lexicon.Controllers
             var model = new ActivityViewModel
             {
                 CourseId = courseid,
-                ActivityId = activityid,
-                StartDate = DateTime.Now,
-                EndDate = DateTime.Now
+                Id = activity.Id,
+                ModuleId = activity.ModuleId,
+                Name = activity.Name,
+                StartDate = activity.StartDate,
+                EndDate = activity.EndDate,
+                Description = activity.Description,
+                ActivityTypeId = activity.ActivityTypeId,
             };
 
             return View(model);
@@ -105,51 +109,72 @@ namespace LMS_Lexicon.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int activityid, ActivityViewModel vm)
+        public async Task<IActionResult> Edit(int id, ActivityViewModel vm)
         {
-            if (activityid != vm.Id)
+            if (id != vm.Id)
             {
                 return NotFound();
             }
+            var currentactivity = await _context.ActivityClass.AsNoTracking().FirstOrDefaultAsync(a => a.Id == id);
 
             var activity = new Activity
             {
-                Id = vm.Id,
+                Id = currentactivity.Id,
                 Name = vm.Name,
                 Description = vm.Description,
                 StartDate = vm.StartDate,
                 EndDate = vm.EndDate,
+                ModuleId = currentactivity.ModuleId,
                 ActivityTypeId = vm.ActivityTypeId
             };
-
-            if (ModelState.IsValid)
+            if(!Equals(currentactivity, vm))
             {
-                try
+                if (ModelState.IsValid)
                 {
-                    _context.Update(activity);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ActivityExists(activity.Id))
+                    try
                     {
-                        return NotFound();
+                        _context.Update(activity);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!ActivityExists(activity.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction("Details", "Courses", new { Id = vm.CourseId, expandedModule = true });
                 }
-                return RedirectToAction("Details", "Courses", new { Id = vm.CourseId, expandedModule = true });
             }
+    
             var model = new ActivityViewModel
             {
                 CourseId = vm.CourseId,
-                ActivityId = vm.Id,
-                StartDate = DateTime.Now,
-                EndDate = DateTime.Now
+                Id = vm.Id,
+                Name = vm.Name,
+                StartDate = vm.StartDate,
+                EndDate = vm.EndDate,
+                Description = vm.Description,
+                ActivityTypeId = vm.ActivityTypeId,
             };
+            TempData["ErrorOnSave"] = "Ingen ändring utförd, ändra något och försök igen";
             return View(model);
+        }
+
+        private bool Equals(Activity act, ActivityViewModel vm)
+        {
+            if (act.Name == vm.Name
+                && act.StartDate == vm.StartDate
+                && act.EndDate == vm.EndDate
+                && act.Description == vm.Description
+                && act.ActivityTypeId == vm.ActivityTypeId)
+                return true;
+            else
+                return false;
         }
 
         // GET: Activities/Delete/5

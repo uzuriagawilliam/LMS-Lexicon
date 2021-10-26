@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Edit";
 }
-<br/>
+<br />
 <h4>Ändra aktivitet</h4>
 <hr />
 <div class="row">
@@ -39,17 +39,22 @@
                 </select>
                 <span asp-validation-for="ActivityTypeId" value="@Model.CourseId" class="text-danger"></span>
             </div>
-            <input asp-for="ActivityId" type="hidden" class="form-control" />
+            <input asp-for="Id" type="hidden" class="form-control" />
+            <input asp-for="ModuleId" type="hidden" class="form-control" />
             <input asp-for="CourseId" type="hidden" class="form-control" />
+            @if (@TempData["ErrorOnSave"] != null)
+            {
+                <p class="text-danger">@TempData["ErrorOnSave"].ToString()</p>
+            }
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Ändra" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Details" asp-controller="Courses" asp-route-Id="@Model.CourseId" asp-route-expandedModule="true"><i class="fas fa-list-alt fa-lg"></i></a>
 </div>
 
 @section Scripts {

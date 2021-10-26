@@ -30,6 +30,11 @@ namespace LMS_Lexicon.Controllers
         {
             bool expandedModule = false;
             var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
             var currentrole = User.IsInRole("Student") ? "Student" : User.IsInRole("Teacher") ? "Teacher" : "-";
 
             var course = await db.CourseClass

@@ -4,11 +4,9 @@
     ViewData["Title"] = "Delete";
 }
 
-@*<h1>Tabort</h1>*@
 <br/>
-<h4>Är du säker på att du vill ta bort den här Aktivitet?</h4>
+<h4>Är du säker på att du vill ta bort den här Aktiviteten?</h4>
 <div>
-    @*<h4>Aktivitet</h4>*@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -42,6 +40,6 @@
         <input type="hidden" asp-for="@Model.Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
 
-        <a asp-action="Details" asp-controller="Courses" asp-route-Id="@Model.CourseId"><i class="fas fa-list-alt fa-lg"></i></a>
+        <a asp-action="Details" asp-controller="Courses" asp-route-Id="@Model.CourseId" asp-route-expandedModule="true"><i class="fas fa-list-alt fa-lg"></i></a>
     </form>
 </div>
