@@ -31,6 +31,11 @@ namespace LMS_Lexicon.Services
                         Value = role.Id.ToString(),
                     }).ToListAsync();
 
+            foreach (var role in rolesList)
+            {
+               if(role.Text == "Teacher") role.Text = "Lärare";
+            }
+
             return rolesList;
         }
     }

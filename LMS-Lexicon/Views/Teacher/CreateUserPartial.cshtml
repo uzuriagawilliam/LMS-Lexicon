@@ -61,7 +61,7 @@
                                 <label asp-for="CourseId" class="col-sm-2 col-form-label"></label>
                                 <div class="col-sm-10">
                                     <select asp-for="CourseId" asp-items="@await courseSelect.GetCoursesAsync()" class="form-control">
-                                        <option selected="selected" value="">Please select</option>
+                                        <option selected="selected" value="">-- Välj kurs --</option>
                                     </select>
                                     <span asp-validation-for="CourseId" class="text-danger"></span>
                                 </div>

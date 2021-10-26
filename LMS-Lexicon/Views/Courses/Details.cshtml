@@ -1,35 +1,30 @@
-﻿@model Course
+﻿@model ModulesDetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
 }
 <br />
-<h4>Skapa moduler</h4>
-
-<h2>@Model.CourseName</h2>
+<h5>Kurs:</h5>
+<div class="row">
+    <div class="col-sm-7 col-md-8 col-lg-9">
+        <h4>@Model.CourseName</h4>
+    </div>
+    <div class="col-sm-5 col-md-4 col-lg-3">
+        <a asp-action="Create" class="btn btn-success" asp-controller="Modules" asp-route-courseId="@Model.Id">Skapa ny modul <i class="fa fa-plus"></i></a>
+    </div>
+</div>
+<br/>
+   
 
 
 <div class="accordion" id="accordionExample">
     <div class="card">
         <div class="card-header" id="headingOne">
-            <h5 class="mb-0">
-                @*<button class="btn btn-link btn-block text-left text-left text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    <h4>@Model.CourseName</h4>*@
-
-                <p>Startdatum : @Model.StartDate </p>
-
-
-                @*</button>*@
-            </h5>
+            <h6 class="mb-0">
+                <p>Kursstartdatum : @Model.StartDate </p>
+            </h6>
 
         </div>
-
-
-        @*<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                <div class="card-body">
-                    <p>@Model.Description </p>
-                </div>
-            </div>*@
     </div>
     <div class="card">
         <div class="card-header" id="headingOne">
@@ -55,93 +50,100 @@
         </div>
         <div id="collapseThree" class="collapse @(ViewBag.ShowModule ? "show" :"")" aria-labelledby="headingThree" data-parent="#accordionExample">
             <div id="accordion">
-                <div class="card">
-                    @*Modul-lista*@
 
-                    @foreach (var module in Model.Modules)
+                @foreach (var module in Model.Modules)
 
-                    {
-
-                        <div class="card">
-
-                            <div class="card-header" id="headingFive">
-                                @*<h5 class="mb-0">*@
-
+                {
+                    <div class="card">
+                        <div class="card-header" id="headingFive">
+                            <div class="row">
+                                <div class="col-md-8 col-lg-9">
                                     <button class="btn btn-primary collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
                                         @module.Name
                                     </button>
-
-                                @*</h5>*@
-
-                            </div>
-                            <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
-                                <div class="card-body">
-                                    <p>Börja :  @module.StartDate</p>
-                                    <p>Slut :@module.EndDate</p>
-
-                                    <p>Beskrivning @module.Description</p>
-
-                                    @module.Id
-                                </div>
-                                <div class="col-md-12">
-
-                                    <a asp-action="Edit" asp-controller="Modules" asp-route-moduleId="@module.Id"><i class="fas fa-edit"></i></a>
+                                    &nbsp;<a asp-action="Edit" asp-controller="Modules" asp-route-moduleId="@module.Id"><i class="fas fa-edit"></i></a> |
                                     <a asp-action="Delete" asp-controller="Modules" asp-route-Id="@module.Id"><i class="fas fa-trash-alt"></i></a>
                                 </div>
-                                <div>
-
-                                </div>
-                                <div class="card-body">
-
-
-
+                                <div class="col-md-4 col-lg-3 float-right">
+                                    <a asp-action="Create" asp-controller="Activities" asp-route-courseId="@module.CourseId"  asp-route-moduleId="@module.Id" class="btn btn-success btn-sm text-white"> Lägg till Aktivitet <i class="fa fa-plus"></i></a>
+                                    &nbsp;<a asp-action="Edit" asp-controller="Activities" asp-route-moduleId="@module.Id"><i class="fas fa-edit"></i></a> |
+                                    <a asp-action="Delete" asp-controller="Activities" asp-route-Id="@module.Id"><i class="fas fa-trash-alt"></i></a>
                                 </div>
                             </div>
                         </div>
+                        <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h6>Modul:</h6>
+                                        <h5>@module.Name</h5>
+                                        <p>Startdatum:  @module.StartDate</p>
+                                        <p>Slutdatum: :@module.EndDate</p>
+                                        <p>Beskrivning @module.Description</p>
+                                        @*@module.Id*@
 
-                    }
+                                    </div>
+                                    <div class="col-md-8">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Aktivitet
+                                                    </th>
+                                                    <th>
+                                                        Datum
+                                                    </th>
+                                                    <th>
+                                                        Tid
+                                                    </th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
 
+                                                @foreach (var activity in module.Activities)
+                                                {
+                                                    @if (activity.ModuleId == module.Id)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @activity.Name
+                                                            </td>
+                                                            <td>
+                                                                @activity.StartDate.ToShortDateString()
+                                                            </td>
+                                                            <td>
+                                                                @activity.StartDate.ToShortTimeString()
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            <tbody>
+                                        </table>
 
+                                    </div>
+                                </div>
+                            </div>
 
-                </div>
+                            <div>
+
+                            </div>
+                            <div class="card-body">
+                            </div>
+                        </div>
+                    </div>
+
+                }
             </div>
         </div>
     </div>
-
-
-    <div>
-        <h4>Kurs</h4>
-        <hr />
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.CourseName)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.CourseName)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Description)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.StartDate)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.StartDate)
-            </dd>
-        </dl>
-    </div>
-    <div class="row">
-        <a asp-action="Create" class="btn btn-success" asp-controller="Modules" asp-route-courseId="@Model.Id">Skapa ny modul +</a>
-    </div>
-    <br/>
-    <div class="row">
-        <div class="col-md-12">
-            <a asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit fa-lg"></i></a> |
-            <a asp-action="Index">&nbsp;<i class="fas fa-list-alt fa-lg"></i></a>
-        </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <a asp-action="Edit" asp-route-id="@Model.Id"><i class="fas fa-edit fa-lg"></i></a> |
+        <a asp-action="Index">&nbsp;<i class="fas fa-list-alt fa-lg"></i></a>
     </div>
 </div>
+
 
