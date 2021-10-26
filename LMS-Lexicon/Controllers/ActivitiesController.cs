@@ -153,7 +153,7 @@ namespace LMS_Lexicon.Controllers
         }
 
         // GET: Activities/Delete/5
-        public async Task<IActionResult> Delete(int? courseid, int? activityid)
+        public async Task<IActionResult> Delete(int? courseid,  int? activityid)
         {
 
             if (activityid == null)
@@ -162,26 +162,34 @@ namespace LMS_Lexicon.Controllers
             }
 
             var activity = await _context.ActivityClass
-                .Include(a => a.ActivityType)
-                .Include(a => a.Module)
+                //.Include(a => a.ActivityType)
+                //.Include(a => a.Module)
                 .FirstOrDefaultAsync(m => m.Id == activityid);
-            if (activity == null)
+            if (activityid == null)
             {
                 return NotFound();
             }
 
-            return View(activity);
+            var model = new ActivityViewModel
+            {
+                Id = activity.Id,
+                CourseId = courseid,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now
+            };
+
+            return View(model);
         }
 
         // POST: Activities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int activityid)
+        public async Task<IActionResult> DeleteConfirmed(int id, int courseid)
         {
-            var activity = await _context.ActivityClass.FindAsync(activityid);
+            var activity = await _context.ActivityClass.FindAsync(id);
             _context.ActivityClass.Remove(activity);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Courses", new { Id = courseid });
         }
 
         private bool ActivityExists(int id)

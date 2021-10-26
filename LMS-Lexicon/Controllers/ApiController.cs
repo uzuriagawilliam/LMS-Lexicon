@@ -15,7 +15,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 //using LMS.Api.Core.Dtos;
 //using LMS_Api.Core.Dtos;
-//using JsonSerializer = Newtonsoft.Json.JsonSerializer;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace LMS_Lexicon.Controllers
 {
@@ -28,10 +28,12 @@ namespace LMS_Lexicon.Controllers
 
         public ApiController()
         {
-            httpClient = new HttpClient(new HttpClientHandler());
-            //{ AutomaticDecompression = System.Net.DecompressionMethods.GZip });
+            httpClient = new HttpClient(new HttpClientHandler(){ AutomaticDecompression = System.Net.DecompressionMethods.GZip });
 
             httpClient.BaseAddress = new Uri("https://localhost:44390");
+            httpClient.DefaultRequestHeaders.Clear();
+            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(json));
+
         }
 
         // GET: Authors
@@ -127,7 +129,29 @@ namespace LMS_Lexicon.Controllers
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Create(Author author)
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, "api/Author");
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/Authors");
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(json));            
+            
+
+            var serializedAuthor = JsonSerializer.Serialize(author);
+
+            request.Content = new StringContent(serializedAuthor);
+            request.Content.Headers.ContentType = new MediaTypeHeaderValue(json);
+
+            var response = await httpClient.SendAsync(request);
+
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            var codeEvents = JsonSerializer.Deserialize<Author>(content, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+
+            // return codeEvents;
+            // return null;
+
+            return RedirectToAction("Index", "Courses");
+
+            /*var request = new HttpRequestMessage(HttpMethod.Post, "api/Author");
             request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(json));
 
             request.Content = JsonContent.Create(author, typeof(Author), new MediaTypeHeaderValue(json));
@@ -141,12 +165,18 @@ namespace LMS_Lexicon.Controllers
 
 
             //var res = await CreateAuthor();
-            return View(codeEvents);
+            return View(codeEvents);*/
         }
 
         public IActionResult Edit()
         {
+            return View();
+        }
 
+        [HttpPost]
+        [Authorize(Roles = "Teacher")]
+        public IActionResult Edit(Author author)
+        {
 
             return View();
         }
