@@ -97,6 +97,7 @@ namespace LMS_Api.Controllers
             await uow.CompleteAsync();
 
             return CreatedAtAction("GetAuthor", new { id = author.AuthorId }, author);
+            //return NoContent();
         }
 
         // DELETE: api/Authors/5
