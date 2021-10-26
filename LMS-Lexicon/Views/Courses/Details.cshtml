@@ -66,8 +66,8 @@
                                 </div>
                                 <div class="col-md-4 col-lg-3 float-right">
                                     <a asp-action="Create" asp-controller="Activities" asp-route-courseId="@module.CourseId"  asp-route-moduleId="@module.Id" class="btn btn-success btn-sm text-white"> Lägg till Aktivitet <i class="fa fa-plus"></i></a>
-                                    &nbsp;<a asp-action="Edit" asp-controller="Activities" asp-route-moduleId="@module.Id"><i class="fas fa-edit"></i></a> |
-                                    <a asp-action="Delete" asp-controller="Activities" asp-route-Id="@module.Id"><i class="fas fa-trash-alt"></i></a>
+                                    @*&nbsp;<a asp-action="Edit" asp-controller="Activities" asp-route-moduleId="@module.Id"><i class="fas fa-edit"></i></a> |
+                                    <a asp-action="Delete" asp-controller="Activities" asp-route-Id="@module.Id"><i class="fas fa-trash-alt"></i></a>*@
                                 </div>
                             </div>
                         </div>
@@ -114,6 +114,10 @@
                                                             </td>
                                                             <td>
                                                                 @activity.StartDate.ToShortTimeString()
+                                                            </td>
+                                                            <td>
+                                                                &nbsp;<a asp-action="Edit" asp-controller="Activities" asp-route-courseid="@module.CourseId" asp-route-activtyid="@activity.Id"><i class="fas fa-edit"></i></a> |
+                                                                <a asp-action="Delete" asp-controller="Activities"  asp-route-courseid="@module.CourseId" asp-route-activityid="@activity.Id"><i class="fas fa-trash-alt"></i></a>
                                                             </td>
                                                         </tr>
                                                     }
