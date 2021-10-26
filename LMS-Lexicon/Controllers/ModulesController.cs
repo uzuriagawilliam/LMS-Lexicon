@@ -73,28 +73,10 @@ namespace LMS_Lexicon.Controllers
             return View(@module);
         }
 
-        // GET: Modules/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var @module = await _context.ModuleClass.FindAsync(id);
-        //    if (@module == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    ViewData["CourseId"] = new SelectList(_context.CourseClass, "Id", "CourseName", @module.CourseId);
-        //    return View(@module);
-        //}
         // Post: Modules/Edit
         public async Task<IActionResult> Edit(int moduleId)
         {
             var model  = await _context.ModuleClass.FindAsync(moduleId);
-            //ViewData["CourseId"] = courseId;
-            //var model = new Module { CourseId = courseId };
             return View(model);
         }
         // POST: Modules/Edit/5
@@ -104,10 +86,10 @@ namespace LMS_Lexicon.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StartDate,EndDate,Description,CourseId")] Module @module)
         {
-            //if (id != @module.Id)
-            //{
-            //    return NotFound();
-            //}
+            if (id != @module.Id)
+            {
+                return NotFound();
+            }
 
             if (ModelState.IsValid)
             {
@@ -130,7 +112,6 @@ namespace LMS_Lexicon.Controllers
                 }
                 return RedirectToAction("Details", "Courses", new { id = @module.CourseId, expandedModule = true });
             }
-           // ViewData["CourseId"] = new SelectList(_context.CourseClass, "Id", "CourseName", @module.CourseId);
             return View(@module);
         }
 

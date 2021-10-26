@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using LMS.Api.Core.Entities;
-using LMS_Lexicon.Api.Data.Data;
+//using LMS_Lexicon.Api.Data.Data;
 using LMS.Api.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
+using LMS_Api.Data;
+//using LMS.Api.Data;
 
-namespace LMS_Lexicon.Api.Controllers
+namespace LMS_Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

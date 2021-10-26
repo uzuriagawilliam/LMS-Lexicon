@@ -41,8 +41,15 @@ namespace LMS_Lexicon.Data.Data
                 const string roleName = "Teacher";
                 const string roleStudent = "Student";
 
-            //var role = new IdentityRole { Name = roleName };
-            //var addRoleResult = await roleManager.CreateAsync(role);
+                await CreateActivityType(db);
+
+                var courses = GetCourses();
+                await db.AddRangeAsync(courses);
+
+                await db.SaveChangesAsync();
+
+                //var role = new IdentityRole { Name = roleName };
+                //var addRoleResult = await roleManager.CreateAsync(role);
                 var user= await userManager.FindByEmailAsync(userEmail);
                 if(user == null)
                 {
@@ -50,13 +57,6 @@ namespace LMS_Lexicon.Data.Data
                     await AddToRolesAsync(user, roleName);
                 }
    
-                await CreateActivityType(db);
-  
-                var courses = GetCourses();
-                await db.AddRangeAsync(courses);
-
-                await db.SaveChangesAsync();
-
                 var students = GetStudents();
 
                 foreach (var student in students)
