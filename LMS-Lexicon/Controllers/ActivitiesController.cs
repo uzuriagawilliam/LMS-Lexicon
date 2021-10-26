@@ -77,20 +77,19 @@ namespace LMS_Lexicon.Controllers
         }
 
         // GET: Activities/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? courseid, int? activityid)
         {
-            if (id == null)
+            if (activityid == null)
             {
                 return NotFound();
             }
 
-            var activity = await _context.ActivityClass.FindAsync(id);
+            var activity = await _context.ActivityClass.FindAsync(activityid);
             if (activity == null)
             {
                 return NotFound();
             }
-            ViewData["ActivityTypeId"] = new SelectList(_context.Set<ActivityType>(), "Id", "Name", activity.ActivityTypeId);
-            ViewData["ModuleId"] = new SelectList(_context.ModuleClass, "Id", "Name", activity.ModuleId);
+      
             return View(activity);
         }
 
@@ -99,9 +98,9 @@ namespace LMS_Lexicon.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StartDate,EndDate,Description,ActivityTypeId,ModuleId")] Activity activity)
+        public async Task<IActionResult> Edit(int activityid, [Bind("Id,Name,StartDate,EndDate,Description,ActivityTypeId,ModuleId")] Activity activity)
         {
-            if (id != activity.Id)
+            if (activityid != activity.Id)
             {
                 return NotFound();
             }
@@ -132,9 +131,10 @@ namespace LMS_Lexicon.Controllers
         }
 
         // GET: Activities/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? courseid, int? activityid)
         {
-            if (id == null)
+
+            if (activityid == null)
             {
                 return NotFound();
             }
@@ -142,7 +142,7 @@ namespace LMS_Lexicon.Controllers
             var activity = await _context.ActivityClass
                 .Include(a => a.ActivityType)
                 .Include(a => a.Module)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.Id == activityid);
             if (activity == null)
             {
                 return NotFound();
@@ -154,9 +154,9 @@ namespace LMS_Lexicon.Controllers
         // POST: Activities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int activityid)
         {
-            var activity = await _context.ActivityClass.FindAsync(id);
+            var activity = await _context.ActivityClass.FindAsync(activityid);
             _context.ActivityClass.Remove(activity);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
