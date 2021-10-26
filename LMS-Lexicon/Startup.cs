@@ -44,6 +44,7 @@ namespace LMS_Lexicon
 
             services.AddTransient<ICourseSelectService, CourseSelectService>();
             services.AddTransient<IRolesSelectService, RolesSelectService>();
+            services.AddTransient<IActivityTypeSelectService, ActivityTypeSelectService>();
 
             services.AddControllersWithViews(opt =>
             {

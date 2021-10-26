@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LMS_Lexicon.Core.Models.Entities;
 using LMS_Lexicon.Data.Data;
+using LMS_Lexicon.Core.Models.ViewModels;
 
 namespace LMS_Lexicon.Controllers
 {
@@ -26,32 +27,18 @@ namespace LMS_Lexicon.Controllers
             return View(await lmsDbContext.ToListAsync());
         }
 
-        // GET: Activities/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var activity = await _context.ActivityClass
-                .Include(a => a.ActivityType)
-                .Include(a => a.Module)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (activity == null)
-            {
-                return NotFound();
-            }
-
-            return View(activity);
-        }
 
         // GET: Activities/Create
-        public IActionResult Create()
+        public IActionResult Create(int courseId, int moduleId)
         {
-            ViewData["ActivityTypeId"] = new SelectList(_context.Set<ActivityType>(), "Id", "Name");
-            ViewData["ModuleId"] = new SelectList(_context.ModuleClass, "Id", "Name");
-            return View();
+            var model = new CreateActivityViewModel
+            {
+                CourseId = courseId,
+                ModuleId = moduleId,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now
+            };
+            return View(model);
         }
 
         // POST: Activities/Create
@@ -59,17 +46,34 @@ namespace LMS_Lexicon.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,StartDate,EndDate,Description,ActivityTypeId,ModuleId")] Activity activity)
+        public async Task<IActionResult> Create(CreateActivityViewModel vm)
         {
+            var activity = new Activity
+            {
+                ModuleId = vm.ModuleId,
+                Name = vm.Name,
+                Description = vm.Description,
+                StartDate = vm.StartDate,
+                EndDate = vm.EndDate,
+                ActivityTypeId = vm.ActivityTypeId
+            };
+
             if (ModelState.IsValid)
             {
                 _context.Add(activity);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Courses", new { Id=vm.CourseId });
             }
-            ViewData["ActivityTypeId"] = new SelectList(_context.Set<ActivityType>(), "Id", "Name", activity.ActivityTypeId);
-            ViewData["ModuleId"] = new SelectList(_context.ModuleClass, "Id", "Name", activity.ModuleId);
-            return View(activity);
+
+            var model = new CreateActivityViewModel
+            {
+                CourseId = vm.CourseId,
+                ModuleId = vm.ModuleId,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now
+            };
+            return View(model);
+
         }
 
         // GET: Activities/Edit/5
