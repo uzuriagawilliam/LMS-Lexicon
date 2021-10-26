@@ -19,20 +19,18 @@ namespace LMS_Lexicon.Controllers
         private readonly LmsDbContext db;
         private readonly ILogger<TeacherController> _logger;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public TeacherController(ILogger<TeacherController> logger, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, LmsDbContext context)
+        public TeacherController(ILogger<TeacherController> logger, UserManager<ApplicationUser> userManager, LmsDbContext context)
         {
             _logger = logger;
             _userManager = userManager;
-            _roleManager = roleManager;
             db = context;
         }
         // GET: TeacherController
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> Index(string role)
         {
-            role =  string.IsNullOrEmpty(role) ? "Student" : role ;
+            role = string.IsNullOrEmpty(role) ? "Student" : role;
             var users = GetUsers(role);
 
             var model = new IndexViewModel();
@@ -47,7 +45,7 @@ namespace LMS_Lexicon.Controllers
             var usersList = new List<IndexUsersViewModel>();
             var users = await db.Users
                 .Include(c => c.Course).OrderBy(u => u.FirstName).ToListAsync();
-          
+
             foreach (var u in users)
             {
                 var currentuser = await db.Users.Where(x => x.Id == u.Id).FirstOrDefaultAsync();
@@ -55,7 +53,7 @@ namespace LMS_Lexicon.Controllers
 
                 if (userrole.Single() == role)
                 {
-               
+
                     usersList.Add(new IndexUsersViewModel
                     {
                         Id = u.Id,
@@ -91,6 +89,8 @@ namespace LMS_Lexicon.Controllers
 
             return PartialView("UsersPartial", model);
         }
+
+
         // GET: TeacherController/Details/5
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> DetailsUser(string id, string role)
@@ -155,7 +155,7 @@ namespace LMS_Lexicon.Controllers
                         };
                         try
                         {
-                            if(vm.Role == "Student")
+                            if (vm.Role == "Student")
                             {
                                 var result = await _userManager.CreateAsync(user, defaultpassword);
                                 var addtoroleresult = await _userManager.AddToRoleAsync(user, vm.Role);
@@ -167,7 +167,7 @@ namespace LMS_Lexicon.Controllers
                                 var addtoroleresult = await _userManager.AddToRoleAsync(user, vm.Role);
                                 TempData["UserSuccess"] = "Läraren " + user.FirstName + " är nu tillagd";
                             }
-                       
+
                             var model = await GetUsers(vm.Role);
                             return PartialView("UsersPartial", model);
                         }
@@ -235,8 +235,8 @@ namespace LMS_Lexicon.Controllers
             std.TimeOfRegistration = std.TimeOfRegistration;
 
             if (!Equals(std, vm))
-            { 
-                if(vm.Role == "Student")
+            {
+                if (vm.Role == "Student")
                 {
                     var result = await _userManager.UpdateAsync(std);
                     TempData["UserSuccess"] = "Studenten " + std.FirstName + " är nu ändrad";
@@ -246,7 +246,7 @@ namespace LMS_Lexicon.Controllers
                     var result = await _userManager.UpdateAsync(std);
                     TempData["UserSuccess"] = "Läraren " + std.FirstName + " är nu ändrad";
                 }
-              
+
             }
             else
             {
@@ -287,7 +287,7 @@ namespace LMS_Lexicon.Controllers
         }
 
         // POST: Activities/Delete/5
-        [HttpPost, ActionName("DeleteUser")]
+        [HttpPost, ActionName("DeleteStudent")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Teacher")]
         public async Task<IActionResult> DeleteConfirmed(string id, string role)
@@ -312,8 +312,8 @@ namespace LMS_Lexicon.Controllers
                     TempData["UserExists"] = "Borttagningen misslyckades ";
                 }
 
-                return RedirectToAction(nameof(Index));
-            }
+                    return RedirectToAction(nameof(Index));
+                }
             catch
             {
                 throw;
