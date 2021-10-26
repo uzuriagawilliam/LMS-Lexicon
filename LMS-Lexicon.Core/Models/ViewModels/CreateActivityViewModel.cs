@@ -26,8 +26,9 @@ namespace LMS_Lexicon.Core.Models.ViewModels
         [MaxLength(300)]
         [Display(Name = "Beskrivning")]
         public string Description { get; set; }
+        [Display(Name = "Aktivitetstyp")]
         public int ActivityTypeId { get; set; }
         public int ModuleId { get; set; }
-        public int CourseId { get; set; }
+        public int? CourseId { get; set; }
     }
 }
