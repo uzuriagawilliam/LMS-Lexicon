@@ -48,18 +48,19 @@
                 </button>
             </h2>
         </div>
-        <div id="collapseThree" class="collapse @(ViewBag.ShowModule ? "show" :"")" aria-labelledby="headingThree" data-parent="#accordionExample">
+        <div id="collapseThree" class="collapse @(ViewBag.ShowModule ? "show" : "")" aria-labelledby="headingThree" data-parent="#accordionExample">
             <div id="accordion">
 
-                @foreach (var module in Model.Modules)
 
+                @foreach (var module in Model.Modules)
                 {
+                    string modid = String.Concat(module.Name.Where(c => Char.IsLetter(c))); 
                     <div class="card">
                         <div class="card-header" id="headingFive">
                             <div class="row">
                                 <div class="col-md-8 col-lg-9">
-                                    <button class="btn btn-primary collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                        @module.Name
+                                    <button class="btn btn-primary collapsed" data-toggle="collapse" data-target="#@modid" aria-expanded="false" aria-controls="@modid">
+                                        @module.Name 
                                     </button>
                                     &nbsp;<a asp-action="Edit" asp-controller="Modules" asp-route-moduleId="@module.Id"><i class="fas fa-edit"></i></a> |
                                     <a asp-action="Delete" asp-controller="Modules" asp-route-Id="@module.Id"><i class="fas fa-trash-alt"></i></a>
@@ -69,7 +70,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
+                        <div id="@modid" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-4">
