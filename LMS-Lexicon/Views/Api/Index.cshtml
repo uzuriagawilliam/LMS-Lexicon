@@ -3,42 +3,27 @@
 @{
     ViewData["Title"] = "API-View";
 }
+<h4><a asp-action="Create">Lägg till författare</a></h4>
 
-<table class="table table-borderless">
+@*<table class="table table-borderless">
     
     <tbody>
         <tr>
             
-            <td><p>
-                <h4><a asp-action="Create">Lägg till författare</a></h4>
-                </p></td>
             <td>
                 <p>
-                    @using (Html.BeginForm())
-                    {
-                <p>
-                    Sök efter författare: @Html.TextBox("SearchString")
-                    <input type="submit" value="Search" />
+                <h4><a asp-action="Create">Lägg till författare</a></h4>
                 </p>
-                }
-                </p>
+            </td>
+            <td>
+            Sök efter författare: @Html.TextBox("SearchString")
+            <input type="submit" value="Search" />
             </td>
             
         </tr>
         </tbody>
-</table>
+</table>*@
 
-
-@*<p>
-    <h3><a asp-action="Create">Ny författare</a></h3>
-</p>
-@using (Html.BeginForm())
-{
-    <p>
-        Sök efter författare: @Html.TextBox("SearchString")
-        <input type="submit" value="Search" />
-    </p>
-}*@
 <table class="table table-striped">
     <thead>
         <tr>
