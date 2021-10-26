@@ -12,9 +12,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using LMS_Lexicon.Api.Data.Data;
+//using LMS_Lexicon.Api.Data.Data;
 using LMS.Api.Core.Repositories;
-using LMS.Api.Data.Repositories;
+//using LMS.Api.Data.Repositories;
+//using LMS.Api.Data;
+using LMS_Api.Data.Repositories;
+using LMS_Api.Data;
 
 namespace LMS_Lexicon.Api
 {
@@ -40,6 +43,8 @@ namespace LMS_Lexicon.Api
             });
 
             services.AddScoped<IUoW, UoW>();
+
+            services.AddAutoMapper(typeof(MapperProfile));
 
             services.AddDbContext<LMS_LexiconApiContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("LMS_LexiconApiContext")));

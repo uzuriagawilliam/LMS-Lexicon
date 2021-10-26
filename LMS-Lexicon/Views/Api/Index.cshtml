@@ -1,0 +1,61 @@
+﻿@model IEnumerable<LMS_Lexicon.Core.Models.AuthorsDto>
+
+@{
+    ViewData["Title"] = "API-View";
+}
+<h4><a asp-action="Create">Lägg till författare</a></h4>
+
+@*<table class="table table-borderless">
+    
+    <tbody>
+        <tr>
+            
+            <td>
+                <p>
+                <h4><a asp-action="Create">Lägg till författare</a></h4>
+                </p>
+            </td>
+            <td>
+            Sök efter författare: @Html.TextBox("SearchString")
+            <input type="submit" value="Search" />
+            </td>
+            
+        </tr>
+        </tbody>
+</table>*@
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Name)*@
+                @Html.ActionLink("Nam", "Index", new { sortOrder = ViewBag.NameSortParm })
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(model => model.Age)*@
+                Ålder
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                @*If student*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                @*if teacher *@
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.AuthorId">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.AuthorId">Delete</a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

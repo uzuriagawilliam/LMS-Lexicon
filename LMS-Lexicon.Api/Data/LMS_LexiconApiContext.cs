@@ -1,16 +1,15 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using LMS.Api.Core.Entities;
 
-namespace LMS_Lexicon.Api.Data.Data
+namespace LMS_Api.Data
 {
     public class LMS_LexiconApiContext : DbContext
     {
-        public LMS_LexiconApiContext (DbContextOptions<LMS_LexiconApiContext> options)
-            : base(options)
+        public LMS_LexiconApiContext(DbContextOptions<LMS_LexiconApiContext> options)
+           : base(options)
         {
         }
 
