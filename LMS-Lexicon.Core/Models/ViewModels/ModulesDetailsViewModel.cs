@@ -27,5 +27,6 @@ namespace LMS_Lexicon.Core.Models.ViewModels
 
         public List<ICollection<Activity>> Activities { get; set; }
         public List<Module> Modules { get; set; }
+        public List<ApplicationUser> UsersList { get; set; }
     }
 }

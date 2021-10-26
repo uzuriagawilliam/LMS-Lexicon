@@ -27,7 +27,7 @@ namespace LMS_Lexicon.Controllers
         }
 
         // GET: Courses/Details/5
-        public async Task<IActionResult> Details(int? id, bool expandedModule = true)
+        public async Task<IActionResult> Details(int? id, bool expandedModule = false)
         {
             if (id == null)
             {
@@ -44,6 +44,11 @@ namespace LMS_Lexicon.Controllers
                 .Where(m => m.CourseId == id)
                 .ToListAsync();
 
+            var usersincourse = await db.Users
+                .Include(c => c.Course)
+                .Where(i => i.CourseId == course.Id)
+                .ToListAsync();
+
             var activities = modules.Select(a => a.Activities).ToList();
 
             if (course == null)
@@ -58,6 +63,10 @@ namespace LMS_Lexicon.Controllers
             {
                 return NotFound();
             }
+            if (usersincourse == null)
+            {
+                return NotFound();
+            }
 
             ViewBag.ShowModule = expandedModule;
             var model = new ModulesDetailsViewModel
@@ -67,7 +76,8 @@ namespace LMS_Lexicon.Controllers
                 Description = course.Description,
                 StartDate = course.StartDate,
                 Modules = modules,
-                Activities = activities
+                Activities = activities,
+                UsersList = usersincourse
             };
 
             return View(model);
