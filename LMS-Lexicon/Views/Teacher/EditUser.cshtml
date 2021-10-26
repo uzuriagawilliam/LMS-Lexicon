@@ -1,7 +1,7 @@
 ﻿@model CreateUsersViewModel;
 @inject ICourseSelectService courseSelect
 <br/>
-@{ if (Model.Role == "Student")
+@{  if(Model.Role == "Student")
     {<h2>Ändra Student</h2>}
     else
     { <h2>Ändra Lärare</h2>} 

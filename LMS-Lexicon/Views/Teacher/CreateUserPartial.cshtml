@@ -61,7 +61,7 @@
                                 <label asp-for="CourseId" class="col-sm-2 col-form-label"></label>
                                 <div class="col-sm-10">
                                     <select asp-for="CourseId" asp-items="@await courseSelect.GetCoursesAsync()" class="form-control">
-                                        <option selected="selected" value="">Please select</option>
+                                        <option selected="selected" value="">-- Välj kurs --</option>
                                     </select>
                                     <span asp-validation-for="CourseId" class="text-danger"></span>
                                 </div>
@@ -77,10 +77,10 @@
                         <!--Modal Footer Start-->
                     </div>
                     <div class="modal-footer">
-                        <button data-dismiss="modal" id="cancel" class="btn btn-default" type="button">Cancel</button>
+                        <button data-dismiss="modal" id="cancel" class="btn btn-default" type="button">Avbryt</button>
                         <button class="btn btn-success relative" id="btnSubmit" type="submit">
                             <i class="loader"></i>
-                            Skicka
+                            Lägg till
                         </button>
                     </div> <!--Modal Footer End-->
                 </form>
