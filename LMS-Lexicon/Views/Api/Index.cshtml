@@ -3,26 +3,32 @@
 @{
     ViewData["Title"] = "API-View";
 }
-<h4><a asp-action="Create">Lägg till författare</a></h4>
+
+@if (User.IsInRole("Teacher"))
+{
+    <h4><a asp-action="Create">Lägg till författare</a></h4>  
+}
+
+
 
 @*<table class="table table-borderless">
-    
-    <tbody>
-        <tr>
-            
-            <td>
-                <p>
-                <h4><a asp-action="Create">Lägg till författare</a></h4>
-                </p>
-            </td>
-            <td>
-            Sök efter författare: @Html.TextBox("SearchString")
-            <input type="submit" value="Search" />
-            </td>
-            
-        </tr>
-        </tbody>
-</table>*@
+
+        <tbody>
+            <tr>
+
+                <td>
+                    <p>
+                    <h4><a asp-action="Create">Lägg till författare</a></h4>
+                    </p>
+                </td>
+                <td>
+                Sök efter författare: @Html.TextBox("SearchString")
+                <input type="submit" value="Search" />
+                </td>
+
+            </tr>
+            </tbody>
+    </table>*@
 
 <table class="table table-striped">
     <thead>

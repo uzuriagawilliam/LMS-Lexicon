@@ -184,8 +184,35 @@ namespace LMS_Lexicon.Controllers
         public IActionResult Delete()
         {
 
-            //Hittar inte Author i 
+ 
             return View();
+        }
+
+
+
+        [HttpPost]
+        [Authorize(Roles = "Teacher")]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var response =  await httpClient.DeleteAsync($"api/Authors/{id}");
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+
+            /*var course = await db.CourseClass.FirstOrDefaultAsync(m => m.Id == id);
+            if (course == null)
+            {
+                return NotFound();
+            }*/
+
+            //return View(course);
+
+            //Hittar inte Author i 
+            return RedirectToAction("Index", "Courses");
         }
 
     }
