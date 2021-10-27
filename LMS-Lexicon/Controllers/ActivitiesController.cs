@@ -216,6 +216,14 @@ namespace LMS_Lexicon.Controllers
             return RedirectToAction("Details", "Courses", new { Id = courseid });
         }
 
+        public async Task<IActionResult> CheckCourseStartDate(DateTime startdate, int courseid)
+        {
+            var courseStartDate = await _context.CourseClass.Where(c => c.Id == courseid).Select(sd => sd.StartDate).FirstOrDefaultAsync();
+            bool beforeCourseStartDate =  startdate.Date < courseStartDate.Date;
+            if (beforeCourseStartDate) return Json("Startdatumet för aktiviteten är före kursens startdatum!");
+            return Json(true);
+        }
+
         private bool ActivityExists(int id)
         {
             return _context.ActivityClass.Any(e => e.Id == id);

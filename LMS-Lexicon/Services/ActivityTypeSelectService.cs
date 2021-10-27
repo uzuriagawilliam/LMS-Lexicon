@@ -17,7 +17,7 @@ namespace LMS_Lexicon.Services
         }
         public async Task<IEnumerable<SelectListItem>> GetActivityTypeAsync()
         {
-            var activitytype = db.ActivityClass
+            var activitytype = await db.ActivityClass
                 .Include(t => t.ActivityType)
                 .Select(a => a.ActivityType)
                 .Distinct()
@@ -25,7 +25,7 @@ namespace LMS_Lexicon.Services
                 {
                     Text = activitytype.Name,
                     Value = activitytype.Id.ToString()
-                });
+                }).ToArrayAsync();
             return activitytype;
         }
 
