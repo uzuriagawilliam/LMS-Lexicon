@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using LMS_Api.Data;
 using AutoMapper;
 using LMS_Api.Core.Dtos;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace LMS_Api.Controllers
 {
@@ -120,5 +121,31 @@ namespace LMS_Api.Controllers
         {
             return uow.AuthorRepository.Any(id);
         }
+
+        [HttpPatch("{name}")]
+        public async Task<ActionResult<Author>> PatchEvent(string name, JsonPatchDocument<Author> patchDocument)
+        {
+            var author = await uow.AuthorRepository.GetAsync(name);
+
+            if (author is null) return NotFound();
+
+            var dto = mapper.Map<Author>(author);
+
+            patchDocument.ApplyTo(dto, ModelState);
+
+            if (!TryValidateModel(dto)) return BadRequest(ModelState);
+
+            mapper.Map(dto, author);
+
+            await uow.CompleteAsync();
+
+            return Ok(mapper.Map<Author>(author));
+
+            //if (await uow.CompleteAsync())
+            //    return Ok(mapper.Map<Author>(codeEvent));
+            //else
+            //    return StatusCode(500);
+        }
+
     }
 }

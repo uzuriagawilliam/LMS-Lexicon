@@ -12,6 +12,7 @@ namespace LMS_Lexicon.Api.Core.Repositories
         Task<Author> GetAuthor(int? id);
         Task<Author> FindAsync(int? id);
         Task<bool> AnyAsync(int? id);
+        Task<Author> GetAsync(string name);
         void Add(Author author);
         void Update(Author author);
         void Remove(Author author);

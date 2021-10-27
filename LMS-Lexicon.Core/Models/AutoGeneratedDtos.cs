@@ -76,7 +76,7 @@ namespace LMS_Lexicon.Core.Models//Fel name space
         public string LastName { get; set; }
 
         [Newtonsoft.Json.JsonProperty("birthDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTimeOffset BirthDate { get; set; }
+        public System.DateTime BirthDate { get; set; }
 
         [Newtonsoft.Json.JsonProperty("literatures", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.ICollection<Literature> Literatures { get; set; }
