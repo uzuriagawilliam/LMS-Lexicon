@@ -174,8 +174,11 @@ namespace LMS_Lexicon.Controllers
             var patchDocument = new JsonPatchDocument<Author>();
 
             //Vad göra
-            patchDocument.Remove(a => a.BirthDate);
-            patchDocument.Replace(a => a.LastName, author.LastName);
+            //patchDocument.Remove(a => a.BirthDate);
+
+            //patchDocument.Replace(a => a.FirstName, author.FirstName);
+            //patchDocument.Replace(a => a.LastName, author.LastName);
+            //patchDocument.Replace(a => a.BirthDate, author.BirthDate);
 
 
 
