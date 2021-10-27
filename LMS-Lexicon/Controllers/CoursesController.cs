@@ -27,7 +27,7 @@ namespace LMS_Lexicon.Controllers
         }
 
         // GET: Courses/Details/5
-        public async Task<IActionResult> Details(int? id, bool expandedModule = false)
+        public async Task<IActionResult> Details(int? id, bool expandedModule = true)
         {
             if (id == null)
             {
