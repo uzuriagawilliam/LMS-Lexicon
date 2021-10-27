@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace LMS.Api.Data.Migrations
+namespace LMS_Lexicon.Api.Migrations
 {
     public partial class init : Migration
     {

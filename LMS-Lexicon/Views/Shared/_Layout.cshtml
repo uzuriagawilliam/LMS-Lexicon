@@ -32,12 +32,27 @@
                         <a class="nav-link" asp-area="" asp-controller="Courses" asp-action="Index">Kurser</a>
                     </li>
                 }
+                @if (User.IsInRole("Student"))
+                {
+                    <partial name="_CourseMenu" />
+                }
+                @if (User.IsInRole("Student") || User.IsInRole("Teacher"))
+                {
+                    <li class="nav-item px-md-4">
+                        <a class="nav-link" asp-area="" asp-controller="Api" asp-action="Index">Författare</a>
+                    </li>
+
+                    <li class="nav-item px-md-4">
+                        <a class="nav-link" asp-area="" asp-controller="Api" asp-action="LiteratureIndex">Litteratur</a>
+                    </li>
+                }
                 @if (User.IsInRole("Teacher"))
                 {
                     <li class="nav-item px-md-4">
                         <a class="nav-link" asp-area="" asp-controller="Teacher" asp-action="Index">Användare</a>
                     </li>
                 }
+
             </ul>
         </nav>
     </header>
@@ -47,9 +62,9 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted" id="footer">
         <div class="container">
-            &copy; 2021 - LMS_Lexicon - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - LMS_Lexicon -
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
