@@ -16,6 +16,7 @@ using System.Net.Http.Json;
 //using LMS.Api.Core.Dtos;
 //using LMS_Api.Core.Dtos;
 using JsonSerializer = System.Text.Json.JsonSerializer;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace LMS_Lexicon.Controllers
 {
@@ -148,30 +149,53 @@ namespace LMS_Lexicon.Controllers
             // return codeEvents;
             // return null;
 
-            return RedirectToAction("Index", "Courses");
-
+            return RedirectToAction("Index", "Api");
  
         }
 
-        public IActionResult Edit()
+        public async Task <IActionResult> Edit(int id)
         {
-            return View();
+            var response = await httpClient.GetAsync($"api/Authors/{id}");
+            //IEnumerable<AuthorsDto> authorsDto;
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            var codeEvents = JsonSerializer.Deserialize<Author>(content, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+
+           return View(codeEvents);                       
         }
 
         [HttpPost]
         [Authorize(Roles = "Teacher")]
-        public IActionResult Edit(Author author)
+        public async Task<IActionResult> Edit(Author author)
         {
 
-            
-            
+            var patchDocument = new JsonPatchDocument<Author>();
+
+            //Vad göra
+            patchDocument.Remove(a => a.BirthDate);
+            patchDocument.Replace(a => a.LastName, author.LastName);
+
+
+
+            var serializedPatchDocument = JsonConvert.SerializeObject(patchDocument);
+
+            var request = new HttpRequestMessage(HttpMethod.Patch, "api/author");
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(json));
+            request.Content = new StringContent(serializedPatchDocument);
+            request.Content.Headers.ContentType = new MediaTypeHeaderValue("appllication/json-patch+json");
+
+            var response = await httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
             return View();
         }
 
         public async Task<IActionResult> Delete(int id)
         {            
             var response = await httpClient.GetAsync($"api/Authors/{id}");
-            //IEnumerable<AuthorsDto> authorsDto;
+           
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
@@ -197,7 +221,7 @@ namespace LMS_Lexicon.Controllers
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
 
-            return RedirectToAction("Index", "Courses");
+            return RedirectToAction("Index", "Api");
         }
 
     }

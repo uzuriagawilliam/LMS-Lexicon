@@ -187,8 +187,6 @@ namespace LMS_Lexicon.Controllers
             }
 
             var activity = await _context.ActivityClass
-                //.Include(a => a.ActivityType)
-                //.Include(a => a.Module)
                 .FirstOrDefaultAsync(m => m.Id == activityid);
             if (activityid == null)
             {

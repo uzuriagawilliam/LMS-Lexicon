@@ -74,5 +74,15 @@ namespace LMS_Api.Data.Repositories
         {
             db.Update(author);
         }
+     
+        public async Task<Author> GetAsync(string name)
+        {
+            var query = db.Author.AsQueryable();
+
+            return await query.FirstOrDefaultAsync(e => e.FirstName == name);
+
+        }     
+
     }
 }
+

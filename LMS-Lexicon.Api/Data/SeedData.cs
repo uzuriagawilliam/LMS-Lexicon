@@ -35,7 +35,7 @@ namespace LMS_Api.Data
             }
 
             var authors = new List<Author>();
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 15; i++)
             {
                 var faker1 = new Faker("sv");
                 int sub = faker.Random.Int(0, 4);
