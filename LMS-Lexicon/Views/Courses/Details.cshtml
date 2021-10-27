@@ -107,6 +107,9 @@
                                                             <th>
                                                                 Tid
                                                             </th>
+                                                            <th>
+                                                                Beskrivning
+                                                            </th>
                                                             <th></th>
                                                         </tr>
                                                     </thead>
@@ -116,25 +119,28 @@
                                                         {
                                                             @if (activity.ModuleId == module.Id)
                                                             {
-                                                                <tr>
-                                                                    <td>
-                                                                        @activity.Name
-                                                                    </td>
-                                                                    <td>
-                                                                        @activity.StartDate.ToShortDateString()
-                                                                    </td>
-                                                                    <td>
-                                                                        @activity.StartDate.ToShortTimeString()
-                                                                    </td>
-                                                                    <td>
-                                                                        @if (User.IsInRole("Teacher"))
-                                                                        {
-                                                                            @: &nbsp;
-                                                                            <a asp-action="Edit" asp-controller="Activities" asp-route-courseid="@module.CourseId" asp-route-activityid="@activity.Id"><i class="fas fa-edit"></i></a> @:|
-                                                                            <a asp-action="Delete" asp-controller="Activities" asp-route-courseid="@module.CourseId" asp-route-activityid="@activity.Id"><i class="fas fa-trash-alt"></i></a>
-                                                                        }
-                                                                    </td>
-                                                                </tr>
+                                                        <tr>
+                                                            <td>
+                                                                @activity.Name
+                                                            </td>
+                                                            <td>
+                                                                @activity.StartDate.ToShortDateString()
+                                                            </td>
+                                                            <td>
+                                                                @activity.StartDate.ToShortTimeString()
+                                                            </td>
+                                                            <td>
+                                                                @activity.Description
+                                                            </td>
+                                                            <td>
+                                                                @if (User.IsInRole("Teacher"))
+                                                                {
+                                                                    @: &nbsp;
+                                                                    <a asp-action="Edit" asp-controller="Activities" asp-route-courseid="@module.CourseId" asp-route-activtyid="@activity.Id"><i class="fas fa-edit"></i></a> @:|
+                                                                    <a asp-action="Delete" asp-controller="Activities" asp-route-courseid="@module.CourseId" asp-route-activityid="@activity.Id"><i class="fas fa-trash-alt"></i></a>
+                                                                }
+                                                            </td>
+                                                        </tr>
                                                             }
                                                         }
                                                     <tbody>
