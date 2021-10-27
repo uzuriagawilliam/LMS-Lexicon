@@ -32,12 +32,6 @@
                         <a class="nav-link" asp-area="" asp-controller="Courses" asp-action="Index">Kurser</a>
                     </li>
                 }
-                @if (User.IsInRole("Teacher"))
-                {
-                    <li class="nav-item px-md-4">
-                        <a class="nav-link" asp-area="" asp-controller="Teacher" asp-action="Index">Användare</a>
-                    </li>
-                }
                 @if (User.IsInRole("Student"))
                 {
                     <partial name="_CourseMenu" />
@@ -52,8 +46,14 @@
                         <a class="nav-link" asp-area="" asp-controller="Api" asp-action="LiteratureIndex">Litteratur</a>
                     </li>
                 }
+                @if (User.IsInRole("Teacher"))
+                {
+                    <li class="nav-item px-md-4">
+                        <a class="nav-link" asp-area="" asp-controller="Teacher" asp-action="Index">Användare</a>
+                    </li>
+                }
 
-                </ul>
+            </ul>
         </nav>
     </header>
     <div class="container">

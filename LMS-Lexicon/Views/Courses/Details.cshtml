@@ -6,14 +6,16 @@
 <br />
 <h5>Kurs:</h5>
 <div class="row">
-    <div class="col-sm-12 col-md-9 col-lg-9">
+    <div class="col-sm-12 col-md-9 col-lg-7">
         <h4>@Model.CourseName</h4>
     </div>
-    <div class="col-sm-12 col-md-4 col-lg-3 pl-md-2 pl-lg-5">
+    <div class="col-sm-12 col-md-3 col-lg-3 pl-md-1 pr-lg-5">
         @if (User.IsInRole("Teacher"))
         {
             <a asp-action="Create" class="btn btn-success" asp-controller="Modules" asp-route-courseId="@Model.Id">Skapa ny modul <i class="fa fa-plus"></i></a>
         }
+    </div>
+    <div class="col-lg-2">
     </div>
 </div>
 <br/>
@@ -71,7 +73,7 @@
                                             }
 
                                         </div>
-                                        <div class="col-md-6 col-lg-4 py-2 float-right">
+                                        <div class="col-md-6 col-lg-4 py-1 float-right">
                                             @if (User.IsInRole("Teacher"))
                                             {
                                                 <a asp-action="Create" asp-controller="Activities" asp-route-courseId="@module.CourseId" asp-route-moduleId="@module.Id" class="btn btn-success btn-sm text-white"> Lägg till Aktivitet <i class="fa fa-plus"></i></a>
