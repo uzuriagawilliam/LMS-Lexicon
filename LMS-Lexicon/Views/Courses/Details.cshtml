@@ -74,7 +74,7 @@
                         <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <h6>Modul:</h6>
                                         <h5>@module.Name</h5>
                                         <p>Startdatum:  @module.StartDate</p>
@@ -83,7 +83,7 @@
                                         @*@module.Id*@
 
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-9">
                                         <table class="table">
                                             <thead>
                                                 <tr>
@@ -96,6 +96,9 @@
                                                     <th>
                                                         Tid
                                                     </th>
+                                                    <th>
+                                                        Beskrivning
+                                                    </th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
@@ -105,21 +108,24 @@
                                                 {
                                                     @if (activity.ModuleId == module.Id)
                                                     {
-                                                        <tr>
-                                                            <td>
-                                                                @activity.Name
-                                                            </td>
-                                                            <td>
-                                                                @activity.StartDate.ToShortDateString()
-                                                            </td>
-                                                            <td>
-                                                                @activity.StartDate.ToShortTimeString()
-                                                            </td>
-                                                            <td>
-                                                                &nbsp;<a asp-action="Edit" asp-controller="Activities" asp-route-courseid="@module.CourseId" asp-route-activtyid="@activity.Id"><i class="fas fa-edit"></i></a> |
-                                                                <a asp-action="Delete" asp-controller="Activities"  asp-route-courseid="@module.CourseId" asp-route-activityid="@activity.Id"><i class="fas fa-trash-alt"></i></a>
-                                                            </td>
-                                                        </tr>
+                                                <tr>
+                                                    <td>
+                                                        @activity.Name
+                                                    </td>
+                                                    <td>
+                                                        @activity.StartDate.ToShortDateString()
+                                                    </td>
+                                                    <td>
+                                                        @activity.StartDate.ToShortTimeString()
+                                                    </td>
+                                                    <td>
+                                                        @activity.Description
+                                                    </td>
+                                                    <td>
+                                                        &nbsp;<a asp-action="Edit" asp-controller="Activities" asp-route-courseid="@module.CourseId" asp-route-activtyid="@activity.Id"><i class="fas fa-edit"></i></a> |
+                                                        <a asp-action="Delete" asp-controller="Activities" asp-route-courseid="@module.CourseId" asp-route-activityid="@activity.Id"><i class="fas fa-trash-alt"></i></a>
+                                                    </td>
+                                                </tr>
                                                     }
                                                 }
                                             <tbody>

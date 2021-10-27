@@ -153,7 +153,8 @@ namespace LMS_Lexicon.Controllers
                 Id = activity.Id,
                 CourseId = courseid,
                 StartDate = DateTime.Now,
-                EndDate = DateTime.Now
+                EndDate = DateTime.Now,
+                
             };
 
             return View(model);
