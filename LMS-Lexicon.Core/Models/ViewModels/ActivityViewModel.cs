@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LMS_Lexicon.Core.Models.ViewModels
 {
-    public class CreateActivityViewModel
+    public class ActivityViewModel
     {
         public int Id { get; set; }
         [Required]
@@ -15,11 +15,11 @@ namespace LMS_Lexicon.Core.Models.ViewModels
         [Display(Name = "Aktivitetsnamn")]
         public string Name { get; set; }
         [Required]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         [Display(Name = "Startdatum")]
         public DateTime StartDate { get; set; }
         [Required]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         [Display(Name = "Slutdatum")]
         public DateTime EndDate { get; set; }
 

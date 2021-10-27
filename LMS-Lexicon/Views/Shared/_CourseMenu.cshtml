@@ -1,0 +1,4 @@
+﻿@inject ICourseIdForUserService courseIdForUser
+<li class="nav-item px-md-4">
+    <a class="nav-link" asp-area="" asp-controller="Courses" asp-action="Details" asp-route-id="@await courseIdForUser.GetCoursesIdForUserAsync()">Kurs</a>
+</li>

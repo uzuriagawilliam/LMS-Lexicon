@@ -33,6 +33,15 @@ a {
 
 /* Sticky footer styles
 -------------------------------------------------- */
+#footer {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    height: 60px;
+    width: 100%;
+    background: rgb(80, 80, 80, 0.3);
+}
+
 html {
   font-size: 14px;
 }

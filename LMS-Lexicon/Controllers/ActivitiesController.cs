@@ -29,12 +29,12 @@ namespace LMS_Lexicon.Controllers
 
 
         // GET: Activities/Create
-        public IActionResult Create(int courseId, int moduleId)
+        public IActionResult Create(int courseid, int moduleid)
         {
             var model = new CreateActivityViewModel
             {
-                CourseId = courseId,
-                ModuleId = moduleId,
+                CourseId = courseid,
+                ModuleId = moduleid,
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now
             };
@@ -50,7 +50,7 @@ namespace LMS_Lexicon.Controllers
         {
             var activity = new Activity
             {
-                ModuleId = vm.ModuleId,
+                ModuleId= vm.ModuleId,
                 Name = vm.Name,
                 Description = vm.Description,
                 StartDate = vm.StartDate,
@@ -62,13 +62,13 @@ namespace LMS_Lexicon.Controllers
             {
                 _context.Add(activity);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Details", "Courses", new { Id=vm.CourseId });
+                return RedirectToAction("Details", "Courses", new { Id=vm.CourseId, expandedModule = true });
             }
 
             var model = new CreateActivityViewModel
             {
                 CourseId = vm.CourseId,
-                ModuleId = vm.ModuleId,
+                ModuleId = vm.Id,
                 StartDate = DateTime.Now,
                 EndDate = DateTime.Now
             };
@@ -89,8 +89,19 @@ namespace LMS_Lexicon.Controllers
             {
                 return NotFound();
             }
-      
-            return View(activity);
+            var model = new ActivityViewModel
+            {
+                CourseId = courseid,
+                Id = activity.Id,
+                ModuleId = activity.ModuleId,
+                Name = activity.Name,
+                StartDate = activity.StartDate,
+                EndDate = activity.EndDate,
+                Description = activity.Description,
+                ActivityTypeId = activity.ActivityTypeId,
+            };
+
+            return View(model);
         }
 
         // POST: Activities/Edit/5
@@ -98,40 +109,76 @@ namespace LMS_Lexicon.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int activityid, [Bind("Id,Name,StartDate,EndDate,Description,ActivityTypeId,ModuleId")] Activity activity)
+        public async Task<IActionResult> Edit(int id, ActivityViewModel vm)
         {
-            if (activityid != activity.Id)
+            if (id != vm.Id)
             {
                 return NotFound();
             }
+            var currentactivity = await _context.ActivityClass.AsNoTracking().FirstOrDefaultAsync(a => a.Id == id);
 
-            if (ModelState.IsValid)
+            var activity = new Activity
             {
-                try
+                Id = currentactivity.Id,
+                Name = vm.Name,
+                Description = vm.Description,
+                StartDate = vm.StartDate,
+                EndDate = vm.EndDate,
+                ModuleId = currentactivity.ModuleId,
+                ActivityTypeId = vm.ActivityTypeId
+            };
+            if(!Equals(currentactivity, vm))
+            {
+                if (ModelState.IsValid)
                 {
-                    _context.Update(activity);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ActivityExists(activity.Id))
+                    try
                     {
-                        return NotFound();
+                        _context.Update(activity);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!ActivityExists(activity.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction("Details", "Courses", new { Id = vm.CourseId, expandedModule = true });
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["ActivityTypeId"] = new SelectList(_context.Set<ActivityType>(), "Id", "Name", activity.ActivityTypeId);
-            ViewData["ModuleId"] = new SelectList(_context.ModuleClass, "Id", "Name", activity.ModuleId);
-            return View(activity);
+    
+            var model = new ActivityViewModel
+            {
+                CourseId = vm.CourseId,
+                Id = vm.Id,
+                Name = vm.Name,
+                StartDate = vm.StartDate,
+                EndDate = vm.EndDate,
+                Description = vm.Description,
+                ActivityTypeId = vm.ActivityTypeId,
+            };
+            TempData["ErrorOnSave"] = "Ingen ändring utförd, ändra något och försök igen";
+            return View(model);
+        }
+
+        private bool Equals(Activity act, ActivityViewModel vm)
+        {
+            if (act.Name == vm.Name
+                && act.StartDate == vm.StartDate
+                && act.EndDate == vm.EndDate
+                && act.Description == vm.Description
+                && act.ActivityTypeId == vm.ActivityTypeId)
+                return true;
+            else
+                return false;
         }
 
         // GET: Activities/Delete/5
-        public async Task<IActionResult> Delete(int? courseid, int? activityid)
+        public async Task<IActionResult> Delete(int? courseid,  int? activityid)
         {
 
             if (activityid == null)
@@ -140,26 +187,34 @@ namespace LMS_Lexicon.Controllers
             }
 
             var activity = await _context.ActivityClass
-                .Include(a => a.ActivityType)
-                .Include(a => a.Module)
+                //.Include(a => a.ActivityType)
+                //.Include(a => a.Module)
                 .FirstOrDefaultAsync(m => m.Id == activityid);
-            if (activity == null)
+            if (activityid == null)
             {
                 return NotFound();
             }
 
-            return View(activity);
+            var model = new ActivityViewModel
+            {
+                Id = activity.Id,
+                CourseId = courseid,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now
+            };
+
+            return View(model);
         }
 
         // POST: Activities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int activityid)
+        public async Task<IActionResult> DeleteConfirmed(int id, int courseid)
         {
-            var activity = await _context.ActivityClass.FindAsync(activityid);
+            var activity = await _context.ActivityClass.FindAsync(id);
             _context.ActivityClass.Remove(activity);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Details", "Courses", new { Id = courseid });
         }
 
         private bool ActivityExists(int id)
