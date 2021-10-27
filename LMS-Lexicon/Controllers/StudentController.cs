@@ -34,20 +34,20 @@ namespace LMS_Lexicon.Controllers
             }
        
 
-            bool expandedModule = false;
+            //bool expandedModule = false;
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
+
+
             var currentrole = User.IsInRole("Student") ? "Student" : User.IsInRole("Teacher") ? "Teacher" : "";
 
 
             var course = await db.CourseClass
             .Include(c => c.Modules)
             .FirstOrDefaultAsync(m => m.Id == user.CourseId);
-
-            ViewBag.courseid = $"{course.Id}";
 
 
             var usersincourse = await db.Users
@@ -64,8 +64,6 @@ namespace LMS_Lexicon.Controllers
             {
                 return RedirectToAction("Details", "Courses", new { id=course.Id });
             }
-
-            ViewBag.ShowModule = expandedModule;
 
             var model = new IndexStudentViewModel
             {
