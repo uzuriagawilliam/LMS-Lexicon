@@ -92,7 +92,7 @@ namespace LMS_Lexicon.Controllers
 
             return codeEvents;
         }
-        private async Task<IEnumerable<AuthorsDto>> SimpleGetId(int Id)
+        private async Task<IEnumerable<Author>> SimpleGetId(int Id)
         {
             var response = await httpClient.GetAsync($"api/Authors/{Id}");
             //IEnumerable<AuthorsDto> authorsDto;
@@ -100,11 +100,10 @@ namespace LMS_Lexicon.Controllers
 
             var content = await response.Content.ReadAsStringAsync();
 
-            var codeEvents = System.Text.Json.JsonSerializer.Deserialize<IEnumerable<AuthorsDto>>(content, new
-                JsonSerializerOptions
-            { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+            var codeEvents = JsonSerializer.Deserialize<Author>(content, new JsonSerializerOptions{ PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 
-            return codeEvents;
+
+            return null;// codeEvents;
         }
         private async Task<IEnumerable<LiteratureDto>> SimpleGetLiterature()
         {
@@ -151,21 +150,7 @@ namespace LMS_Lexicon.Controllers
 
             return RedirectToAction("Index", "Courses");
 
-            /*var request = new HttpRequestMessage(HttpMethod.Post, "api/Author");
-            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(json));
-
-            request.Content = JsonContent.Create(author, typeof(Author), new MediaTypeHeaderValue(json));
-
-            var response = await httpClient.SendAsync(request);//Crash
-            response.EnsureSuccessStatusCode();
-
-            var content = await response.Content.ReadAsStringAsync();
-
-            var codeEvents = System.Text.Json.JsonSerializer.Deserialize<AuthorsDto>(content, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
-
-
-            //var res = await CreateAuthor();
-            return View(codeEvents);*/
+ 
         }
 
         public IActionResult Edit()
@@ -178,14 +163,23 @@ namespace LMS_Lexicon.Controllers
         public IActionResult Edit(Author author)
         {
 
+            
+            
             return View();
         }
 
-        public IActionResult Delete()
-        {
+        public async Task<IActionResult> Delete(int id)
+        {            
+            var response = await httpClient.GetAsync($"api/Authors/{id}");
+            //IEnumerable<AuthorsDto> authorsDto;
+            response.EnsureSuccessStatusCode();
 
- 
-            return View();
+            var content = await response.Content.ReadAsStringAsync();
+
+            var codeEvents = JsonSerializer.Deserialize<Author>(content, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+
+
+           return View(codeEvents);           
         }
 
 
@@ -203,15 +197,6 @@ namespace LMS_Lexicon.Controllers
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
 
-            /*var course = await db.CourseClass.FirstOrDefaultAsync(m => m.Id == id);
-            if (course == null)
-            {
-                return NotFound();
-            }*/
-
-            //return View(course);
-
-            //Hittar inte Author i 
             return RedirectToAction("Index", "Courses");
         }
 
