@@ -4,7 +4,7 @@
     ViewData["Title"] = "API Literature View";
 }
 <br/>
-<h1>Literatur</h1>
+<h1>Litteratur</h1>
 
 @*<p>
         <a asp-action="Create">Create New</a>
@@ -14,10 +14,11 @@
         <tr>
             <th>
                 @*@Html.DisplayNameFor(model => model.Title)*@
-                @Html.ActionLink("Title", "LiteratureIndex", new { sortOrder = ViewBag.NameSortParm })
+                @Html.ActionLink("Titel", "LiteratureIndex", new { sortOrder = ViewBag.NameSortParm })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                Beskrivning
+                @*@Html.DisplayNameFor(model => model.Description)*@
             </th>
             @*<th>
                     @Html.DisplayNameFor(model => model.Authors)
