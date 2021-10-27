@@ -22,9 +22,11 @@ namespace LMS_Lexicon.Core.Models.ViewModels
         public string Description { get; set; }
         [Required]
         [Display(Name = "Startdatum")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime StartDate { get; set; }
 
         public List<ICollection<Activity>> Activities { get; set; }
         public List<Module> Modules { get; set; }
+        public List<ApplicationUser> UsersList { get; set; }
     }
 }

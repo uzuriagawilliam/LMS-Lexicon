@@ -4,6 +4,7 @@ using LMS_Lexicon.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -42,9 +43,11 @@ namespace LMS_Lexicon
              .AddRoles<IdentityRole>()
              .AddEntityFrameworkStores<LmsDbContext>();
 
+            services.AddTransient(provider => provider.GetService<IHttpContextAccessor>().HttpContext.User);
             services.AddTransient<ICourseSelectService, CourseSelectService>();
             services.AddTransient<IRolesSelectService, RolesSelectService>();
             services.AddTransient<IActivityTypeSelectService, ActivityTypeSelectService>();
+            services.AddTransient<ICourseIdForUserService, CourseIdForUserService>();
 
             services.AddControllersWithViews(opt =>
             {

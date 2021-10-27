@@ -15,19 +15,20 @@ namespace LMS_Lexicon.Core.Models.ViewModels
         [Display(Name = "Aktivitetsnamn")]
         public string Name { get; set; }
         [Required]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         [Display(Name = "Startdatum")]
         public DateTime StartDate { get; set; }
         [Required]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         [Display(Name = "Slutdatum")]
         public DateTime EndDate { get; set; }
 
         [MaxLength(300)]
         [Display(Name = "Beskrivning")]
         public string Description { get; set; }
+        [Display(Name = "Aktivitetstyp")]
         public int ActivityTypeId { get; set; }
         public int ModuleId { get; set; }
-        public int CourseId { get; set; }
+        public int? CourseId { get; set; }
     }
 }
