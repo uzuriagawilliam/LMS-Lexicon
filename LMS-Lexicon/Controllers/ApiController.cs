@@ -148,23 +148,31 @@ namespace LMS_Lexicon.Controllers
             // return codeEvents;
             // return null;
 
-            return RedirectToAction("Index", "Courses");
-
+            return RedirectToAction("Index", "Api");
  
         }
 
-        public IActionResult Edit()
+        public async Task<IActionResult> Edit(int Id)
         {
-            return View();
+            var response = await httpClient.GetAsync($"api/Authors/{Id}");
+            //IEnumerable<AuthorsDto> authorsDto;
+            response.EnsureSuccessStatusCode();
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            var codeEvents = JsonSerializer.Deserialize<Author>(content, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+
+            return View(codeEvents);
         }
 
         [HttpPost]
         [Authorize(Roles = "Teacher")]
         public IActionResult Edit(Author author)
         {
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/Authors");
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(json));
 
-            
-            
+
             return View();
         }
 
@@ -197,7 +205,7 @@ namespace LMS_Lexicon.Controllers
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
 
-            return RedirectToAction("Index", "Courses");
+            return RedirectToAction("Index", "Api");
         }
 
     }

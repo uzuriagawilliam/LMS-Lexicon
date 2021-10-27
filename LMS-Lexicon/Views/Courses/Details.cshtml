@@ -110,9 +110,9 @@
                                                             <th>
                                                                 Beskrivning
                                                             </th>
-                                                            @*<th>
+                                                            <th>
                                                                 Aktivitetstyp
-                                                            </th>*@
+                                                            </th>
                                                             <th></th>
                                                         </tr>
                                                     </thead>
@@ -122,30 +122,31 @@
                                                         {
                                                             @if (activity.ModuleId == module.Id)
                                                             {
-                                                                <tr>
-                                                                    <td>
-                                                                        @activity.Name
-                                                                    </td>
-                                                                    <td>
-                                                                        @activity.StartDate.ToShortDateString()
-                                                                    </td>
-                                                                    <td>
-                                                                        @activity.StartDate.ToShortTimeString()
-                                                                    </td>
-                                                                    <td>
-                                                                        @activity.Description
-                                                                    </td>
-                                                                    @*<td>
-                                        @activity.ActivityType
-                                    </td>*@
-                                                                    <td class="activity_edit_td">
-                                                                        @if (User.IsInRole("Teacher"))
-                                                                        {
-                                                                            <a asp-action="Edit" asp-controller="Activities" asp-route-courseid="@module.CourseId" asp-route-activityid="@activity.Id"><i class="fas fa-edit"></i></a> @:|
-                                                                            <a asp-action="Delete" asp-controller="Activities" asp-route-courseid="@module.CourseId" asp-route-activityid="@activity.Id"><i class="fas fa-trash-alt"></i></a>
-                                                                        }
-                                                                    </td>
-                                                                </tr>
+                                                        <tr>
+                                                            <td>
+                                                                @activity.Name
+                                                            </td>
+                                                            <td>
+                                                                @activity.StartDate.ToShortDateString()
+                                                            </td>
+                                                            <td>
+                                                                @activity.StartDate.ToShortTimeString()
+                                                            </td>
+                                                            <td>
+                                                                @activity.Description
+                                                            </td>
+                                                            <td>
+                                                                @activity.ActivityType.Name
+                                                            </td>
+      
+                                                            <td class="activity_edit_td">
+                                                                @if (User.IsInRole("Teacher"))
+                                                                {
+                                                                    <a asp-action="Edit" asp-controller="Activities" asp-route-courseid="@module.CourseId" asp-route-activityid="@activity.Id"><i class="fas fa-edit"></i></a> @:|
+                                                                    <a asp-action="Delete" asp-controller="Activities" asp-route-courseid="@module.CourseId" asp-route-activityid="@activity.Id"><i class="fas fa-trash-alt"></i></a>
+                                                                }
+                                                            </td>
+                                                        </tr>
                                                             }
                                                         }
                                                     <tbody>
