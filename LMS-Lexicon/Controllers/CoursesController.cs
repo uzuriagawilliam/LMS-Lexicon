@@ -29,38 +29,32 @@ namespace LMS_Lexicon.Controllers
         // GET: Courses/Details/5
         public async Task<IActionResult> Details(int? id, bool expandedModule = true)
         {
+
+        var activitylist = new List<ICollection<Activity>>();
             if (id == null)
             {
                 return NotFound();
             }
 
-            var course = await db.CourseClass
-                .Include(c => c.Modules)
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-
             var modules = await db.ModuleClass
+                .Include(c => c.Course)
                 .Include(a => a.Activities)
-                .Where(m => m.CourseId == id)
+                .Where(m => m.CourseId == id).ToListAsync();
+
+            var activities = await db.ActivityClass
+                .Include(a => a.Module)
+                .Include(t => t.ActivityType)
                 .ToListAsync();
 
             var usersincourse = await db.Users
                 .Include(c => c.Course)
-                .Where(i => i.CourseId == course.Id)
+                .Where(i => i.CourseId == id)
                 .ToListAsync();
 
-            var moduleid = modules.Select(m => m.Id).FirstOrDefault();
+            var course = usersincourse.Select(c => c.Course).FirstOrDefault();
 
-            //var activities = modules.Select(a => a.Activities).ToList();
-            var activities = db.ActivityClass
-                            .Include(t => t.ActivityType)
-                            .Where(a => a.ModuleId == moduleid).ToList();
 
             if (course == null)
-            {
-                return NotFound();
-            }
-            if (modules == null)
             {
                 return NotFound();
             }

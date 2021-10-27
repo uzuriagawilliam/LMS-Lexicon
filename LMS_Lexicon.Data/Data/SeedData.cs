@@ -160,7 +160,7 @@ namespace LMS_Lexicon.Data.Data
         {
             var modules = new List<Module>();
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 10; i++)
             {
                 string name = fake.Commerce.ProductName();
                 name = name.Length < 25 ? name : name.Substring(0, 25);
@@ -193,7 +193,7 @@ namespace LMS_Lexicon.Data.Data
                 string description = fake.Lorem.Sentence();
                 description = description.Length < 45 ? description : description.Substring(0, 45);
                 Random rnd = new Random();
-                int activitytypeid = rnd.Next(1, 5);
+                int activitytypeid = rnd.Next(1, 6);
                 var activity = new Activity
                 {
                     Name = name,
