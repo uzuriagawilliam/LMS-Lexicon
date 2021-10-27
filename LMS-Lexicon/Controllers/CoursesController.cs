@@ -49,7 +49,12 @@ namespace LMS_Lexicon.Controllers
                 .Where(i => i.CourseId == course.Id)
                 .ToListAsync();
 
-            var activities = modules.Select(a => a.Activities).ToList();
+            var moduleid = modules.Select(m => m.Id).FirstOrDefault();
+
+            //var activities = modules.Select(a => a.Activities).ToList();
+            var activities = db.ActivityClass
+                            .Include(t => t.ActivityType)
+                            .Where(a => a.ModuleId == moduleid).ToList();
 
             if (course == null)
             {

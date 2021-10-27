@@ -3,11 +3,9 @@
 @{
     ViewData["Title"] = "Delete";
 }
-
-<br>
-<h3>Är du säker på att du vill ta bort den här författare?</h3>
+<br/>
+<h4>Är du säker på att du vill ta bort den här författaren?</h4>
 <div>
-    @*<h4>Author</h4>*@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -36,6 +34,6 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="AuthorId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <a asp-action="Index">&nbsp;<i class="fas fa-list-alt fa-lg"></i></a>
     </form>
 </div>

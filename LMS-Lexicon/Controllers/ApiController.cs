@@ -149,8 +149,7 @@ namespace LMS_Lexicon.Controllers
             // return codeEvents;
             // return null;
 
-            return RedirectToAction("Index", "Courses");
-
+            return RedirectToAction("Index", "Api");
  
         }
 
@@ -222,7 +221,7 @@ namespace LMS_Lexicon.Controllers
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
 
-            return RedirectToAction("Index", "Courses");
+            return RedirectToAction("Index", "Api");
         }
 
     }
