@@ -25,7 +25,7 @@
             <div class="card">
                 <div class="card-header" id="headingOne">
                     <h6 class="mb-0">
-                        <p>Kursstartdatum : @Model.StartDate </p>
+                        <p>Kursstartdatum : @Model.StartDate.ToShortDateString() </p>
                         <p>Beskrivning : @Model.Description </p>
                     </h6>
                 </div>
@@ -87,8 +87,8 @@
                                             <div class="col-sm-12 col-md-12 col-lg-12">
                                                 <h6>Modul:</h6>
                                                 <h5>@module.Name</h5>
-                                                <p><b>Startdatum:</b>  @module.StartDate</p>
-                                                <p><b>Slutdatum:</b> @module.EndDate</p>
+                                                <p><b>Startdatum:</b>  @module.StartDate.ToShortDateString()</p>
+                                                <p><b>Slutdatum:</b> @module.EndDate.ToShortDateString()</p>
                                                 <p><b>Beskrivning:</b> @module.Description</p>
                                                 @*@module.Id*@
                                             </div>
@@ -122,6 +122,30 @@
                                                         {
                                                             @if (activity.ModuleId == module.Id)
                                                             {
+                                                                <tr>
+                                                                    <td>
+                                                                        @activity.Name
+                                                                    </td>
+                                                                    <td style="width:130px">
+                                                                        @activity.StartDate.ToShortDateString()
+                                                                    </td>
+                                                                    <td>
+                                                                        @activity.StartDate.ToShortTimeString()
+                                                                    </td>
+                                                                    <td>
+                                                                        @activity.Description
+                                                                    </td>
+                                                                    @*<td>
+                                        @activity.ActivityType
+                                    </td>*@
+                                                                    <td class="activity_edit_td">
+                                                                        @if (User.IsInRole("Teacher"))
+                                                                        {
+                                                                            <a asp-action="Edit" asp-controller="Activities" asp-route-courseid="@module.CourseId" asp-route-activityid="@activity.Id"><i class="fas fa-edit"></i></a> @:|
+                                                                            <a asp-action="Delete" asp-controller="Activities" asp-route-courseid="@module.CourseId" asp-route-activityid="@activity.Id"><i class="fas fa-trash-alt"></i></a>
+                                                                        }
+                                                                    </td>
+                                                                </tr>
                                                         <tr>
                                                             <td>
                                                                 @activity.Name
