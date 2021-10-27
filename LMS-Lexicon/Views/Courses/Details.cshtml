@@ -18,7 +18,7 @@
     <div class="col-lg-2">
     </div>
 </div>
-<br/>
+<br />
 <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-9">
         <div class="accordion" id="accordionExample">
@@ -31,19 +31,19 @@
                 </div>
             </div>
             @*<div class="card">
-                <div class="card-header" id="headingOne">
-                    <h2 class="mb-0">
-                        <button class="btn btn-link btn-block text-left text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
-                            Beskrivning >
-                        </button>
-                    </h2>
-                </div>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                    <div class="card-body">
-                        <p>@Model.Description </p>
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left text-dark font-weight-bold" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+                                Beskrivning >
+                            </button>
+                        </h2>
                     </div>
-                </div>
-            </div>*@
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <p>@Model.Description </p>
+                        </div>
+                    </div>
+                </div>*@
             <div class="card">
                 <div class="card-header" id="headingThree">
                     <h2 class="mb-0">
@@ -69,7 +69,6 @@
                                             {
                                                 <a class="pl-2" asp-action="Edit" asp-controller="Modules" asp-route-moduleId="@module.Id"><i class="fas fa-edit"></i></a>@: |
                                                 <a asp-action="Delete" asp-controller="Modules" asp-route-Id="@module.Id"><i class="fas fa-trash-alt"></i></a>
-
                                             }
 
                                         </div>
@@ -90,7 +89,6 @@
                                                 <p><b>Startdatum:</b>  @module.StartDate.ToShortDateString()</p>
                                                 <p><b>Slutdatum:</b> @module.EndDate.ToShortDateString()</p>
                                                 <p><b>Beskrivning:</b> @module.Description</p>
-                                                @*@module.Id*@
                                             </div>
                                         </div>
                                         <div class="row">
@@ -113,7 +111,6 @@
                                                             <th>
                                                                 Aktivitetstyp
                                                             </th>
-                                                            <th></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -136,8 +133,12 @@
                                                                         @activity.Description
                                                                     </td>
                                                                     <td>
-                                                                        @activity.ActivityType.Name
+                                                                        @if (activity.ActivityType != null)
+                                                                        {
+                                                                            @activity.ActivityType.Name
+                                                                        }
                                                                     </td>
+
                                                                     <td class="activity_edit_td">
                                                                         @if (User.IsInRole("Teacher"))
                                                                         {
