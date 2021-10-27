@@ -5,7 +5,6 @@
     ViewData["Title"] = "StudentCourseDetails";
 }
 
-
 <div class="text-left">
 </div>
 
@@ -49,7 +48,6 @@
                         </div>
                         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                             <div class="card-body">
-
                                 <dl>
                                     <dt class="col-sm-5">
                                         Kursnamn
@@ -79,45 +77,87 @@
                             <div id="accordion">
                                 <div class="card">
                                     @foreach (var module in Model.Modules)
+
                                     {
                                         <div class="card">
-
                                             <div class="card-header" id="headingFive">
-                                                <h5 class="mb-0">
-                                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                                        @module.Name
-                                                    </button>
-                                                </h5>
+                                                <div class="row">
+                                                    <div class="col-md-8 col-lg-9">
+                                                        <button class="btn btn-primary collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                                            @module.Name
+                                                        </button>
+                                                        &nbsp;<a asp-action="Edit" asp-controller="Modules" asp-route-moduleId="@module.Id"><i class="fas fa-edit"></i></a> |
+                                                        <a asp-action="Delete" asp-controller="Modules" asp-route-Id="@module.Id"><i class="fas fa-trash-alt"></i></a>
+                                                    </div>
+                                                    <div class="col-md-4 col-lg-3 float-right">
+                                                        <a asp-action="Create" asp-controller="Activities" asp-route-courseId="@module.CourseId" asp-route-moduleId="@module.Id" class="btn btn-success btn-sm text-white"> Lägg till Aktivitet <i class="fa fa-plus"></i></a>
+                                                        &nbsp;<a asp-action="Edit" asp-controller="Activities" asp-route-moduleId="@module.Id"><i class="fas fa-edit"></i></a> |
+                                                        <a asp-action="Delete" asp-controller="Activities" asp-route-Id="@module.Id"><i class="fas fa-trash-alt"></i></a>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion">
                                                 <div class="card-body">
-                                                    <dl class="row">
-                                                        <dt class="col-sm-5">
-                                                            Startdatum:
-                                                        </dt>
-                                                        <dd class="col-sm-10">
-                                                            @Html.DisplayFor(model => @module.StartDate)
-                                                        </dd>
-                                                        <dt class="col-sm-5">
-                                                            Slutdatum:
-                                                        </dt>
-                                                        <dd class="col-sm-10">
-                                                            @Html.DisplayFor(model => @module.EndDate)
-                                                        </dd>
-                                                        <dt class="col-sm-5">
-                                                            Beskrivning:
-                                                        </dt>
-                                                        <dd class="col-sm-10">
-                                                            @Html.DisplayFor(model => @module.Description)
-                                                        </dd>
-                                                    </dl>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <h6>Modul:</h6>
+                                                            <h5>@module.Name</h5>
+                                                            <p>Startdatum:  @module.StartDate</p>
+                                                            <p>Slutdatum: :@module.EndDate</p>
+                                                            <p>Beskrivning @module.Description</p>
+                                                            @*@module.Id*@
+
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <table class="table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>
+                                                                            Aktivitet
+                                                                        </th>
+                                                                        <th>
+                                                                            Datum
+                                                                        </th>
+                                                                        <th>
+                                                                            Tid
+                                                                        </th>
+                                                                        <th></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+
+                                                                    @foreach (var activity in module.Activities)
+                                                                    {
+                                                                        @if (activity.ModuleId == module.Id)
+                                                                        {
+                                                                            <tr>
+                                                                                <td>
+                                                                                    @activity.Name
+                                                                                </td>
+                                                                                <td>
+                                                                                    @activity.StartDate.ToShortDateString()
+                                                                                </td>
+                                                                                <td>
+                                                                                    @activity.StartDate.ToShortTimeString()
+                                                                                </td>
+                                                                            </tr>
+                                                                        }
+                                                                    }
+                                                                <tbody>
+                                                            </table>
+
+                                                        </div>
+                                                    </div>
                                                 </div>
+
                                                 <div>
+
                                                 </div>
                                                 <div class="card-body">
                                                 </div>
                                             </div>
                                         </div>
+
                                     }
                                 </div>
                             </div>
@@ -132,16 +172,16 @@
                         <div>
                             @foreach (var user in Model.UsersList)
                             {
-                            
+
                                 <ul>
                                     <li>
                                         @user.FirstName @user.LastName
                                     </li>
                                 </ul>
-                                 
+
                             }
                         </div>
-                   
+
                     </div>
                 </div>
             </div>
@@ -149,6 +189,15 @@
     </div>
 
 
-</div>
 
+
+
+    <div class="card-header" id="headingThree">
+        <h2 class="mb-0">
+            <a asp-action="Details" asp-route-id="@Model.Id">@Html.DisplayFor(modelItem => Model.CourseName)</a>
+        </h2>
+    </div>
+
+
+</div>
 

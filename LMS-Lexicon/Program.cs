@@ -30,13 +30,12 @@ namespace LMS_Lexicon
 
                 try
                 {
-                    //SeedData.InitAsync(context, services, userPW, studentPW).Wait();
+                    SeedData.InitAsync(context, services, userPW, studentPW).Wait();
                 }
                 catch (Exception ex)
                 {
-                    throw;
+                  throw;
                 }
-
             }
             host.Run();
             CreateHostBuilder(args).Build().Run();

@@ -1,4 +1,5 @@
-﻿using LMS_Lexicon.Core.Models.Entities;
+﻿
+using LMS_Lexicon.Core.Models.Entities;
 using LMS_Lexicon.Core.Models.ViewModels;
 using LMS_Lexicon.Data.Data;
 using Microsoft.AspNetCore.Http;
@@ -36,6 +37,11 @@ namespace LMS_Lexicon.Controllers
             .Include(c => c.Modules)
             .FirstOrDefaultAsync(m => m.Id == user.CourseId);
 
+            var activity = await db.ModuleClass
+                .Include(a => a.Activities)
+                .Where(m => m.CourseId == course.Id)
+                .ToListAsync();
+
             var usersincourse = await db.Users
               .Include(c => c.Course)
               .Where(i => i.CourseId == course.Id)
@@ -65,11 +71,31 @@ namespace LMS_Lexicon.Controllers
                 CourseDescription = course.Description,
                 CourseStartDate = course.StartDate,
                 Modules = course.Modules,
-                UsersList = usersincourse
+                UsersList = usersincourse,
+                //Activities = course.Activities
+
             };
             return View(model);
 
         }
+        //public async Task<IActionResult> StudentModuleActivitiesView()
+        //{
+
+
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var @module = await _context.ModuleClass
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (@module == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(@module);
+        //}
 
         public ActionResult Create()
         {

@@ -26,5 +26,6 @@ namespace LMS_Lexicon.Core.Models.Entities
         public ICollection<Document> Documents { get; set; }
 
 
+
     }
 }
