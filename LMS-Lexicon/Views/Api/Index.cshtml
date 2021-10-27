@@ -62,7 +62,7 @@
                         @if (User.IsInRole("Teacher"))
                         {
                             <td>
-                                <a asp-action="Edit" asp-route-id="@item.AuthorId"><i class="fas fa-edit"></i></a> |
+                                @*<a asp-action="Edit" asp-route-id="@item.AuthorId"><i class="fas fa-edit"></i></a> |*@
                                 <a asp-action="Delete" asp-route-id="@item.AuthorId"><i class="fas fa-trash-alt"></i></a>
                             </td>
                         }
