@@ -186,7 +186,7 @@ namespace LMS_Lexicon.Controllers
         {
             var course = await db.CourseClass.FindAsync(id);
             db.CourseClass.Remove(course);
-            db.SaveChangesAsync();
+            await db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
