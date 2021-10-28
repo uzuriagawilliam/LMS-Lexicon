@@ -27,8 +27,8 @@ namespace LMS_Lexicon.Api
                 var context = services.GetRequiredService<LMS_LexiconApiContext>();
 
 
-                context.Database.EnsureDeleted();
-                context.Database.Migrate();
+                //context.Database.EnsureDeleted();
+                //context.Database.Migrate();
 
                 
                 var config = services.GetRequiredService<IConfiguration>();
@@ -36,7 +36,7 @@ namespace LMS_Lexicon.Api
 
                 try
                 {
-                    SeedData.InitializeAcync(services).Wait();
+                    //SeedData.InitializeAcync(services).Wait();
                 }
                 catch (Exception ex)
                 {
