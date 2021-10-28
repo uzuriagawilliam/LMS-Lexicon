@@ -17,6 +17,8 @@ namespace LMS_Lexicon.Core.Models.Entities
         [Display(Name = "Beskrivning")]
         public string Description { get; set; }
         [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         [Display(Name = "Startdatum")]
         public DateTime StartDate { get; set; }
 

@@ -23,7 +23,21 @@ namespace LMS_Lexicon.Controllers
         // GET: Courses
         public async Task<IActionResult> Index()
         {
-            return View(await db.CourseClass.ToListAsync());
+            var courselist = new List<Course>();
+            var courses = await db.CourseClass.Select(c => c).OrderBy(c => c.StartDate).ToListAsync();
+            foreach (var c in courses)
+            {
+                var course = new Course
+                {
+                    Id = c.Id,
+                    CourseName = c.CourseName,
+                    Description = c.Description,
+                    StartDate = c.StartDate.Date
+                };
+                courselist.Add(course);
+            }
+
+            return View(courselist);
         }
 
         // GET: Courses/Details/5

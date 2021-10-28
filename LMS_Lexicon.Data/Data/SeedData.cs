@@ -69,22 +69,21 @@ namespace LMS_Lexicon.Data.Data
 
         private static async Task CreateActivityType(LmsDbContext db)
         {
+            String[] types = new String[10] { "C# grund", "OOP", "Generics", "Unit Test", "Frontend", "MVC", "Databas", "API", "Identity", "Azure" };
             var activitytypes = new List<ActivityType>();
-            var fake = new Faker("sv");
 
-
-            for (int i = 0; i < 5; i++)
+            //var fake = new Faker("sv");
+            for (int i = 0; i < 10; i++)
             {
-                string name = fake.Commerce.ProductName();
-                name = name.Length < 25 ? name : name.Substring(0, 25);
+                //string name = fake.Commerce.ProductName();
+                string name = types[i];
+                //name = name.Length < 25 ? name : name.Substring(0, 25);
 
                 var activityType = new ActivityType
                 {
                     Name = name
                 };
-
                 activitytypes.Add(activityType);
-
             }
             await db.AddRangeAsync(activitytypes);
             await db.SaveChangesAsync();
@@ -194,7 +193,7 @@ namespace LMS_Lexicon.Data.Data
                 string description = fake.Lorem.Sentence();
                 description = description.Length < 45 ? description : description.Substring(0, 45);
                 Random rnd = new Random();
-                int activitytypeid = rnd.Next(1, 6);
+                int activitytypeid = rnd.Next(1, 11);
                 var activity = new Activity
                 {
                     Name = name,
