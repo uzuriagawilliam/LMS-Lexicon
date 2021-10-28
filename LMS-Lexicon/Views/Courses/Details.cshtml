@@ -166,24 +166,28 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-12 col-md-12 col-lg-3 py-sm-4 py-md-3 py-lg-1">
-        <div class="container">
-            <div class="px-4">
-                <h5>Kursmedlemmar:</h5>
-            </div>
-            <div>
-                @foreach (var user in Model.UsersList)
-                {
+    @if (Model.UsersList != null)
+    {
+        <div class="col-sm-12 col-md-12 col-lg-3 py-sm-4 py-md-3 py-lg-1">
+            <div class="container">
+                <div class="px-4">
+                    <h5>Kursmedlemmar:</h5>
+                </div>
+                <div>
+                    @foreach (var user in Model.UsersList)
+                    {
 
-                    <ul>
-                        <li>
-                            @user.FirstName @user.LastName
-                        </li>
-                    </ul>
-                }
+                        <ul>
+                            <li>
+                                @user.FirstName @user.LastName
+                            </li>
+                        </ul>
+                    }
+                </div>
             </div>
         </div>
-    </div>
+    }
+
 </div>
 @if (User.IsInRole("Teacher"))
 {

@@ -51,23 +51,40 @@ namespace LMS_Lexicon.Controllers
                 .Where(i => i.CourseId == id)
                 .ToListAsync();
 
-            var course = usersincourse.Select(c => c.Course).FirstOrDefault();
+            var course = db.CourseClass.FirstOrDefault(c => c.Id == id);
 
-
-            if (course == null)
-            {
-                return NotFound();
-            }
-            if (activities == null)
-            {
-                return NotFound();
-            }
-            if (usersincourse == null)
-            {
-                return NotFound();
-            }
+            //if (course == null)
+            //{
+            //    return NotFound();
+            //}
+            //if (activities == null)
+            //{
+            //    return NotFound();
+            //}
+            //if (usersincourse == null)
+            //{
+            //    return NotFound();
+            //}
 
             ViewBag.ShowModule = expandedModule;
+            if(usersincourse == null)
+            {
+                var modelwithoutusers = new ModulesDetailsViewModel
+                {
+                    Id = course.Id,
+                    CourseName = course.CourseName,
+                    Description = course.Description,
+                    StartDate = course.StartDate,
+                    Modules = modules,
+                    Activities = activities,
+
+                };
+                return View(modelwithoutusers);
+            }
+            else
+            {
+
+            }
             var model = new ModulesDetailsViewModel
             {
                 Id = course.Id,
