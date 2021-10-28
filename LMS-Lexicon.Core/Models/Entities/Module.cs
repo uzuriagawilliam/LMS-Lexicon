@@ -13,9 +13,13 @@ namespace LMS_Lexicon.Core.Models.Entities
         public string Name { get; set; }
         [Required]
         [Display(Name = "Startdatum")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime StartDate { get; set; }
         [Required]
         [Display(Name = "Slutdatum")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime EndDate { get; set; }
        
         [MaxLength(300)]
