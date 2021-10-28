@@ -76,8 +76,16 @@ namespace LMS_Lexicon.Controllers
         // Post: Modules/Edit
         public async Task<IActionResult> Edit(int moduleId)
         {
-            var model  = await _context.ModuleClass.FindAsync(moduleId);
-            return View(model);
+            var module  = await _context.ModuleClass.FindAsync(moduleId);
+            var model = new Module
+            {
+                CourseId = module.CourseId,
+                Name = module.Name,
+                StartDate = module.StartDate.Date,
+                EndDate = module.EndDate.Date,
+                Description = module.Description
+            };
+            return View(module);
         }
         // POST: Modules/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.

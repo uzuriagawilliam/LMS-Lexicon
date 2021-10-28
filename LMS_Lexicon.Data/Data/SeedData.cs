@@ -72,6 +72,7 @@ namespace LMS_Lexicon.Data.Data
             var activitytypes = new List<ActivityType>();
             var fake = new Faker("sv");
 
+
             for (int i = 0; i < 5; i++)
             {
                 string name = fake.Commerce.ProductName();
@@ -83,7 +84,7 @@ namespace LMS_Lexicon.Data.Data
                 };
 
                 activitytypes.Add(activityType);
-               
+
             }
             await db.AddRangeAsync(activitytypes);
             await db.SaveChangesAsync();
@@ -246,7 +247,6 @@ namespace LMS_Lexicon.Data.Data
                     UserName = email,
                     TimeOfRegistration = DateTime.Now.AddDays(fake.Random.Int(-30, 0)),
                     CourseId = courseid
-
                 };
                 students.Add(student);
             }
